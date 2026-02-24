@@ -5,7 +5,17 @@ import fetch from "node-fetch";
 import gttsApi from "google-tts-api";
 import pkg from "uuid";
 const { v4: uuidv4 } = pkg;
-const { getAudioUrl } = gttsApi;
+
+const resolveGetAudioUrl = () => {
+  if (typeof gttsApi?.getAudioUrl === "function") return gttsApi.getAudioUrl;
+  if (typeof gttsApi?.default?.getAudioUrl === "function")
+    return gttsApi.default.getAudioUrl;
+  if (typeof gttsApi?.module?.exports?.getAudioUrl === "function")
+    return gttsApi.module.exports.getAudioUrl;
+  return null;
+};
+
+const getAudioUrlFn = resolveGetAudioUrl();
 
 const AUDIO_DIR = path.join(process.cwd(), "generated_audio");
 
@@ -27,7 +37,11 @@ export const speakText = async (req, res) => {
       ? path.join(AUDIO_DIR, clientFilename)
       : path.join(AUDIO_DIR, `speech-${id}.mp3`);
 
-    const url = getAudioUrl(text, { lang: language, slow });
+    if (!getAudioUrlFn) {
+      throw new Error("google-tts-api getAudioUrl export not found");
+    }
+
+    const url = getAudioUrlFn(text, { lang: language, slow });
 
     const response = await fetch(url);
     const buffer = Buffer.from(await response.arrayBuffer());
