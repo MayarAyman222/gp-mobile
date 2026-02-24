@@ -5,7 +5,7 @@ import { Platform } from "react-native";
 const BASE_URL =
   Platform.OS === "web"
     ? "http://localhost:5000/api"
-    : "http://192.168.0.102:5000/api"; // IP جهازك
+    : "http://168.231.101.20:5550/api"; // IP جهازك
 
 // Get all icons or filter by category
 export const getAllIcons = async (category = null) => {

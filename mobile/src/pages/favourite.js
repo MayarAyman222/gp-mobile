@@ -128,7 +128,7 @@ export default function Favourites() {
     const isSelected = selectedIds.includes(item.id);
     const imageUri = item.imageUrl?.replace(
       "localhost",
-      "192.168.0.102" // عدلي IP
+      "168.231.101.20" // عدلي IP
     );
 
     return (

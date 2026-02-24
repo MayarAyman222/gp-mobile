@@ -204,7 +204,7 @@ export default function SubIconDashboard() {
   const renderSubIcon = ({ item }) => {
     const selected = selectedIds.includes(item.id);
     const fav = favourites.some(f => f.id === item.id);
-    const imageUri = item.imageUrl?.replace("localhost", "192.168.0.102");
+    const imageUri = item.imageUrl?.replace("localhost", "168.231.101.20");
 
     return (
       <View style={[styles.card, { backgroundColor: selected ? currentTheme.link : currentTheme.card }]}>
