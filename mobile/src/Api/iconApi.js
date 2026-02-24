@@ -4,8 +4,8 @@ import { Platform } from "react-native";
 // BASE_URL على مستوى الـ API بدون تكرار "icons"
 const BASE_URL =
   Platform.OS === "web"
-    ? "http://localhost:5000/api"
-    : "http://168.231.101.20:5550/api"; // IP جهازك
+  ?"http://168.231.101.20:5550/api"
+    :"http://localhost:5000/api"
 
 // Get all icons or filter by category
 export const getAllIcons = async (category = null) => {

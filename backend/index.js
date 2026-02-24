@@ -12,7 +12,7 @@ import translateRoutes from "./routes/translateRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 // ===== APP SETUP =====
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5550;
 
 // ===== MIDDLEWARES =====
 app.use(cors());
