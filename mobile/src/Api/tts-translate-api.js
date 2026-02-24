@@ -1,0 +1,26 @@
+import { Platform } from "react-native";
+
+const BASE_URL =
+  Platform.OS === "web"
+    ? "http://localhost:5000/api"
+    : "http://192.168.0.102:5000/api"; // IP جهازك
+
+export const translateText = async (text, targetLang) => {
+  const res = await fetch(`${BASE_URL}/translate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text, targetLang }),
+  });
+
+  return await res.json();
+};
+
+export const speakText = async (text, language) => {
+  const res = await fetch(`${BASE_URL}/tts/speak`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text, language }),
+  });
+
+  return await res.json();
+};
