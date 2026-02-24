@@ -145,7 +145,7 @@ export const icons = [
     expression_ar: "أشعر بسعادة كبيرة",
     expression_fr: "Je me sens très heureux",
     expression_es: "Me siento muy feliz",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/7.png",
+    imgUrl: "/public/Feelings/7.png",
     category: "Feelings"
   },
   {
@@ -157,7 +157,7 @@ export const icons = [
     expression_ar: "أشعر بالحزن",
     expression_fr: "Je me sens triste",
     expression_es: "Me siento triste",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/3.png",
+    imgUrl: "/public/Feelings/3.png",
     category: "Feelings"
   },
   {
@@ -169,7 +169,7 @@ export const icons = [
     expression_ar: "أشعر بالغضب",
     expression_fr: "Je me sens fâché",
     expression_es: "Me siento enojado",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/6.png",
+    imgUrl: "/public/Feelings/6.png",
     category: "Feelings"
   },
   {
@@ -181,7 +181,7 @@ export const icons = [
     expression_ar: "أبكي",
     expression_fr: "Je pleure",
     expression_es: "Estoy llorando",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/4.png",
+    imgUrl: "/public/Feelings/4.png",
     category: "Feelings"
   },
   {
@@ -193,7 +193,7 @@ export const icons = [
     expression_ar: "أفكر",
     expression_fr: "Je réfléchis",
     expression_es: "Estoy pensando",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/5.png",
+    imgUrl: "/public/Feelings/5.png",
     category: "Feelings"
   },
   {
@@ -205,7 +205,7 @@ export const icons = [
     expression_ar: "أنا غاضب جدا",
     expression_fr: "Je suis très fâché",
     expression_es: "Estoy muy enojado",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/6.png",
+    imgUrl: "/public/Feelings/6.png",
     category: "Feelings"
   },
   {
@@ -217,7 +217,7 @@ export const icons = [
     expression_ar: "أشعر بالحب",
     expression_fr: "Je suis amoureux",
     expression_es: "Estoy enamorado",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/7.png",
+    imgUrl: "/public/Feelings/7.png",
     category: "Feelings"
   },
   {
@@ -229,7 +229,7 @@ export const icons = [
     expression_ar: "أبكي بسبب انهياري",
     expression_fr: "Je pleure gravement",
     expression_es: "Estoy llorando mucho",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/2.png",
+    imgUrl: "/public/Feelings/2.png",
     category: "Feelings"
   },
   {
@@ -241,7 +241,7 @@ export const icons = [
     expression_ar: "أشعر بالخوف",
     expression_fr: "J'ai peur",
     expression_es: "Me siento asustado",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/3.png",
+    imgUrl: "/public/Feelings/3.png",
     category: "Feelings"
   },
   {
@@ -253,7 +253,7 @@ export const icons = [
     expression_ar: "أستمتع بتناول الطعام",
     expression_fr: "Je profite de manger",
     expression_es: "Disfruto comiendo",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/10.png",
+    imgUrl: "/public/Feelings/10.png",
     category: "Feelings"
   },
   {
@@ -265,7 +265,7 @@ export const icons = [
     expression_ar: "أشعر بالكسوف",
     expression_fr: "Je me sens brisé",
     expression_es: "Me siento roto",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/11.png",
+    imgUrl: "/public/Feelings/11.png",
     category: "Feelings"
   },
   {
@@ -277,7 +277,7 @@ export const icons = [
     expression_ar: "أشعر بالضيق والانزعاج من الضوضاء",
     expression_fr: "Je me sens agacé",
     expression_es: "Me siento molesto",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/12.png",
+    imgUrl: "/public/Feelings/12.png",
     category: "Feelings"
   },
   {
@@ -289,7 +289,7 @@ export const icons = [
     expression_ar: "أشعر بالضيق",
     expression_fr: "Je me sens stressé",
     expression_es: "Me siento afligido",
-    imgUrl: "http://168.231.101.20:5550/public/Feelings/13.png",
+    imgUrl: "/public/Feelings/13.png",
     category: "Feelings"
   },
 
@@ -579,47 +579,47 @@ export const icons = [
 
   export const subIconsData = {
   Eating: [
-    { title_en: "Apple", title_ar: "تفاح", title_fr: "Pomme", title_es: "Manzana", img: "http://168.231.101.20:5550/public/Food and Drink/apple.png" },
-    { title_en: "Biscuit", title_ar: "بسكوت", title_fr: "Biscuit", title_es: "Galleta", img: "http://168.231.101.20:5550/public/Food and Drink/baskot.png" },
-    { title_en: "Batek", title_ar: "باتيك", title_fr: "Batek", title_es: "Batek", img: "http://168.231.101.20:5550/public/Food and Drink/batek.png" },
-    { title_en: "Potato", title_ar: "بطاطس", title_fr: "Pomme de terre", title_es: "Patata", img: "http://168.231.101.20:5550/public/Food and Drink/btats.png" },
-    { title_en: "Chocolate", title_ar: "شيكولاتة", title_fr: "Chocolat", title_es: "Chocolate", img: "http://168.231.101.20:5550/public/Food and Drink/chocolate.png" },
-    { title_en: "Egg", title_ar: "بيض", title_fr: "Œuf", title_es: "Huevo", img: "http://168.231.101.20:5550/public/Food and Drink/egg.png" },
-    { title_en: "Grapes", title_ar: "عنب", title_fr: "Raisin", title_es: "Uvas", img: "http://168.231.101.20:5550/public/Food and Drink/enab.png" },
-    { title_en: "Bread", title_ar: "عِش", title_fr: "Pain", title_es: "Pan", img: "http://168.231.101.20:5550/public/Food and Drink/esh.png" },
-    { title_en: "Fish", title_ar: "سمك", title_fr: "Poisson", title_es: "Pescado", img: "http://168.231.101.20:5550/public/Food and Drink/fish.png" },
-    { title_en: "Chicken", title_ar: "فراخ", title_fr: "Poulet", title_es: "Pollo", img: "http://168.231.101.20:5550/public/Food and Drink/frahk.png" },
-    { title_en: "Strawberry", title_ar: "فراولة", title_fr: "Fraise", title_es: "Fresa", img: "http://168.231.101.20:5550/public/Food and Drink/frawla.png" },
-    { title_en: "Popcorn", title_ar: "فشار", title_fr: "Pop-corn", title_es: "Palomitas", img: "http://168.231.101.20:5550/public/Food and Drink/fshaar.png" },
-    { title_en: "Carrot", title_ar: "جزر", title_fr: "Carotte", title_es: "Zanahoria", img: "http://168.231.101.20:5550/public/Food and Drink/gazr.png" },
-    { title_en: "Cheese", title_ar: "جبنة", title_fr: "Fromage", title_es: "Queso", img: "http://168.231.101.20:5550/public/Food and Drink/gebna.png" },
-    { title_en: "Guava", title_ar: "جوافة", title_fr: "Goyave", title_es: "Guayaba", img: "http://168.231.101.20:5550/public/Food and Drink/gwafa.png" },
-    { title_en: "Ice Cream", title_ar: "آيس كريم", title_fr: "Glace", title_es: "Helado", img: "http://168.231.101.20:5550/public/Food and Drink/icecream.png" },
-    { title_en: "Milk Drink", title_ar: "كس", title_fr: "Boisson au lait", title_es: "Bebida láctea", img: "http://168.231.101.20:5550/public/Food and Drink/kas.png" },
-    { title_en: "Coke", title_ar: "كوك", title_fr: "Coca", title_es: "Coca", img: "http://168.231.101.20:5550/public/Food and Drink/kok.png" },
-    { title_en: "Pear", title_ar: "كمثرى", title_fr: "Poire", title_es: "Pera", img: "http://168.231.101.20:5550/public/Food and Drink/komtra.png" },
-    { title_en: "Cucumber", title_ar: "خيار", title_fr: "Concombre", title_es: "Pepino", img: "http://168.231.101.20:5550/public/Food and Drink/kyar.png" },
-    { title_en: "Yogurt", title_ar: "لبن", title_fr: "Lait", title_es: "Leche", img: "http://168.231.101.20:5550/public/Food and Drink/labn.png" },
-    { title_en: "Mango", title_ar: "مانجو", title_fr: "Mangue", title_es: "Mango", img: "http://168.231.101.20:5550/public/Food and Drink/mango.png" },
-    { title_en: "Jam", title_ar: "مربى", title_fr: "Confiture", title_es: "Mermelada", img: "http://168.231.101.20:5550/public/Food and Drink/marba.png" },
-    { title_en: "Meat", title_ar: "لحم", title_fr: "Viande", title_es: "Carne", img: "http://168.231.101.20:5550/public/Food and Drink/meat.png" },
-    { title_en: "Mozzarella", title_ar: "موزاريلا", title_fr: "Mozzarella", title_es: "Mozzarella", img: "http://168.231.101.20:5550/public/Food and Drink/mozz.png" },
-    { title_en: "Orange", title_ar: "برتقال", title_fr: "Orange", title_es: "Naranja", img: "http://168.231.101.20:5550/public/Food and Drink/orange.png" },
-    { title_en: "Pizza", title_ar: "بيتزا", title_fr: "Pizza", title_es: "Pizza", img: "http://168.231.101.20:5550/public/Food and Drink/pizza.png" },
-    { title_en: "Rice", title_ar: "أرز", title_fr: "Riz", title_es: "Arroz", img: "http://168.231.101.20:5550/public/Food and Drink/roz.png" },
-    { title_en: "Sandwich", title_ar: "ساندوتش", title_fr: "Sandwich", title_es: "Sándwich", img: "http://168.231.101.20:5550/public/Food and Drink/sandwich.png" },
-    { title_en: "Soup", title_ar: "شوربة", title_fr: "Soupe", title_es: "Sopa", img: "http://168.231.101.20:5550/public/Food and Drink/shorba.png" },
-    { title_en: "Tomato", title_ar: "طماطم", title_fr: "Tomate", title_es: "Tomate", img: "http://168.231.101.20:5550/public/Food and Drink/tomato.png" },
-    { title_en: "Vegetables", title_ar: "خضروات", title_fr: "Légumes", title_es: "Verduras", img: "http://168.231.101.20:5550/public/Food and Drink/vegetablesz.png" },
-    { title_en: "Water", title_ar: "مياه", title_fr: "Eau", title_es: "Agua", img: "http://168.231.101.20:5550/public/Food and Drink/water.png" },
-    { title_en: "Yogurt", title_ar: "زبادي", title_fr: "Yaourt", title_es: "Yogur", img: "http://168.231.101.20:5550/public/Food and Drink/zbady.png" },
+    { title_en: "Apple", title_ar: "تفاح", title_fr: "Pomme", title_es: "Manzana", img: "/public/Food and Drink/apple.png" },
+    { title_en: "Biscuit", title_ar: "بسكوت", title_fr: "Biscuit", title_es: "Galleta", img: "/public/Food and Drink/baskot.png" },
+    { title_en: "Batek", title_ar: "باتيك", title_fr: "Batek", title_es: "Batek", img: "/public/Food and Drink/batek.png" },
+    { title_en: "Potato", title_ar: "بطاطس", title_fr: "Pomme de terre", title_es: "Patata", img: "/public/Food and Drink/btats.png" },
+    { title_en: "Chocolate", title_ar: "شيكولاتة", title_fr: "Chocolat", title_es: "Chocolate", img: "/public/Food and Drink/chocolate.png" },
+    { title_en: "Egg", title_ar: "بيض", title_fr: "Œuf", title_es: "Huevo", img: "/public/Food and Drink/egg.png" },
+    { title_en: "Grapes", title_ar: "عنب", title_fr: "Raisin", title_es: "Uvas", img: "/public/Food and Drink/enab.png" },
+    { title_en: "Bread", title_ar: "عِش", title_fr: "Pain", title_es: "Pan", img: "/public/Food and Drink/esh.png" },
+    { title_en: "Fish", title_ar: "سمك", title_fr: "Poisson", title_es: "Pescado", img: "/public/Food and Drink/fish.png" },
+    { title_en: "Chicken", title_ar: "فراخ", title_fr: "Poulet", title_es: "Pollo", img: "/public/Food and Drink/frahk.png" },
+    { title_en: "Strawberry", title_ar: "فراولة", title_fr: "Fraise", title_es: "Fresa", img: "/public/Food and Drink/frawla.png" },
+    { title_en: "Popcorn", title_ar: "فشار", title_fr: "Pop-corn", title_es: "Palomitas", img: "/public/Food and Drink/fshaar.png" },
+    { title_en: "Carrot", title_ar: "جزر", title_fr: "Carotte", title_es: "Zanahoria", img: "/public/Food and Drink/gazr.png" },
+    { title_en: "Cheese", title_ar: "جبنة", title_fr: "Fromage", title_es: "Queso", img: "/public/Food and Drink/gebna.png" },
+    { title_en: "Guava", title_ar: "جوافة", title_fr: "Goyave", title_es: "Guayaba", img: "/public/Food and Drink/gwafa.png" },
+    { title_en: "Ice Cream", title_ar: "آيس كريم", title_fr: "Glace", title_es: "Helado", img: "/public/Food and Drink/icecream.png" },
+    { title_en: "Milk Drink", title_ar: "كس", title_fr: "Boisson au lait", title_es: "Bebida láctea", img: "/public/Food and Drink/kas.png" },
+    { title_en: "Coke", title_ar: "كوك", title_fr: "Coca", title_es: "Coca", img: "/public/Food and Drink/kok.png" },
+    { title_en: "Pear", title_ar: "كمثرى", title_fr: "Poire", title_es: "Pera", img: "/public/Food and Drink/komtra.png" },
+    { title_en: "Cucumber", title_ar: "خيار", title_fr: "Concombre", title_es: "Pepino", img: "/public/Food and Drink/kyar.png" },
+    { title_en: "Yogurt", title_ar: "لبن", title_fr: "Lait", title_es: "Leche", img: "/public/Food and Drink/labn.png" },
+    { title_en: "Mango", title_ar: "مانجو", title_fr: "Mangue", title_es: "Mango", img: "/public/Food and Drink/mango.png" },
+    { title_en: "Jam", title_ar: "مربى", title_fr: "Confiture", title_es: "Mermelada", img: "/public/Food and Drink/marba.png" },
+    { title_en: "Meat", title_ar: "لحم", title_fr: "Viande", title_es: "Carne", img: "/public/Food and Drink/meat.png" },
+    { title_en: "Mozzarella", title_ar: "موزاريلا", title_fr: "Mozzarella", title_es: "Mozzarella", img: "/public/Food and Drink/mozz.png" },
+    { title_en: "Orange", title_ar: "برتقال", title_fr: "Orange", title_es: "Naranja", img: "/public/Food and Drink/orange.png" },
+    { title_en: "Pizza", title_ar: "بيتزا", title_fr: "Pizza", title_es: "Pizza", img: "/public/Food and Drink/pizza.png" },
+    { title_en: "Rice", title_ar: "أرز", title_fr: "Riz", title_es: "Arroz", img: "/public/Food and Drink/roz.png" },
+    { title_en: "Sandwich", title_ar: "ساندوتش", title_fr: "Sandwich", title_es: "Sándwich", img: "/public/Food and Drink/sandwich.png" },
+    { title_en: "Soup", title_ar: "شوربة", title_fr: "Soupe", title_es: "Sopa", img: "/public/Food and Drink/shorba.png" },
+    { title_en: "Tomato", title_ar: "طماطم", title_fr: "Tomate", title_es: "Tomate", img: "/public/Food and Drink/tomato.png" },
+    { title_en: "Vegetables", title_ar: "خضروات", title_fr: "Légumes", title_es: "Verduras", img: "/public/Food and Drink/vegetablesz.png" },
+    { title_en: "Water", title_ar: "مياه", title_fr: "Eau", title_es: "Agua", img: "/public/Food and Drink/water.png" },
+    { title_en: "Yogurt", title_ar: "زبادي", title_fr: "Yaourt", title_es: "Yogur", img: "/public/Food and Drink/zbady.png" },
   ],
     Drinking: [
-         { title_en: "Water", title_ar: "ماء", title_fr: "Eau", title_es: "Agua", img:"http://168.231.101.20:5550/public/Food and Drink/water.png" },
-    { title_en: "Mango Juice", title_ar: "عصير مانجو", title_fr: "Jus de mangue", title_es: "Jugo de mango", img: "http://168.231.101.20:5550/public/Food and Drink/mango.png" },
-    { title_en: "Apple Juice", title_ar: "عصير تفاح", title_fr: "Jus de pomme", title_es: "Jugo de manzana", img: "http://168.231.101.20:5550/public/Food and Drink/apple.png" },
-        { title_en: "Guava", title_ar: "جوافة", title_fr: "Goyave", title_es: "Guayaba", img: "http://168.231.101.20:5550/public/Food and Drink/gwafa.png" },
-          { title_en: "milk", title_ar: "لبن", title_fr: "Lait", title_es: "Leche", img: "http://168.231.101.20:5550/public/Food and Drink/labn.png" },
+         { title_en: "Water", title_ar: "ماء", title_fr: "Eau", title_es: "Agua", img:"/public/Food and Drink/water.png" },
+    { title_en: "Mango Juice", title_ar: "عصير مانجو", title_fr: "Jus de mangue", title_es: "Jugo de mango", img: "/public/Food and Drink/mango.png" },
+    { title_en: "Apple Juice", title_ar: "عصير تفاح", title_fr: "Jus de pomme", title_es: "Jugo de manzana", img: "/public/Food and Drink/apple.png" },
+        { title_en: "Guava", title_ar: "جوافة", title_fr: "Goyave", title_es: "Guayaba", img: "/public/Food and Drink/gwafa.png" },
+          { title_en: "milk", title_ar: "لبن", title_fr: "Lait", title_es: "Leche", img: "/public/Food and Drink/labn.png" },
     { title_en: "Fayrouz", title_ar: "فيروز", title_fr: "Fayrouz", title_es: "Fayrouz", img: "https://cdn-icons-png.flaticon.com/128/14369/14369766.png" },
     { title_en: "Schweppes", title_ar: "شويبس", title_fr: "Schweppes", title_es: "Schweppes", img: "https://cdn-icons-png.flaticon.com/128/14015/14015081.png" },
     { title_en: "Pomegranate Juice", title_ar: "عصير رمان", title_fr: "Jus de grenade", title_es: "Jugo de granada", img: "https://cdn-icons-png.flaticon.com/512/7665/7665034.png" },
@@ -628,14 +628,14 @@ export const icons = [
     { title_en: "Tea", title_ar: "شاي", title_fr: "Thé", title_es: "Té", img: "https://cdn-icons-png.flaticon.com/512/1046/1046783.png" },
     { title_en: "Coffee", title_ar: "قهوة", title_fr: "Café", title_es: "Café", img: "https://cdn-icons-png.flaticon.com/512/1046/1046787.png" },
     { title_en: "Nescafe", title_ar: "نسكافيه", title_fr: "Nescafé", title_es: "Nescafé", img: "https://cdn-icons-png.flaticon.com/512/904/904535.png" },
-    { title_en: "Strawberry Juice", title_ar: "عصير فراولة", title_fr: "Jus de fraise", title_es: "Jugo de fresa", img: "http://168.231.101.20:5550/public/Food and Drink/frawla.png" },
-    { title_en: "Orange Juice", title_ar: "عصير برتقال", title_fr: "Jus d'orange", title_es: "Jugo de naranja", img: "http://168.231.101.20:5550/public/Food and Drink/orange.png" },
+    { title_en: "Strawberry Juice", title_ar: "عصير فراولة", title_fr: "Jus de fraise", title_es: "Jugo de fresa", img: "/public/Food and Drink/frawla.png" },
+    { title_en: "Orange Juice", title_ar: "عصير برتقال", title_fr: "Jus d'orange", title_es: "Jugo de naranja", img: "/public/Food and Drink/orange.png" },
     { title_en: "Lemon Juice", title_ar: "عصير ليمون", title_fr: "Jus de citron", title_es: "Jugo de limón", img: "https://cdn-icons-png.flaticon.com/512/7665/7665029.png" },
     { title_en: "Pepsi", title_ar: "بيبسي", title_fr: "Pepsi", title_es: "Pepsi", img: "https://cdn-icons-png.flaticon.com/512/2738/2738730.png" },
     { title_en: "CocaCola", title_ar: "كوكاكولا", title_fr: "Coca-Cola", title_es: "Coca-Cola", img: "https://cdn-icons-png.flaticon.com/512/2738/2738730.png" },
     { title_en: "7up", title_ar: "سبعة أب", title_fr: "7up", title_es: "7up", img: "https://cdn-icons-png.flaticon.com/512/2738/2738730.png" },
     { title_en: "Energy Drink", title_ar: "مشروب طاقة", title_fr: "Boisson énergisante", title_es: "Bebida energética", img: "https://cdn-icons-png.flaticon.com/512/3595/3595451.png" },
-    { title_en: "Hot Chocolate", title_ar: "شوكولاتة ساخنة", title_fr: "Chocolat chaud", title_es: "Chocolate caliente", img: "http://168.231.101.20:5550/public/Food and Drink/chocolate.png" },
+    { title_en: "Hot Chocolate", title_ar: "شوكولاتة ساخنة", title_fr: "Chocolat chaud", title_es: "Chocolate caliente", img: "/public/Food and Drink/chocolate.png" },
       // ... add the rest of the drinks here
     ],
     Sleeping: [
@@ -653,28 +653,28 @@ export const icons = [
       // ... add the rest of the sleeping items here
     ],
      "Get Dressed": [
-  { title_en: "Shirt", title_ar: "قميص داخلي", title_fr: "Chemise", title_es: "Camisa interior", img: "http://168.231.101.20:5550/public/Clothes/2amis.png" },
-  { title_en: "Suit", title_ar: "بدلة", title_fr: "Costume", title_es: "Traje", img: "http://168.231.101.20:5550/public/Clothes/Badla.png" },
-  { title_en: "Blouse", title_ar: "بلوزة", title_fr: "Blouse", title_es: "Blusa", img: "http://168.231.101.20:5550/public/Clothes/Blouse.png" },
-  { title_en: "Pants", title_ar: "بنطلون", title_fr: "Pantalon", title_es: "Pantalón", img: "http://168.231.101.20:5550/public/Clothes/Bntlon.png" },
-  { title_en: "Dress", title_ar: "فستان", title_fr: "Robe", title_es: "Vestido", img: "http://168.231.101.20:5550/public/Clothes/Dress.png" },
-  { title_en: "Jacket", title_ar: "سترة", title_fr: "Veste", title_es: "Chaqueta", img: "http://168.231.101.20:5550/public/Clothes/Jacket.png" },
-  { title_en: "Pajamas", title_ar: "بيجامة", title_fr: "Pyjama", title_es: "Pijama", img: "http://168.231.101.20:5550/public/Clothes/Pijama.png" },
-  { title_en: "Shoes", title_ar: "أحذية", title_fr: "Chaussures", title_es: "Zapatos", img: "http://168.231.101.20:5550/public/Clothes/Shoes.png" },
-  { title_en: "Socks", title_ar: "جوارب", title_fr: "Chaussettes", title_es: "Calcetines", img: "http://168.231.101.20:5550/public/Clothes/Shrab.png" },
-  { title_en: "Skirt", title_ar: "تنورة", title_fr: "Jupe", title_es: "Falda", img: "http://168.231.101.20:5550/public/Clothes/Skirt.png" }
+  { title_en: "Shirt", title_ar: "قميص داخلي", title_fr: "Chemise", title_es: "Camisa interior", img: "/public/Clothes/2amis.png" },
+  { title_en: "Suit", title_ar: "بدلة", title_fr: "Costume", title_es: "Traje", img: "/public/Clothes/Badla.png" },
+  { title_en: "Blouse", title_ar: "بلوزة", title_fr: "Blouse", title_es: "Blusa", img: "/public/Clothes/Blouse.png" },
+  { title_en: "Pants", title_ar: "بنطلون", title_fr: "Pantalon", title_es: "Pantalón", img: "/public/Clothes/Bntlon.png" },
+  { title_en: "Dress", title_ar: "فستان", title_fr: "Robe", title_es: "Vestido", img: "/public/Clothes/Dress.png" },
+  { title_en: "Jacket", title_ar: "سترة", title_fr: "Veste", title_es: "Chaqueta", img: "/public/Clothes/Jacket.png" },
+  { title_en: "Pajamas", title_ar: "بيجامة", title_fr: "Pyjama", title_es: "Pijama", img: "/public/Clothes/Pijama.png" },
+  { title_en: "Shoes", title_ar: "أحذية", title_fr: "Chaussures", title_es: "Zapatos", img: "/public/Clothes/Shoes.png" },
+  { title_en: "Socks", title_ar: "جوارب", title_fr: "Chaussettes", title_es: "Calcetines", img: "/public/Clothes/Shrab.png" },
+  { title_en: "Skirt", title_ar: "تنورة", title_fr: "Jupe", title_es: "Falda", img: "/public/Clothes/Skirt.png" }
 ],
  Transport: [
-    { title_en: "Bicycle", title_ar: "دراجة", title_fr: "Vélo", title_es: "Bicicleta", img: "http://168.231.101.20:5550/public/Transport/1.png" },
-    { title_en: "Taxi", title_ar: "تاكسي", title_fr: "Taxi", title_es: "Taxi", img: "http://168.231.101.20:5550/public/Transport/2.png" },
-    { title_en: "Motorcycle", title_ar: "دراجة نارية", title_fr: "Moto", title_es: "Motocicleta", img: "http://168.231.101.20:5550/public/Transport/3.png" },
-    { title_en: "Airplane", title_ar: "طائرة", title_fr: "Avion", title_es: "Avión", img: "http://168.231.101.20:5550/public/Transport/4.png" },
-    { title_en: "Bus", title_ar: "حافلة", title_fr: "Bus", title_es: "Autobús", img: "http://168.231.101.20:5550/public/Transport/5.png" },
-    { title_en: "Car", title_ar: "سيارة", title_fr: "Voiture", title_es: "Coche", img: "http://168.231.101.20:5550/public/Transport/6.png" },
-    { title_en: "Tram", title_ar: "ترام", title_fr: "Tramway", title_es: "Tranvía", img: "http://168.231.101.20:5550/public/Transport/7.png" },
-    { title_en: "Elevator", title_ar: "مصعد", title_fr: "Ascenseur", title_es: "Ascensor", img: "http://168.231.101.20:5550/public/Transport/8.png" },
-    { title_en: "Ship", title_ar: "سفينة", title_fr: "Navire", title_es: "Barco", img: "http://168.231.101.20:5550/public/Transport/9.png" },
-    { title_en: "Train", title_ar: "قطار", title_fr: "Train", title_es: "Tren", img: "http://168.231.101.20:5550/public/Transport/10.png" }
+    { title_en: "Bicycle", title_ar: "دراجة", title_fr: "Vélo", title_es: "Bicicleta", img: "/public/Transport/1.png" },
+    { title_en: "Taxi", title_ar: "تاكسي", title_fr: "Taxi", title_es: "Taxi", img: "/public/Transport/2.png" },
+    { title_en: "Motorcycle", title_ar: "دراجة نارية", title_fr: "Moto", title_es: "Motocicleta", img: "/public/Transport/3.png" },
+    { title_en: "Airplane", title_ar: "طائرة", title_fr: "Avion", title_es: "Avión", img: "/public/Transport/4.png" },
+    { title_en: "Bus", title_ar: "حافلة", title_fr: "Bus", title_es: "Autobús", img: "/public/Transport/5.png" },
+    { title_en: "Car", title_ar: "سيارة", title_fr: "Voiture", title_es: "Coche", img: "/public/Transport/6.png" },
+    { title_en: "Tram", title_ar: "ترام", title_fr: "Tramway", title_es: "Tranvía", img: "/public/Transport/7.png" },
+    { title_en: "Elevator", title_ar: "مصعد", title_fr: "Ascenseur", title_es: "Ascensor", img: "/public/Transport/8.png" },
+    { title_en: "Ship", title_ar: "سفينة", title_fr: "Navire", title_es: "Barco", img: "/public/Transport/9.png" },
+    { title_en: "Train", title_ar: "قطار", title_fr: "Train", title_es: "Tren", img: "/public/Transport/10.png" }
   ],
       Medicine: [
       { title_en: "Profen", title_ar: "بروفين", title_fr: "Profén", title_es: "Profen", img: "https://cdn-icons-png.flaticon.com/512/2965/2965567.png" },
@@ -700,11 +700,11 @@ export const icons = [
       // ... add the rest of the medicines here
     ],
      Afraid : [
-  { title_en: "Insect", title_ar: "حشرة", title_fr: "Insecte", title_es: "Insecto", img: "http://168.231.101.20:5550/public/Animals/7shraat.png" },
-  { title_en: "Bird", title_ar: "طائر", title_fr: "Oiseau", title_es: "Pájaro", img: "http://168.231.101.20:5550/public/Animals/Bird.png" },
-  { title_en: "Cat", title_ar: "قط", title_fr: "Chat", title_es: "Gato", img: "http://168.231.101.20:5550/public/Animals/Cat.png" },
-  { title_en: "Dog", title_ar: "كلب", title_fr: "Chien", title_es: "Perro", img: "http://168.231.101.20:5550/public/Animals/Dog.png" },
-  { title_en: "Fish", title_ar: "سمك", title_fr: "Poisson", title_es: "Pescado", img: "http://168.231.101.20:5550/public/Animals/Fish.png" },
+  { title_en: "Insect", title_ar: "حشرة", title_fr: "Insecte", title_es: "Insecto", img: "/public/Animals/7shraat.png" },
+  { title_en: "Bird", title_ar: "طائر", title_fr: "Oiseau", title_es: "Pájaro", img: "/public/Animals/Bird.png" },
+  { title_en: "Cat", title_ar: "قط", title_fr: "Chat", title_es: "Gato", img: "/public/Animals/Cat.png" },
+  { title_en: "Dog", title_ar: "كلب", title_fr: "Chien", title_es: "Perro", img: "/public/Animals/Dog.png" },
+  { title_en: "Fish", title_ar: "سمك", title_fr: "Poisson", title_es: "Pescado", img: "/public/Animals/Fish.png" },
 ],
     Call: [
        { title_en: "Mobile", title_ar: "موبايل", title_fr: "Mobile", title_es: "Móvil", img: "https://cdn-icons-png.flaticon.com/512/15/15920.png" },
@@ -747,18 +747,18 @@ export const icons = [
   //add the rest of the listen subicons here
     ],
    Home: [
-   { title_en: "Bedroom", title_ar: "غرفة النوم", title_fr: "Chambre", title_es: "Dormitorio", img: "http://168.231.101.20:5550/public/Places/bedroom.png" },
-  { title_en: "Bus Station", title_ar: "محطة أتوبيس", title_fr: "Gare routière", title_es: "Estación de autobús", img: "http://168.231.101.20:5550/public/Places/busstation.png" },
-  { title_en: "Home", title_ar: "المنزل", title_fr: "Maison", title_es: "Casa", img: "http://168.231.101.20:5550/public/Places/home.png" },
-  { title_en: "Hospital", title_ar: "مستشفى", title_fr: "Hôpital", title_es: "Hospital", img: "http://168.231.101.20:5550/public/Places/hospital.png" },
-  { title_en: "Kitchen", title_ar: "المطبخ", title_fr: "Cuisine", title_es: "Cocina", img: "http://168.231.101.20:5550/public/Places/kitchen.png" },
-  { title_en: "Living Room", title_ar: "غرفة المعيشة", title_fr: "Salon", title_es: "Sala de estar", img: "http://168.231.101.20:5550/public/Places/livingroom.png" },
-  { title_en: "Park", title_ar: "الحديقة", title_fr: "Parc", title_es: "Parque", img: "http://168.231.101.20:5550/public/Places/park.png" },
-  { title_en: "School", title_ar: "المدرسة", title_fr: "École", title_es: "Escuela", img: "http://168.231.101.20:5550/public/Places/school.png" },
-  { title_en: "Supermarket", title_ar: "السوبر ماركت", title_fr: "Supermarché", title_es: "Supermercado", img: "http://168.231.101.20:5550/public/Places/supermarket.png" },
-  { title_en: "Toilet", title_ar: "مرحاض", title_fr: "Toilettes", title_es: "Baño", img: "http://168.231.101.20:5550/public/Places/toilet.png" },
-  { title_en: "University", title_ar: "جامعة", title_fr: "Université", title_es: "Universidad", img: "http://168.231.101.20:5550/public/Places/university.png" },
-  { title_en: "Work", title_ar: "العمل", title_fr: "Travail", title_es: "Trabajo", img: "http://168.231.101.20:5550/public/Places/work.png" }
+   { title_en: "Bedroom", title_ar: "غرفة النوم", title_fr: "Chambre", title_es: "Dormitorio", img: "/public/Places/bedroom.png" },
+  { title_en: "Bus Station", title_ar: "محطة أتوبيس", title_fr: "Gare routière", title_es: "Estación de autobús", img: "/public/Places/busstation.png" },
+  { title_en: "Home", title_ar: "المنزل", title_fr: "Maison", title_es: "Casa", img: "/public/Places/home.png" },
+  { title_en: "Hospital", title_ar: "مستشفى", title_fr: "Hôpital", title_es: "Hospital", img: "/public/Places/hospital.png" },
+  { title_en: "Kitchen", title_ar: "المطبخ", title_fr: "Cuisine", title_es: "Cocina", img: "/public/Places/kitchen.png" },
+  { title_en: "Living Room", title_ar: "غرفة المعيشة", title_fr: "Salon", title_es: "Sala de estar", img: "/public/Places/livingroom.png" },
+  { title_en: "Park", title_ar: "الحديقة", title_fr: "Parc", title_es: "Parque", img: "/public/Places/park.png" },
+  { title_en: "School", title_ar: "المدرسة", title_fr: "École", title_es: "Escuela", img: "/public/Places/school.png" },
+  { title_en: "Supermarket", title_ar: "السوبر ماركت", title_fr: "Supermarché", title_es: "Supermercado", img: "/public/Places/supermarket.png" },
+  { title_en: "Toilet", title_ar: "مرحاض", title_fr: "Toilettes", title_es: "Baño", img: "/public/Places/toilet.png" },
+  { title_en: "University", title_ar: "جامعة", title_fr: "Université", title_es: "Universidad", img: "/public/Places/university.png" },
+  { title_en: "Work", title_ar: "العمل", title_fr: "Travail", title_es: "Trabajo", img: "/public/Places/work.png" }
 ],
     Breakfast:[
       { title_en: "Bread", title_ar: "خبز", title_fr: "Pain", title_es: "Pan", img: "https://cdn-icons-png.flaticon.com/512/1046/1046781.png" },
@@ -813,16 +813,16 @@ export const icons = [
   
        ],
        Family : [
-  { title_en: "Father", title_ar: "أب", title_fr: "Père", title_es: "Padre", img: "http://168.231.101.20:5550/public/Family/4.png" },
-  { title_en: "Mother", title_ar: "أم", title_fr: "Mère", title_es: "Madre", img: "http://168.231.101.20:5550/public/Family/3.png" },
-  { title_en: "Brother", title_ar: "أخ", title_fr: "Frère", title_es: "Hermano", img: "http://168.231.101.20:5550/public/Family/7.png" },
-  { title_en: "Sister", title_ar: "أخت", title_fr: "Sœur", title_es: "Hermana", img: "http://168.231.101.20:5550/public/Family/1.png" },
-  { title_en: "Grandfather", title_ar: "جد", title_fr: "Grand-père", title_es: "Abuelo", img: "http://168.231.101.20:5550/public/Family/2.png" },
-  { title_en: "Grandmother", title_ar: "جدة", title_fr: "Grand-mère", title_es: "Abuela", img: "http://168.231.101.20:5550/public/Family/10.png" },
-  { title_en: "Uncle", title_ar: "عم / خال", title_fr: "Oncle", title_es: "Tío", img: "http://168.231.101.20:5550/public/Family/6.png" },
-  { title_en: "Aunt", title_ar: "عمة / خالة", title_fr: "Tante", title_es: "Tía", img: "http://168.231.101.20:5550/public/Family/5.png" },
-  { title_en: "Cousin", title_ar: "ابن/ابنة عم أو خال", title_fr: "Cousin(e)", title_es: "Primo/a", img: "http://168.231.101.20:5550/public/Family/9.png" },
-  { title_en: "Baby", title_ar: "طفل", title_fr: "Bébé", title_es: "Bebé", img: "http://168.231.101.20:5550/public/Family/8.png" }
+  { title_en: "Father", title_ar: "أب", title_fr: "Père", title_es: "Padre", img: "/public/Family/4.png" },
+  { title_en: "Mother", title_ar: "أم", title_fr: "Mère", title_es: "Madre", img: "/public/Family/3.png" },
+  { title_en: "Brother", title_ar: "أخ", title_fr: "Frère", title_es: "Hermano", img: "/public/Family/7.png" },
+  { title_en: "Sister", title_ar: "أخت", title_fr: "Sœur", title_es: "Hermana", img: "/public/Family/1.png" },
+  { title_en: "Grandfather", title_ar: "جد", title_fr: "Grand-père", title_es: "Abuelo", img: "/public/Family/2.png" },
+  { title_en: "Grandmother", title_ar: "جدة", title_fr: "Grand-mère", title_es: "Abuela", img: "/public/Family/10.png" },
+  { title_en: "Uncle", title_ar: "عم / خال", title_fr: "Oncle", title_es: "Tío", img: "/public/Family/6.png" },
+  { title_en: "Aunt", title_ar: "عمة / خالة", title_fr: "Tante", title_es: "Tía", img: "/public/Family/5.png" },
+  { title_en: "Cousin", title_ar: "ابن/ابنة عم أو خال", title_fr: "Cousin(e)", title_es: "Primo/a", img: "/public/Family/9.png" },
+  { title_en: "Baby", title_ar: "طفل", title_fr: "Bébé", title_es: "Bebé", img: "/public/Family/8.png" }
 ],
        TV:[
          { title_en: "News", title_ar: "أخبار", title_fr: "Nouvelles", title_es: "Noticias", img: "https://cdn-icons-png.flaticon.com/512/1046/1046787.png" },

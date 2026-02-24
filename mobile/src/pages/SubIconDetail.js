@@ -85,8 +85,7 @@ const SubIconDetail = () => {
   const pressOut = () =>
     Animated.spring(scaleAnim, { toValue: 1, useNativeDriver: true }).start();
 
-  const imageUri =
-    subIcon?.imageUrl?.replace("localhost", "168.231.101.20");
+  const imageUri = `${"http://168.231.101.20:5550" + subIcon?.imageUrl}`;
 
   return (
     <ScrollView

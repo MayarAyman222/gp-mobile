@@ -5,7 +5,7 @@ import { Platform } from "react-native";
 const BASE_URL =
   Platform.OS === "web"
   ?"http://168.231.101.20:5550/api"
-    :"http://localhost:5000/api"
+    :"http://localhost:5550/api"
 
 // Get all icons or filter by category
 export const getAllIcons = async (category = null) => {

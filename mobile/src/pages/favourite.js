@@ -127,8 +127,8 @@ export default function Favourites() {
   const renderCard = ({ item }) => {
     const isSelected = selectedIds.includes(item.id);
     const imageUri = item.imageUrl?.replace(
-      "localhost",
-      "168.231.101.20" // عدلي IP
+      "localhost:5550",
+      "168.231.101.20:5550" // عدلي IP
     );
 
     return (

@@ -112,8 +112,8 @@ export const getSubIconById = async (req, res) => {
       include: { icon: true }, // optional: include parent icon
     });
 
+    console.log("Fetched SubIcon:", subIcon);
     if (!subIcon) return res.status(404).json({ message: "SubIcon not found" });
-
     res.json(subIcon);
   } catch (err) {
     console.error(err);

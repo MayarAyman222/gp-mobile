@@ -61,10 +61,14 @@ export default function SubIconDashboard() {
   const [speaking, setSpeaking] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [newSubIcon, setNewSubIcon] = useState({
-    title_en: "", expression_en: "",
-    title_ar: "", expression_ar: "",
-    title_fr: "", expression_fr: "",
-    title_es: "", expression_es: "",
+    title_en: "",
+    expression_en: "",
+    title_ar: "",
+    expression_ar: "",
+    title_fr: "",
+    expression_fr: "",
+    title_es: "",
+    expression_es: "",
     iconName: "",
   });
   const [favourites, setFavourites] = useState([]);
@@ -106,15 +110,18 @@ export default function SubIconDashboard() {
       imageUrl: subIcon.imageUrl,
     };
 
-    const exists = favourites.some(f => f.id === subIcon.id);
+    const exists = favourites.some((f) => f.id === subIcon.id);
     const updated = exists
-      ? favourites.filter(f => f.id !== subIcon.id)
+      ? favourites.filter((f) => f.id !== subIcon.id)
       : [...favourites, subIconData];
 
     setFavourites(updated);
 
     try {
-      await AsyncStorage.setItem(`favourites_${user.id}`, JSON.stringify(updated));
+      await AsyncStorage.setItem(
+        `favourites_${user.id}`,
+        JSON.stringify(updated),
+      );
       console.log("Favourites saved:", updated);
     } catch (err) {
       console.log("Error saving favourite:", err);
@@ -134,23 +141,25 @@ export default function SubIconDashboard() {
   }, [user]);
 
   // ------------------- Filtered list -------------------
-  const filteredSubIcons = subIcons.filter(icon => {
+  const filteredSubIcons = subIcons.filter((icon) => {
     const t = icon[`title_${lang}`] || "";
     const e = icon[`expression_${lang}`] || "";
-    return t.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           e.toLowerCase().includes(searchTerm.toLowerCase());
+    return (
+      t.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      e.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
 
   const toggleSelect = (id) => {
-    setSelectedIds(p =>
-      p.includes(id) ? p.filter(i => i !== id) : [...p, id]
+    setSelectedIds((p) =>
+      p.includes(id) ? p.filter((i) => i !== id) : [...p, id],
     );
   };
 
   // ------------------- Sentence Generation -------------------
   const generateSentence = () => {
     const expressions = selectedIds
-      .map(id => subIcons.find(i => i.id === id)?.[`expression_${lang}`])
+      .map((id) => subIcons.find((i) => i.id === id)?.[`expression_${lang}`])
       .filter(Boolean);
     if (!expressions.length) return "";
     return `${timeOption} ${expressions.join(` ${connector} `)}`;
@@ -175,9 +184,12 @@ export default function SubIconDashboard() {
 
   // ------------------- Add SubIcon Functionality -------------------
   const handleAddSubIcon = async () => {
-    const allFilled = ["en","ar","fr","es"].every(l =>
-      newSubIcon[`title_${l}`].trim() && newSubIcon[`expression_${l}`].trim()
-    ) && newSubIcon.iconName.trim();
+    const allFilled =
+      ["en", "ar", "fr", "es"].every(
+        (l) =>
+          newSubIcon[`title_${l}`].trim() &&
+          newSubIcon[`expression_${l}`].trim(),
+      ) && newSubIcon.iconName.trim();
 
     if (!allFilled) {
       alert(lang === "ar" ? "جميع الحقول مطلوبة!" : "All fields are required!");
@@ -188,11 +200,15 @@ export default function SubIconDashboard() {
       const saved = await createSubIcon(parentIcon.id, newSubIcon);
       setSubIcons([...subIcons, saved]);
       setNewSubIcon({
-        title_en: "", expression_en: "",
-        title_ar: "", expression_ar: "",
-        title_fr: "", expression_fr: "",
-        title_es: "", expression_es: "",
-        iconName: ""
+        title_en: "",
+        expression_en: "",
+        title_ar: "",
+        expression_ar: "",
+        title_fr: "",
+        expression_fr: "",
+        title_es: "",
+        expression_es: "",
+        iconName: "",
       });
       setShowModal(false);
     } catch (err) {
@@ -203,16 +219,32 @@ export default function SubIconDashboard() {
   // ------------------- Render Each SubIcon -------------------
   const renderSubIcon = ({ item }) => {
     const selected = selectedIds.includes(item.id);
-    const fav = favourites.some(f => f.id === item.id);
-    const imageUri = item.imageUrl?.replace("localhost", "168.231.101.20");
+    const fav = favourites.some((f) => f.id === item.id);
+    // const imageUri = item.imageUrl?.replace("localhost:5000", "168.231.101.20:5550");
+    const imageUri = `${"http://168.231.101.20:5550" + item?.imageUrl}`;
 
     return (
-      <View style={[styles.card, { backgroundColor: selected ? currentTheme.link : currentTheme.card }]}>
-        <TouchableOpacity style={styles.check} onPress={() => toggleSelect(item.id)}>
-          <Text style={{ color: currentTheme.text }}>{selected ? "✅" : "⬜"}</Text>
+      <View
+        style={[
+          styles.card,
+          { backgroundColor: selected ? currentTheme.link : currentTheme.card },
+        ]}
+      >
+        <TouchableOpacity
+          style={styles.check}
+          onPress={() => toggleSelect(item.id)}
+        >
+          <Text style={{ color: currentTheme.text }}>
+            {selected ? "✅" : "⬜"}
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.center} onPress={() => navigation.navigate("SubIconDetail", { subIcon: item })}>
+        <TouchableOpacity
+          style={styles.center}
+          onPress={() =>
+            navigation.navigate("SubIconDetail", { subIcon: item })
+          }
+        >
           {imageUri ? (
             <Image
               source={{ uri: imageUri }}
@@ -227,15 +259,29 @@ export default function SubIconDashboard() {
             />
           )}
 
-          <View style={[styles.cardFooter, { backgroundColor: "rgba(0,0,0,0.5)" }]}>
-            <Text style={[styles.cardTitle, { color: currentTheme.text }]}>{item[`title_${lang}`]}</Text>
-            <Text style={[styles.cardExpr, { color: currentTheme.text }]}>{item[`expression_${lang}`]}</Text>
+          <View
+            style={[styles.cardFooter, { backgroundColor: "rgba(0,0,0,0.5)" }]}
+          >
+            <Text style={[styles.cardTitle, { color: currentTheme.text }]}>
+              {item[`title_${lang}`]}
+            </Text>
+            <Text style={[styles.cardExpr, { color: currentTheme.text }]}>
+              {item[`expression_${lang}`]}
+            </Text>
           </View>
         </TouchableOpacity>
 
         {/* Add to Favourite Button */}
         <TouchableOpacity
-          style={[styles.btn, { backgroundColor: fav ? currentTheme.success : currentTheme.link, position:"absolute", bottom:5, left:5 }]}
+          style={[
+            styles.btn,
+            {
+              backgroundColor: fav ? currentTheme.success : currentTheme.link,
+              position: "absolute",
+              bottom: 5,
+              left: 5,
+            },
+          ]}
           onPress={() => toggleFavourite(item)}
         >
           <Text style={styles.btnText}>{fav ? "★ Favourite" : "☆ Add"}</Text>
@@ -247,7 +293,7 @@ export default function SubIconDashboard() {
   // ------------------- UI -------------------
   if (!user) {
     return (
-      <View style={{ flex:1, justifyContent:"center", alignItems:"center" }}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>Loading user...</Text>
       </View>
     );
@@ -258,14 +304,24 @@ export default function SubIconDashboard() {
       <FlatList
         data={filteredSubIcons}
         renderItem={renderSubIcon}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
         numColumns={width > 900 ? 4 : 2}
         columnWrapperStyle={{ marginBottom: 10 }}
         contentContainerStyle={{ padding: 16, paddingBottom: 80 }}
         ListHeaderComponent={
           <>
-            <Text style={[styles.title, { color: currentTheme.text }]}>{welcomeByLang[lang]}</Text>
-            <Text style={{ textAlign: "center", color: currentTheme.text, marginBottom: 10 }}>{parentIcon.title_en}</Text>
+            <Text style={[styles.title, { color: currentTheme.text }]}>
+              {welcomeByLang[lang]}
+            </Text>
+            <Text
+              style={{
+                textAlign: "center",
+                color: currentTheme.text,
+                marginBottom: 10,
+              }}
+            >
+              {parentIcon.title_en}
+            </Text>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.controls}>
@@ -274,23 +330,45 @@ export default function SubIconDashboard() {
                   placeholderTextColor={currentTheme.text}
                   value={searchTerm}
                   onChangeText={setSearchTerm}
-                  style={[styles.input, { backgroundColor: currentTheme.card, color: currentTheme.text }]}
+                  style={[
+                    styles.input,
+                    {
+                      backgroundColor: currentTheme.card,
+                      color: currentTheme.text,
+                    },
+                  ]}
                 />
 
                 <Picker
                   selectedValue={connector}
                   onValueChange={setConnector}
-                  style={[styles.picker, { backgroundColor: currentTheme.card, color: currentTheme.text }]}
+                  style={[
+                    styles.picker,
+                    {
+                      backgroundColor: currentTheme.card,
+                      color: currentTheme.text,
+                    },
+                  ]}
                 >
-                  {connectorOptionsByLang[lang].map(o => <Picker.Item key={o} label={o} value={o} />)}
+                  {connectorOptionsByLang[lang].map((o) => (
+                    <Picker.Item key={o} label={o} value={o} />
+                  ))}
                 </Picker>
 
                 <Picker
                   selectedValue={timeOption}
                   onValueChange={setTimeOption}
-                  style={[styles.picker, { backgroundColor: currentTheme.card, color: currentTheme.text }]}
+                  style={[
+                    styles.picker,
+                    {
+                      backgroundColor: currentTheme.card,
+                      color: currentTheme.text,
+                    },
+                  ]}
                 >
-                  {timeOptionsByLang[lang].map(o => <Picker.Item key={o} label={o} value={o} />)}
+                  {timeOptionsByLang[lang].map((o) => (
+                    <Picker.Item key={o} label={o} value={o} />
+                  ))}
                 </Picker>
 
                 <TouchableOpacity
@@ -298,21 +376,40 @@ export default function SubIconDashboard() {
                   onPress={handleSpeak}
                   disabled={speaking || selectedIds.length === 0}
                 >
-                  <Text style={styles.btnText}>{speaking ? "..." : "🔊 Speak"}</Text>
+                  <Text style={styles.btnText}>
+                    {speaking ? "..." : "🔊 Speak"}
+                  </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  style={[styles.btn, { backgroundColor: currentTheme.success }]}
+                  style={[
+                    styles.btn,
+                    { backgroundColor: currentTheme.success },
+                  ]}
                   onPress={() => setShowModal(true)}
                 >
-                  <Text style={styles.btnText}>{lang === "ar" ? "أضف أيقونة فرعية" : "Add SubIcon"}</Text>
+                  <Text style={styles.btnText}>
+                    {lang === "ar" ? "أضف أيقونة فرعية" : "Add SubIcon"}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </ScrollView>
 
             {selectedIds.length > 0 && (
-              <View style={[styles.sentenceBox, { backgroundColor: currentTheme.card, marginVertical:10, padding:10, borderRadius:8 }]}>
-                <Text style={{ color: currentTheme.text }}>{generateSentence()}</Text>
+              <View
+                style={[
+                  styles.sentenceBox,
+                  {
+                    backgroundColor: currentTheme.card,
+                    marginVertical: 10,
+                    padding: 10,
+                    borderRadius: 8,
+                  },
+                ]}
+              >
+                <Text style={{ color: currentTheme.text }}>
+                  {generateSentence()}
+                </Text>
               </View>
             )}
           </>
@@ -321,25 +418,64 @@ export default function SubIconDashboard() {
 
       {/* Add SubIcon Modal */}
       <Modal visible={showModal} animationType="slide" transparent>
-        <ScrollView style={{ backgroundColor: "rgba(0,0,0,0.4)" }} contentContainerStyle={{ flex: 1, justifyContent: "center" }}>
-          <View style={[styles.modalBox, { backgroundColor: currentTheme.card, margin:20, padding:20, borderRadius:10 }]}>
-            <Text style={{ fontWeight:"700", marginBottom:10, color: currentTheme.text }}>Enter SubIcon Details</Text>
+        <ScrollView
+          style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+          contentContainerStyle={{ flex: 1, justifyContent: "center" }}
+        >
+          <View
+            style={[
+              styles.modalBox,
+              {
+                backgroundColor: currentTheme.card,
+                margin: 20,
+                padding: 20,
+                borderRadius: 10,
+              },
+            ]}
+          >
+            <Text
+              style={{
+                fontWeight: "700",
+                marginBottom: 10,
+                color: currentTheme.text,
+              }}
+            >
+              Enter SubIcon Details
+            </Text>
 
-            {["en","ar","fr","es"].map(l => (
-              <View key={l} style={{ marginBottom:10 }}>
+            {["en", "ar", "fr", "es"].map((l) => (
+              <View key={l} style={{ marginBottom: 10 }}>
                 <TextInput
                   placeholder={`Title (${l.toUpperCase()})`}
                   placeholderTextColor={currentTheme.text}
                   value={newSubIcon[`title_${l}`]}
-                  onChangeText={v => setNewSubIcon({...newSubIcon, [`title_${l}`]:v})}
-                  style={[styles.input, { marginBottom:5, backgroundColor: currentTheme.background, color: currentTheme.text }]}
+                  onChangeText={(v) =>
+                    setNewSubIcon({ ...newSubIcon, [`title_${l}`]: v })
+                  }
+                  style={[
+                    styles.input,
+                    {
+                      marginBottom: 5,
+                      backgroundColor: currentTheme.background,
+                      color: currentTheme.text,
+                    },
+                  ]}
                 />
                 <TextInput
                   placeholder={`Expression (${l.toUpperCase()})`}
                   placeholderTextColor={currentTheme.text}
                   value={newSubIcon[`expression_${l}`]}
-                  onChangeText={v => setNewSubIcon({...newSubIcon, [`expression_${l}`]:v})}
-                  style={[styles.input, { marginBottom:5, backgroundColor: currentTheme.background, color: currentTheme.text }]}
+                  onChangeText={(v) =>
+                    setNewSubIcon({ ...newSubIcon, [`expression_${l}`]: v })
+                  }
+                  style={[
+                    styles.input,
+                    {
+                      marginBottom: 5,
+                      backgroundColor: currentTheme.background,
+                      color: currentTheme.text,
+                    },
+                  ]}
                 />
               </View>
             ))}
@@ -348,16 +484,35 @@ export default function SubIconDashboard() {
               placeholder="Icon name (FontAwesome5)"
               placeholderTextColor={currentTheme.text}
               value={newSubIcon.iconName}
-              onChangeText={v => setNewSubIcon({...newSubIcon, iconName:v})}
-              style={[styles.input, { marginBottom:10, backgroundColor: currentTheme.background, color: currentTheme.text }]}
+              onChangeText={(v) =>
+                setNewSubIcon({ ...newSubIcon, iconName: v })
+              }
+              style={[
+                styles.input,
+                {
+                  marginBottom: 10,
+                  backgroundColor: currentTheme.background,
+                  color: currentTheme.text,
+                },
+              ]}
             />
 
-            <TouchableOpacity style={[styles.btn, { backgroundColor: currentTheme.link }]} onPress={handleAddSubIcon}>
-              <Text style={styles.btnText}>{lang === "ar" ? "أضف أيقونة فرعية" : "Add SubIcon"}</Text>
+            <TouchableOpacity
+              style={[styles.btn, { backgroundColor: currentTheme.link }]}
+              onPress={handleAddSubIcon}
+            >
+              <Text style={styles.btnText}>
+                {lang === "ar" ? "أضف أيقونة فرعية" : "Add SubIcon"}
+              </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.btn, { backgroundColor: currentTheme.muted }]} onPress={()=>setShowModal(false)}>
-              <Text style={styles.btnText}>{lang === "ar" ? "إلغاء" : "Cancel"}</Text>
+            <TouchableOpacity
+              style={[styles.btn, { backgroundColor: currentTheme.muted }]}
+              onPress={() => setShowModal(false)}
+            >
+              <Text style={styles.btnText}>
+                {lang === "ar" ? "إلغاء" : "Cancel"}
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -371,15 +526,28 @@ const styles = StyleSheet.create({
   controls: { flexDirection: "row", marginBottom: 10, flexWrap: "wrap" },
   input: { padding: 10, borderRadius: 8, width: 140 },
   picker: { width: 120 },
-  card: { width: CARD_WIDTH, height: 220, borderRadius: 12, overflow: "hidden" },
+  card: {
+    width: CARD_WIDTH,
+    height: 220,
+    borderRadius: 12,
+    overflow: "hidden",
+  },
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
   image: { width: CARD_WIDTH, height: 180, marginBottom: 40, borderRadius: 12 },
   cardFooter: { position: "absolute", bottom: 0, width: "100%", padding: 6 },
   cardTitle: { fontWeight: "700" },
   cardExpr: { fontSize: 12 },
   check: { position: "absolute", top: 6, right: 6, zIndex: 10 },
-  btn: { paddingVertical: 10, paddingHorizontal: 12, borderRadius: 8, alignItems: "center", justifyContent: "center", marginRight: 5, marginBottom: 5 },
+  btn: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 5,
+    marginBottom: 5,
+  },
   btnText: { color: "#fff", fontWeight: "700" },
   sentenceBox: {},
-  modalBox: {}
+  modalBox: {},
 });

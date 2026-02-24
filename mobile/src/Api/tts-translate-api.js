@@ -2,7 +2,7 @@ import { Platform } from "react-native";
 const BASE_URL =
   Platform.OS === "web"
   ? "http://168.231.101.20:5550/api"
-    :"http://localhost:5000/api"
+    :"http://localhost:5550/api"
 
 export const translateText = async (text, targetLang) => {
   const res = await fetch(`${BASE_URL}/translate`, {
