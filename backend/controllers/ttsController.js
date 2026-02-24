@@ -2,9 +2,10 @@
 import fs from "fs";
 import path from "path";
 import fetch from "node-fetch";
-import { getAudioUrl } from "google-tts-api";
+import gttsApi from "google-tts-api";
 import pkg from "uuid";
 const { v4: uuidv4 } = pkg;
+const { getAudioUrl } = gttsApi;
 
 const AUDIO_DIR = path.join(process.cwd(), "generated_audio");
 
