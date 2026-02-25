@@ -13,8 +13,9 @@ const runtimeAppEnv = process.env.EXPO_PUBLIC_APP_ENV;
 const runtimeDevApiBaseUrl = process.env.EXPO_PUBLIC_DEV_API_BASE_URL;
 const runtimeProdApiBaseUrl = process.env.EXPO_PUBLIC_PROD_API_BASE_URL;
 
-const appEnv =
-  runtimeAppEnv || extra.appEnv || (__DEV__ ? "development" : "production");
+const appEnv = __DEV__
+  ? runtimeAppEnv || extra.appEnv || "development"
+  : "production";
 
 const devApiBaseUrl =
   runtimeDevApiBaseUrl || extra.devApiBaseUrl || DEFAULT_DEV_API_BASE;
