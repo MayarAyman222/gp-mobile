@@ -26,9 +26,9 @@ export const speakText = async (req, res) => {
     const response = await fetch(url);
     const buffer = Buffer.from(await response.arrayBuffer());
     fs.writeFileSync(outFilename, buffer);
-// ${req.protocol}
-    const fileUrl = `http://${req.get("host")}/audio/${path.basename(outFilename)}`;
 
+    const fileUrl = `${req.protocol}://${req.get("host")}/audio/${path.basename(outFilename)}`;
+    console.log(`Generated TTS audio: ${fileUrl}`);
     return res.json({ ok: true, url: fileUrl, filename: path.basename(outFilename) });
 
   } catch (err) {

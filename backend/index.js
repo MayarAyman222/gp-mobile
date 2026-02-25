@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5550;
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json({ limit: "1mb" }));
-
+app.set("trust proxy", true);
 // ===== STATIC FOLDER FOR GENERATED AUDIO =====
 const AUDIO_DIR = path.join(process.cwd(), "generated_audio");
 if (!fs.existsSync(AUDIO_DIR)) fs.mkdirSync(AUDIO_DIR);
