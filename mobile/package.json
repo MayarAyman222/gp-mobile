@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
+    "startt": "expo start",
+    "start:dev": "cross-env EXPO_PUBLIC_APP_ENV=development expo start",
+    "start:prod": "cross-env EXPO_PUBLIC_APP_ENV=production expo start",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -43,6 +46,7 @@
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
+    "cross-env": "^7.0.3",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "typescript": "~5.9.2"

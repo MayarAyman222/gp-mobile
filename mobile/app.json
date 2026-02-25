@@ -43,6 +43,11 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "appEnv": "production",
+      "devApiBaseUrl": "http://localhost:5550",
+      "prodApiBaseUrl": "http://168.231.101.20:5550"
     }
   }
 }

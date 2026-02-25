@@ -17,6 +17,7 @@ import { useRoute } from "@react-navigation/native";
 import { AppContext } from "../context/AppContext";
 import { speakText } from "../Api/tts-translate-api";
 import { themes } from "../theme/theme";
+import { normalizeMediaUrl } from "../config/appConfig";
 
 const SubIconDetail = () => {
   const route = useRoute();
@@ -81,11 +82,14 @@ const SubIconDetail = () => {
   }, [volume, speed]);
 
   const pressIn = () =>
-    Animated.spring(scaleAnim, { toValue: 1.05, useNativeDriver: true }).start();
+    Animated.spring(scaleAnim, {
+      toValue: 1.05,
+      useNativeDriver: true,
+    }).start();
   const pressOut = () =>
     Animated.spring(scaleAnim, { toValue: 1, useNativeDriver: true }).start();
 
-  const imageUri = `${"http://168.231.101.20:5550" + subIcon?.imageUrl}`;
+  const imageUri = normalizeMediaUrl(subIcon?.imageUrl);
 
   return (
     <ScrollView
@@ -137,11 +141,14 @@ const SubIconDetail = () => {
           </TouchableOpacity>
 
           {/* CONTROLS */}
-          <View style={[styles.controls, { backgroundColor: currentTheme.muted }]}>
+          <View
+            style={[styles.controls, { backgroundColor: currentTheme.muted }]}
+          >
             {/* Volume */}
             <View style={styles.sliderBlock}>
               <Text style={{ color: currentTheme.text }}>
-                {lang === "ar" ? "الصوت" : "Volume"} — {(volume * 100).toFixed(0)}%
+                {lang === "ar" ? "الصوت" : "Volume"} —{" "}
+                {(volume * 100).toFixed(0)}%
               </Text>
               <Slider
                 style={{ width: "100%" }}
@@ -190,7 +197,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 330,
     borderRadius: 12,
-    marginRight:40,
+    marginRight: 40,
     marginBottom: 0,
   },
   content: {

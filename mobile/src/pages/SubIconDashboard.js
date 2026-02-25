@@ -21,6 +21,7 @@ import { createSubIcon } from "../Api/iconApi";
 import { speakText } from "../Api/tts-translate-api";
 import { AppContext } from "../context/AppContext";
 import { themes } from "../theme/theme";
+import { normalizeMediaUrl } from "../config/appConfig";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
@@ -220,8 +221,7 @@ export default function SubIconDashboard() {
   const renderSubIcon = ({ item }) => {
     const selected = selectedIds.includes(item.id);
     const fav = favourites.some((f) => f.id === item.id);
-    // const imageUri = item.imageUrl?.replace("localhost:5000", "168.231.101.20:5550");
-    const imageUri = `${"http://168.231.101.20:5550" + item?.imageUrl}`;
+    const imageUri = normalizeMediaUrl(item?.imageUrl);
 
     return (
       <View

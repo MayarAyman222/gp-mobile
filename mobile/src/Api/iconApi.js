@@ -1,11 +1,7 @@
 import axios from "axios";
-import { Platform } from "react-native";
+import { APP_CONFIG } from "../config/appConfig";
 
-// BASE_URL على مستوى الـ API بدون تكرار "icons"
-const BASE_URL =
-  Platform.OS === "web"
-  ?"http://168.231.101.20:5550/api"
-    :"http://localhost:5550/api"
+const BASE_URL = APP_CONFIG.apiUrl;
 
 // Get all icons or filter by category
 export const getAllIcons = async (category = null) => {
@@ -26,7 +22,7 @@ export const getIconById = async (id) => {
 // Get single subIcon by iconId and subIconId
 export const getSubIconById = async (iconId, subIconId) => {
   const res = await axios.get(
-    `${BASE_URL}/icons/${iconId}/subicons/${subIconId}`
+    `${BASE_URL}/icons/${iconId}/subicons/${subIconId}`,
   );
   return res.data;
 };
@@ -41,7 +37,7 @@ export const createIcon = async (iconData) => {
 export const createSubIcon = async (iconId, subIconData) => {
   const res = await axios.post(
     `${BASE_URL}/icons/${iconId}/subicons`,
-    subIconData
+    subIconData,
   );
   return res.data;
 };

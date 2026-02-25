@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import fetch from "node-fetch";
 import pkg from "uuid";
+import { env } from "../config/env.js";
 const { v4: uuidv4 } = pkg;
 
 const buildGoogleTtsUrl = (text, language, slow) => {
@@ -63,7 +64,8 @@ export const speakText = async (req, res) => {
 
     fs.writeFileSync(outFilename, buffer);
 
-    const fileUrl = `${req.protocol}://${req.get("host")}/audio/${path.basename(outFilename)}`;
+    const baseUrl = env.publicBaseUrl || `${req.protocol}://${req.get("host")}`;
+    const fileUrl = `${baseUrl}/audio/${path.basename(outFilename)}`;
     console.log(`Generated TTS audio: ${fileUrl}`);
     return res.json({
       ok: true,

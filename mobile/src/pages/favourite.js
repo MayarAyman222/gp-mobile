@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { speakText } from "../Api/tts-translate-api";
+import { normalizeMediaUrl } from "../config/appConfig";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
@@ -67,7 +68,7 @@ export default function Favourites() {
   // toggle select
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
     );
   };
 
@@ -80,7 +81,7 @@ export default function Favourites() {
     if (user?.id) {
       await AsyncStorage.setItem(
         `favourites_${user.id}`,
-        JSON.stringify(updated)
+        JSON.stringify(updated),
       );
     }
   };
@@ -126,10 +127,7 @@ export default function Favourites() {
   // card
   const renderCard = ({ item }) => {
     const isSelected = selectedIds.includes(item.id);
-    const imageUri = item.imageUrl?.replace(
-      "localhost:5550",
-      "168.231.101.20:5550" // عدلي IP
-    );
+    const imageUri = normalizeMediaUrl(item.imageUrl);
 
     return (
       <View
@@ -139,8 +137,8 @@ export default function Favourites() {
             backgroundColor: isSelected
               ? "#3498db33"
               : theme === "dark"
-              ? "#333"
-              : "#fff",
+                ? "#333"
+                : "#fff",
           },
         ]}
       >
