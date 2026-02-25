@@ -45,7 +45,15 @@ export const speakText = async (req, res) => {
       );
     }
 
-    const url = getAudioUrl(text, { lang: language, slow });
+    const rawUrl = getAudioUrl(text, {
+      lang: language,
+      slow,
+      host: "https://translate.google.com",
+    });
+
+    const url = String(rawUrl || "").startsWith("http")
+      ? String(rawUrl)
+      : new URL(String(rawUrl || ""), "https://translate.google.com").toString();
 
     const response = await fetch(url);
     const buffer = Buffer.from(await response.arrayBuffer());
