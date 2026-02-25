@@ -2,22 +2,23 @@
 import fs from "fs";
 import path from "path";
 import fetch from "node-fetch";
-import googleTTS from "google-tts-api";
 import pkg from "uuid";
 const { v4: uuidv4 } = pkg;
 
-const resolveGetAudioUrl = () => {
-  if (typeof googleTTS?.getAudioUrl === "function")
-    return googleTTS.getAudioUrl;
-  if (typeof googleTTS?.default?.getAudioUrl === "function")
-    return googleTTS.default.getAudioUrl;
-  if (typeof googleTTS === "function") {
-    return (text, { lang, slow }) => googleTTS(text, lang, slow);
-  }
-  return null;
-};
+const buildGoogleTtsUrl = (text, language, slow) => {
+  const params = new URLSearchParams({
+    ie: "UTF-8",
+    tl: language || "en",
+    client: "tw-ob",
+    q: text,
+  });
 
-const getAudioUrl = resolveGetAudioUrl();
+  if (slow) {
+    params.set("ttsspeed", "0.24");
+  }
+
+  return `https://translate.google.com/translate_tts?${params.toString()}`;
+};
 
 const AUDIO_DIR = path.join(process.cwd(), "generated_audio");
 
@@ -39,24 +40,7 @@ export const speakText = async (req, res) => {
       ? path.join(AUDIO_DIR, clientFilename)
       : path.join(AUDIO_DIR, `speech-${id}.mp3`);
 
-    if (!getAudioUrl) {
-      throw new Error(
-        "google-tts-api getAudioUrl is unavailable in this runtime",
-      );
-    }
-
-    const rawUrl = getAudioUrl(text, {
-      lang: language,
-      slow,
-      host: "https://translate.google.com",
-    });
-
-    const url = String(rawUrl || "").startsWith("http")
-      ? String(rawUrl)
-      : new URL(
-          String(rawUrl || ""),
-          "https://translate.google.com",
-        ).toString();
+    const url = buildGoogleTtsUrl(text, language, slow);
 
     const response = await fetch(url);
     if (!response.ok) {
