@@ -53,10 +53,30 @@ export const speakText = async (req, res) => {
 
     const url = String(rawUrl || "").startsWith("http")
       ? String(rawUrl)
-      : new URL(String(rawUrl || ""), "https://translate.google.com").toString();
+      : new URL(
+          String(rawUrl || ""),
+          "https://translate.google.com",
+        ).toString();
 
     const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(
+        `TTS upstream request failed with status ${response.status}`,
+      );
+    }
+
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("audio") && !contentType.includes("mpeg")) {
+      throw new Error(
+        `TTS upstream returned non-audio content: ${contentType || "unknown"}`,
+      );
+    }
+
     const buffer = Buffer.from(await response.arrayBuffer());
+    if (!buffer.length) {
+      throw new Error("TTS generated empty audio file");
+    }
+
     fs.writeFileSync(outFilename, buffer);
 
     const fileUrl = `${req.protocol}://${req.get("host")}/audio/${path.basename(outFilename)}`;
