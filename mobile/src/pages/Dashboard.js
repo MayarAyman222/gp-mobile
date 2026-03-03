@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Image } from "react-native";
+import { normalizeMediaUrl } from "../config/appConfig";
 import {
   View,
   Text,
@@ -149,11 +150,11 @@ const Dashboard = () => {
           onPress={() => handleIconPress(item)}
         >
           {item.imgUrl ? (
-            <Image
-              source={{ uri: item.imgUrl }}
-              style={{ width: 95, height: 95, marginTop: 30 }}
-              resizeMode="contain"
-            />
+       <Image
+       source={{ uri: normalizeMediaUrl(item.imgUrl) }}
+        style={{ width: 95, height: 95, marginTop: 30 }}
+            resizeMode="contain"
+           />
           ) : item.iconName ? (
             <FontAwesome5
               name={item.iconName}
