@@ -89,7 +89,8 @@ const SubIconDetail = () => {
   const pressOut = () =>
     Animated.spring(scaleAnim, { toValue: 1, useNativeDriver: true }).start();
 
-  const imageUri = normalizeMediaUrl(subIcon?.imageUrl);
+  // backend uses `imgUrl`, but some code may send `imageUrl`; support both
+  const imageUri = normalizeMediaUrl(subIcon?.imgUrl || subIcon?.imageUrl);
 
   return (
     <ScrollView

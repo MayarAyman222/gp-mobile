@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Image } from "react-native";
+import { normalizeMediaUrl } from "../config/appConfig";
 import {
   View,
   Text,
@@ -166,22 +167,22 @@ const Home = () => {
           style={{ flex:1, justifyContent:"center", alignItems:"center" }}
           onPress={() => handleIconPress(item)}
         >
-          {item.imgUrl ? (
-            <Image
-              source={{ uri: item.imgUrl }}
-              style={{ width: 95, height: 95, marginTop: 30 }}
-              resizeMode="contain"
-            />
-          ) : item.iconName ? (
-            <FontAwesome5
-              name={item.iconName}
-              size={95}
-              color={isDark ? "#fff" : "#000"}
-              style={{ textAlign: "center", marginTop: 30 }}
-            />
-          ) : (
-            <View style={{ width: 95, height: 95, marginTop: 30, backgroundColor: "#888", borderRadius: 12 }} />
-          )}
+         {item.imgUrl && normalizeMediaUrl(item.imgUrl) ? (
+  <Image
+    source={{ uri: normalizeMediaUrl(item.imgUrl) }}
+    style={{ width: 95, height: 95, marginTop: 30 }}
+    resizeMode="contain"
+  />
+) : item.iconName ? (
+  <FontAwesome5
+    name={item.iconName}
+    size={95}
+    color={isDark ? "#fff" : "#000"}
+    style={{ textAlign: "center", marginTop: 30 }}
+  />
+) : (
+  <View style={{ width: 95, height: 95, marginTop: 30, backgroundColor: "#888", borderRadius: 12 }} />
+)}
 
           <View style={styles.cardFooter}>
             <Text style={[styles.cardTitle, { color: "#fff" }]}>{item[`title_${lang}`]}</Text>

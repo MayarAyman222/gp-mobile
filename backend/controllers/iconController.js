@@ -1,5 +1,5 @@
 
-import { PrismaClient } from "@prisma/client";
+/*import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 // ====== ICON APIs ======
@@ -171,6 +171,281 @@ export const deleteSubIcon = async (req, res) => {
     const { id } = req.params;
     await prisma.subIcon.delete({ where: { id: parseInt(id) } });
     res.json({ message: "SubIcon deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error deleting subIcon", error: err.message });
+  }
+};
+*/
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+// ====== ICON APIs ======
+
+// Get all icons
+export const getAllIcons = async (req, res) => {
+  try {
+    const { category } = req.query;
+
+    const icons = await prisma.icon.findMany({
+      where: category ? { category } : {},
+      include: {
+        subIcons: true,
+        mainCategory: true,
+        timePeriod: true,
+      },
+    });
+
+    res.json(icons);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error fetching icons", error: err.message });
+  }
+};
+
+// Get icon by ID
+export const getIconById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const icon = await prisma.icon.findUnique({
+      where: { id: Number(id) },
+      include: {
+        subIcons: true,
+        mainCategory: true,
+        timePeriod: true,
+      },
+    });
+
+    if (!icon) return res.status(404).json({ message: "Icon not found" });
+
+    res.json(icon);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error fetching icon", error: err.message });
+  }
+};
+
+// Create Icon
+export const createIcon = async (req, res) => {
+  try {
+    const {
+      title_en,
+      title_ar,
+      title_fr,
+      title_es,
+      expression_en,
+      expression_ar,
+      expression_fr,
+      expression_es,
+      imgUrl,
+      iconName,
+      category,
+      mainCategoryId,
+      timePeriodId,
+    } = req.body;
+
+    if (!title_en || !category || !mainCategoryId) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const icon = await prisma.icon.create({
+      data: {
+        title_en,
+        title_ar: title_ar || "",
+        title_fr: title_fr || "",
+        title_es: title_es || "",
+        expression_en: expression_en || "",
+        expression_ar: expression_ar || "",
+        expression_fr: expression_fr || "",
+        expression_es: expression_es || "",
+        imgUrl,
+        iconName,
+        category,
+        mainCategory: { connect: { id: Number(mainCategoryId) } },
+        timePeriod: timePeriodId
+          ? { connect: { id: Number(timePeriodId) } }
+          : undefined,
+      },
+    });
+
+    res.status(201).json(icon);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error creating icon", error: err.message });
+  }
+};
+
+// Update Icon
+export const updateIcon = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updated = await prisma.icon.update({
+      where: { id: Number(id) },
+      data: req.body,
+    });
+
+    res.json(updated);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error updating icon", error: err.message });
+  }
+};
+
+// Delete Icon
+export const deleteIcon = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await prisma.icon.delete({
+      where: { id: Number(id) },
+    });
+
+    res.json({ message: "Icon deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error deleting icon", error: err.message });
+  }
+};
+
+// ===== SUB ICONS =====
+
+// Get SubIcon
+export const getSubIconById = async (req, res) => {
+  try {
+    const { subIconId } = req.params;
+
+    const subIcon = await prisma.subIcon.findUnique({
+      where: { id: Number(subIconId) },
+      include: { icon: true },
+    });
+
+    if (!subIcon) return res.status(404).json({ message: "SubIcon not found" });
+
+    res.json(subIcon);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error fetching subIcon", error: err.message });
+  }
+};
+
+// Create SubIcon
+/*export const createSubIcon = async (req, res) => {
+  try {
+    const { iconId } = req.params;
+
+    const {
+      title_en,
+      title_ar,
+      title_fr,
+      title_es,
+      expression_en,
+      expression_ar,
+      expression_fr,
+      expression_es,
+      imgUrl,
+      category,
+    } = req.body;
+
+    const subIcon = await prisma.subIcon.create({
+      data: {
+        title_en,
+        title_ar: title_ar || "",
+        title_fr: title_fr || "",
+        title_es: title_es || "",
+        expression_en: expression_en || "",
+        expression_ar: expression_ar || "",
+        expression_fr: expression_fr || "",
+        expression_es: expression_es || "",
+        imgUrl,
+        category,
+        icon: { connect: { id: Number(iconId) } },
+      },
+    });
+
+    res.status(201).json(subIcon);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error creating subIcon", error: err.message });
+  }
+};*/
+export const createSubIcon = async (req, res) => {
+  try {
+    const { iconId } = req.params;
+
+    const {
+      title_en,
+      title_ar,
+      title_fr,
+      title_es,
+      expression_en,
+      expression_ar,
+      expression_fr,
+      expression_es,
+      category,
+      imageUrl, // لو URL
+    } = req.body;
+
+    // 🔥 الصورة بتيجي من multer
+    let imgPath = "";
+
+    if (req.file) {
+      imgPath = `/public/uploads/${req.file.filename}`;
+    } else if (imageUrl) {
+      imgPath = imageUrl;
+    }
+
+    const subIcon = await prisma.subIcon.create({
+      data: {
+        title_en,
+        title_ar: title_ar || "",
+        title_fr: title_fr || "",
+        title_es: title_es || "",
+        expression_en: expression_en || "",
+        expression_ar: expression_ar || "",
+        expression_fr: expression_fr || "",
+        expression_es: expression_es || "",
+        imgUrl: imgPath, // 🔥 هنا الصح
+        category,
+        icon: { connect: { id: Number(iconId) } },
+      },
+    });
+
+    res.status(201).json(subIcon);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error creating subIcon", error: err.message });
+  }
+};
+
+// Update SubIcon
+export const updateSubIcon = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updated = await prisma.subIcon.update({
+      where: { id: Number(id) },
+      data: req.body,
+    });
+
+    res.json(updated);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error updating subIcon", error: err.message });
+  }
+};
+
+// Delete SubIcon
+export const deleteSubIcon = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await prisma.subIcon.delete({
+      where: { id: Number(id) },
+    });
+
+    res.json({ message: "SubIcon deleted" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error deleting subIcon", error: err.message });

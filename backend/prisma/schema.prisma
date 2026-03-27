@@ -6,49 +6,119 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model Icon {
-  id            Int       @id @default(autoincrement())
-  title_en      String    @unique
-  title_ar      String
-  title_fr      String
-  title_es      String
-  expression_en String
-  expression_ar String
-  expression_fr String
-  expression_es String
-  createdAt     DateTime  @default(now())
-  iconName      String?   // nullable
-  imgUrl        String?   // nullable
-  category      String
-  subIcons      SubIcon[]
+
+model MainCategory {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+
+  // 🌍 multilingual
+  title_en    String       @default("")
+  title_ar    String       @default("")
+  title_fr    String       @default("")
+  title_es    String       @default("")
+
+  // 🖼️ image
+  imgUrl      String?
+
+  icons       Icon[]
+  timePeriods TimePeriod[]
 }
 
-model SubIcon {
-  id            Int       @id @default(autoincrement())
+model TimePeriod {
+  id             Int          @id @default(autoincrement())
+  name           String
+
+  // 🌍 multilingual
+  title_en       String       @default("")
+  title_ar       String       @default("")
+  title_fr       String       @default("")
+  title_es       String       @default("")
+
+  // 🖼️ image
+  imgUrl         String?
+
+  order          Int
+  mainCategoryId Int
+  mainCategory   MainCategory @relation(fields: [mainCategoryId], references: [id])
+  icons          Icon[]
+
+  @@unique([name, mainCategoryId])
+}
+
+
+model Icon {
+  id            Int      @id @default(autoincrement())
+
+  // 🌍 multilingual
   title_en      String
   title_ar      String
   title_fr      String
   title_es      String
+
   expression_en String
   expression_ar String
   expression_fr String
   expression_es String
-  imageUrl      String
-  iconId        Int
-  createdAt     DateTime  @default(now())
-  icon          Icon      @relation(fields: [iconId], references: [id])
+
+  imgUrl        String?
+  iconName      String?
+  category      String
+
+  // 🔗 relations (بدل strings)
+  mainCategoryId Int
+  mainCategory   MainCategory @relation(fields: [mainCategoryId], references: [id])
+
+  timePeriodId   Int?
+  timePeriod     TimePeriod?  @relation(fields: [timePeriodId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  subIcons SubIcon[]
+
+  @@unique([title_en, category])
+}
+
+model SubIcon {
+  id            Int      @id @default(autoincrement())
+
+  title_en      String
+  title_ar      String
+  title_fr      String
+  title_es      String
+
+  expression_en String
+  expression_ar String
+  expression_fr String
+  expression_es String
+
+  imgUrl        String
+  category      String
+
+  iconId Int
+  icon   Icon @relation(fields: [iconId], references: [id])
+
+  createdAt DateTime @default(now())
+
   @@unique([title_en, iconId])
 }
 
+model EmergencyNumber {
+  id       Int    @id @default(autoincrement())
+  number   String @unique
+  label_en String
+  label_ar String
+  label_fr String
+  label_es String
+}
 
 model User {
-  id          Int      @id @default(autoincrement())
-  firstName   String
-  lastName    String
-  email       String   @unique
-  password    String
-  condition   Condition
-  createdAt   DateTime @default(now())
+  id        Int       @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String    @unique
+  password  String
+  condition Condition
+  createdAt DateTime  @default(now())
 }
 
 enum Condition {
@@ -58,4 +128,3 @@ enum Condition {
   SPEECH_DELAY
   OTHER
 }
-

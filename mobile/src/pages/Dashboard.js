@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Image } from "react-native";
-import { normalizeMediaUrl } from "../config/appConfig";
+import { APP_CONFIG, normalizeMediaUrl } from "../config/appConfig";
 import {
   View,
   Text,
@@ -49,6 +49,9 @@ const Dashboard = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const category = route.params?.category || "All";
+  const mainCategoryId = route.params?.mainCategoryId || null;
+  const timePeriodId = route.params?.timePeriodId || null;
+  const timePeriodTitle = route.params?.timePeriodTitle;
   const { language: lang, theme } = useContext(AppContext);
 
   const [icons, setIcons] = useState([]);
@@ -69,7 +72,18 @@ const Dashboard = () => {
   useEffect(() => {
     const loadIcons = async () => {
       try {
-        const data = await getAllIcons(category);
+        let data;
+        if (timePeriodId) {
+          const res = await fetch(`${APP_CONFIG.apiUrl}/timeperiods/${timePeriodId}/icons`);
+          if (!res.ok) throw new Error(`Server error: ${res.status}`);
+          data = await res.json();
+        } else if (mainCategoryId) {
+          const res = await fetch(`${APP_CONFIG.apiUrl}/maincategories/${mainCategoryId}/icons`);
+          if (!res.ok) throw new Error(`Server error: ${res.status}`);
+          data = await res.json();
+        } else {
+          data = await getAllIcons(category);
+        }
         console.log("Fetched icons:", data);
         setIcons(data);
       } catch (err) {
@@ -77,7 +91,7 @@ const Dashboard = () => {
       }
     };
     loadIcons();
-  }, [category]);
+  }, [category, timePeriodId, mainCategoryId]);
 
   useEffect(() => {
     setTimeOption(timeOptionsByLang[lang][0]);
@@ -201,7 +215,9 @@ const Dashboard = () => {
   return (
     <ScrollView style={[styles.container, { backgroundColor: isDark?"#111":"#f8f8f8" }]}>
       <Text style={[styles.title, { color: isDark?"#fff":"#000" }]}>{welcomeByLang[lang]}</Text>
-      <Text style={[styles.subtitle, { color: isDark?"#ccc":"#000" }]}>{category}</Text>
+      <Text style={[styles.subtitle, { color: isDark?"#ccc":"#000" }]}>
+        {timePeriodTitle || category}
+      </Text>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 10 }}>
         <View style={styles.fullControlsRow}>
@@ -331,3 +347,5 @@ const styles = StyleSheet.create({
   modalBox:{ margin:20, padding:20, borderRadius:10, gap:10 },
   input:{ padding:10, borderRadius:8, marginBottom:5 }
 });
+
+

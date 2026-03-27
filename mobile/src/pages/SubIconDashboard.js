@@ -1,6 +1,4 @@
-// SubIconDashboard with favourite functionality (fixed)
-import React, { useState, useEffect, useContext } from "react";
-import { FontAwesome5 } from "@expo/vector-icons";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -12,17 +10,18 @@ import {
   Dimensions,
   ScrollView,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Audio } from "expo-av";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from "expo-image-picker";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { createSubIcon } from "../Api/iconApi";
-import { speakText } from "../Api/tts-translate-api";
 import { AppContext } from "../context/AppContext";
 import { themes } from "../theme/theme";
-import { normalizeMediaUrl } from "../config/appConfig";
-
+import { APP_CONFIG, normalizeMediaUrl } from "../config/appConfig";
+import { speakText } from "../Api/tts-translate-api";
+import { FontAwesome5 } from "@expo/vector-icons";
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
 
@@ -40,27 +39,31 @@ const connectorOptionsByLang = {
   es: ["y", "o", "entonces"],
 };
 
-const welcomeByLang = {
-  en: "Sub Icons",
-  ar: "الأيقونات الفرعية",
-  fr: "Sous-icônes",
-  es: "Sub Iconos",
-};
+const reorderCategories = ["Food and Drink", "Medicine"];
 
 export default function SubIconDashboard() {
   const route = useRoute();
   const navigation = useNavigation();
   const { parentIcon } = route.params;
-  const { language: lang, theme, user } = useContext(AppContext);
+  const { language: lang, theme } = useContext(AppContext);
   const currentTheme = themes[theme];
 
+  const [mainIcon, setMainIcon] = useState(parentIcon || null);
   const [subIcons, setSubIcons] = useState(parentIcon.subIcons || []);
+  const [orderedIcons, setOrderedIcons] = useState(parentIcon.subIcons || []);
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [timeOption, setTimeOption] = useState(timeOptionsByLang[lang][0]);
   const [connector, setConnector] = useState(connectorOptionsByLang[lang][0]);
   const [speaking, setSpeaking] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [audioPreview, setAudioPreview] = useState(null);
+  const recordingRef = useRef(null);
+  const [imageMethod, setImageMethod] = useState("upload"); // upload | url | camera
+  const [audioMethod, setAudioMethod] = useState("upload"); // upload | url | record
+
   const [newSubIcon, setNewSubIcon] = useState({
     title_en: "",
     expression_en: "",
@@ -70,79 +73,43 @@ export default function SubIconDashboard() {
     expression_fr: "",
     title_es: "",
     expression_es: "",
-    iconName: "",
+    category: parentIcon.category || "",
+    imgUrl: "",
+    audioUrl: "",
   });
-  const [favourites, setFavourites] = useState([]);
 
-  // ------------------- Load Favourites -------------------
-  const loadFavourites = async () => {
-    if (!user || !user.id) {
-      console.log("User not ready yet for favourites");
-      return;
-    }
-
-    try {
-      const json = await AsyncStorage.getItem(`favourites_${user.id}`);
-      if (json) setFavourites(JSON.parse(json));
-      else setFavourites([]);
-    } catch (err) {
-      console.log("Error loading favourites:", err);
-    }
-  };
-
-  // ------------------- Toggle Favourite -------------------
-  const toggleFavourite = async (subIcon) => {
-    if (!user || !user.id) {
-      console.log("User not ready yet for favourites");
-      return;
-    }
-
-    const subIconData = {
-      id: subIcon.id,
-      title_en: subIcon.title_en,
-      title_ar: subIcon.title_ar,
-      title_fr: subIcon.title_fr,
-      title_es: subIcon.title_es,
-      expression_en: subIcon.expression_en,
-      expression_ar: subIcon.expression_ar,
-      expression_fr: subIcon.expression_fr,
-      expression_es: subIcon.expression_es,
-      iconName: subIcon.iconName,
-      imageUrl: subIcon.imageUrl,
-    };
-
-    const exists = favourites.some((f) => f.id === subIcon.id);
-    const updated = exists
-      ? favourites.filter((f) => f.id !== subIcon.id)
-      : [...favourites, subIconData];
-
-    setFavourites(updated);
-
-    try {
-      await AsyncStorage.setItem(
-        `favourites_${user.id}`,
-        JSON.stringify(updated),
-      );
-      console.log("Favourites saved:", updated);
-    } catch (err) {
-      console.log("Error saving favourite:", err);
-    }
-  };
-
-  // ------------------- useEffect -------------------
   useEffect(() => {
     setTimeOption(timeOptionsByLang[lang][0]);
     setConnector(connectorOptionsByLang[lang][0]);
   }, [lang]);
 
   useEffect(() => {
-    if (user && user.id) {
-      loadFavourites();
+    const enableReorder = reorderCategories.includes(parentIcon.category);
+    if (!enableReorder) {
+      setOrderedIcons(subIcons);
+      return;
     }
-  }, [user]);
+    (async () => {
+      try {
+        const key = `subicon_order_${parentIcon.id}`;
+        const saved = await AsyncStorage.getItem(key);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          const reordered = parsed
+            .map((id) => subIcons.find((s) => s.id === id))
+            .filter(Boolean);
+          const missing = subIcons.filter((s) => !parsed.includes(s.id));
+          setOrderedIcons([...reordered, ...missing]);
+        } else {
+          setOrderedIcons(subIcons);
+        }
+      } catch {
+        setOrderedIcons(subIcons);
+      }
+    })();
+  }, [subIcons, parentIcon]);
 
-  // ------------------- Filtered list -------------------
-  const filteredSubIcons = subIcons.filter((icon) => {
+  const filteredSubIcons = orderedIcons.filter((icon) => {
     const t = icon[`title_${lang}`] || "";
     const e = icon[`expression_${lang}`] || "";
     return (
@@ -157,49 +124,236 @@ export default function SubIconDashboard() {
     );
   };
 
-  // ------------------- Sentence Generation -------------------
   const generateSentence = () => {
     const expressions = selectedIds
-      .map((id) => subIcons.find((i) => i.id === id)?.[`expression_${lang}`])
+      .map((id) => orderedIcons.find((i) => i.id === id)?.[`expression_${lang}`])
       .filter(Boolean);
     if (!expressions.length) return "";
-    return `${timeOption} ${expressions.join(` ${connector} `)}`;
+    const mainExpr = mainIcon?.[`expression_${lang}`] || "";
+    return `${timeOption} ${mainExpr} ${connector} ${expressions.join(` ${connector} `)}`;
   };
 
-  // ------------------- Speak Functionality -------------------
-  const handleSpeak = async () => {
+  /*const handleSpeak = async () => {
     const sentence = generateSentence();
     if (!sentence) return;
+    const enableReorder = reorderCategories.includes(mainIcon.category);
 
     setSpeaking(true);
     try {
       const result = await speakText(sentence, lang);
-      const { sound } = await Audio.Sound.createAsync({ uri: result.url });
-      await sound.playAsync();
+      console.log("TTS result:", result);
+      if (result?.url) {
+        const audioUrl = normalizeMediaUrl(result.url);
+        const { sound } = await Audio.Sound.createAsync({ uri: audioUrl });
+        await sound.playAsync();
+        await sound.unloadAsync();
+      } else {
+        alert(
+          lang === "ar"
+            ? "لم يتم استلام رابط الصوت من الخادم."
+            : "No audio URL returned from server."
+        );
+      }
     } catch (e) {
-      console.log(e);
+      console.log("TTS error", e);
+      alert(
+        lang === "ar"
+          ? "تعذر تشغيل الصوت. تحقق من اتصال السيرفر."
+          : "Could not play audio. Check server connectivity."
+      );
     } finally {
       setSpeaking(false);
     }
+
+    if (enableReorder) {
+      setOrderedIcons((prev) => {
+        const spoken = prev.filter((i) => selectedIds.includes(i.id));
+        const rest = prev.filter((i) => !selectedIds.includes(i.id));
+        const newOrder = [...rest, ...spoken];
+        AsyncStorage.setItem(
+          `subicon_order_${mainIcon.id}`,
+          JSON.stringify(newOrder.map((i) => i.id)),
+        ).catch(() => {});
+        return newOrder;
+      });
+    }
+    setSelectedIds([]);
+  };*/
+const handleSpeak = async () => {
+  const sentence = generateSentence();
+  if (!sentence) return;
+
+  const enableReorder = reorderCategories.includes(mainIcon.category);
+  setSpeaking(true);
+
+  try {
+    // مهم عشان الصوت يشتغل حتى لو الموبايل silent
+    await Audio.setAudioModeAsync({
+      playsInSilentModeIOS: true,
+    });
+
+    const result = await speakText(sentence, lang);
+    console.log("TTS result:", result);
+
+    if (result?.url) {
+      const audioUrl = normalizeMediaUrl(result.url);
+
+      console.log("Final audio URL:", audioUrl); // debug
+
+      const { sound } = await Audio.Sound.createAsync(
+        { uri: audioUrl },
+        { shouldPlay: true } // 👈 يشغل مباشرة
+      );
+
+      // 👇 نستنى لحد ما يخلص
+      sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.didJustFinish) {
+          sound.unloadAsync();
+        }
+      });
+
+    } else {
+      alert(
+        lang === "ar"
+          ? "لم يتم استلام رابط الصوت من الخادم."
+          : "No audio URL returned from server."
+      );
+    }
+  } catch (e) {
+    console.log("TTS error", e);
+    alert(
+      lang === "ar"
+        ? "تعذر تشغيل الصوت. تحقق من اتصال السيرفر."
+        : "Could not play audio. Check server connectivity."
+    );
+  } finally {
+    setSpeaking(false);
+  }
+
+  // reorder logic زي ما هو
+  if (enableReorder) {
+    setOrderedIcons((prev) => {
+      const spoken = prev.filter((i) => selectedIds.includes(i.id));
+      const rest = prev.filter((i) => !selectedIds.includes(i.id));
+      const newOrder = [...rest, ...spoken];
+
+      AsyncStorage.setItem(
+        `subicon_order_${mainIcon.id}`,
+        JSON.stringify(newOrder.map((i) => i.id))
+      ).catch(() => {});
+
+      return newOrder;
+    });
+  }
+
+  setSelectedIds([]);
+};
+  const pickImage = async () => {
+    const useCamera = imageMethod === "camera";
+    const perm = useCamera
+      ? await ImagePicker.requestCameraPermissionsAsync()
+      : await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (perm.status !== "granted") {
+      alert(lang === "ar" ? "يجب منح إذن الكاميرا/المعرض" : "Permission needed");
+      return;
+    }
+    const result = useCamera
+      ? await ImagePicker.launchCameraAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images })
+      : await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images });
+    if (!result.canceled) {
+      const asset = result.assets[0];
+      setNewSubIcon((p) => ({ ...p, imgUrl: asset.uri }));
+      setImagePreview(asset.uri);
+    }
   };
 
-  // ------------------- Add SubIcon Functionality -------------------
+  const recordAudio = async () => {
+    // يفتح اختيار ملف صوتي (يمكن للمستخدم تسجيل من تطبيق النظام ثم يختاره)
+    const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (perm.status !== "granted") {
+      alert(lang === "ar" ? "يجب منح إذن الوصول للملفات" : "Permission needed");
+      return;
+    }
+    const res = await ImagePicker.launchDocumentPickerAsync({
+      type: "audio/*",
+      multiple: false,
+    });
+    if (!res.canceled && res.assets?.length) {
+      const asset = res.assets[0];
+      setNewSubIcon((p) => ({ ...p, audioUrl: asset.uri }));
+      setAudioPreview(asset.uri);
+    }
+  };
+
+  const stopRecording = async () => {
+    if (!recordingRef.current) return;
+    try {
+      await recordingRef.current.stopAndUnloadAsync();
+      const uri = recordingRef.current.getURI();
+      setNewSubIcon((p) => ({ ...p, audioUrl: uri }));
+      setAudioPreview(uri);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      recordingRef.current = null;
+    }
+  };
+
   const handleAddSubIcon = async () => {
     const allFilled =
       ["en", "ar", "fr", "es"].every(
         (l) =>
           newSubIcon[`title_${l}`].trim() &&
           newSubIcon[`expression_${l}`].trim(),
-      ) && newSubIcon.iconName.trim();
-
+      );
     if (!allFilled) {
       alert(lang === "ar" ? "جميع الحقول مطلوبة!" : "All fields are required!");
       return;
     }
+    setIsSubmitting(true);
+    const fd = new FormData();
+    fd.append("title_en", newSubIcon.title_en);
+    fd.append("title_ar", newSubIcon.title_ar);
+    fd.append("title_fr", newSubIcon.title_fr);
+    fd.append("title_es", newSubIcon.title_es);
+    fd.append("expression_en", newSubIcon.expression_en);
+    fd.append("expression_ar", newSubIcon.expression_ar);
+    fd.append("expression_fr", newSubIcon.expression_fr);
+    fd.append("expression_es", newSubIcon.expression_es);
+    fd.append("category", parentIcon.category || "");
+
+    if (newSubIcon.imgUrl && newSubIcon.imgUrl.startsWith("file")) {
+      fd.append("image", {
+        uri: newSubIcon.imgUrl,
+        name: "image.jpg",
+        type: "image/jpeg",
+      });
+    } else if (newSubIcon.imgUrl) {
+      fd.append("imageUrl", newSubIcon.imgUrl);
+    }
+
+    if (newSubIcon.audioUrl && newSubIcon.audioUrl.startsWith("file")) {
+      fd.append("audio", {
+        uri: newSubIcon.audioUrl,
+        name: "audio.m4a",
+        type: "audio/m4a",
+      });
+    } else if (newSubIcon.audioUrl) {
+      fd.append("audioUrl", newSubIcon.audioUrl);
+    }
 
     try {
-      const saved = await createSubIcon(parentIcon.id, newSubIcon);
-      setSubIcons([...subIcons, saved]);
+      const res = await fetch(
+        `${APP_CONFIG.apiUrl.replace(/\/$/, "")}/icons/${parentIcon.id}/subicons`,
+        {
+          method: "POST",
+          body: fd,
+        },
+      );
+      const created = await res.json();
+      setSubIcons((prev) => [...prev, created]);
+      setOrderedIcons((prev) => [...prev, created]);
+      setShowModal(false);
       setNewSubIcon({
         title_en: "",
         expression_en: "",
@@ -209,239 +363,161 @@ export default function SubIconDashboard() {
         expression_fr: "",
         title_es: "",
         expression_es: "",
-        iconName: "",
+        category: parentIcon.category || "",
+        imgUrl: "",
+        audioUrl: "",
       });
-      setShowModal(false);
+      setImagePreview(null);
+      setAudioPreview(null);
     } catch (err) {
-      console.error("Error creating subIcon:", err);
+      console.error(err);
+      alert("Failed to add SubIcon");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  // ------------------- Render Each SubIcon -------------------
-  const renderSubIcon = ({ item }) => {
-    const selected = selectedIds.includes(item.id);
-    const fav = favourites.some((f) => f.id === item.id);
-    const imageUri = normalizeMediaUrl(item?.imageUrl);
+  if (!mainIcon) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
+  const renderIcon = ({ item }) => {
+    const selected = selectedIds.includes(item.id);
+    const imageUri = normalizeMediaUrl(item?.imgUrl || item?.imageUrl);
     return (
       <View
         style={[
           styles.card,
-          { backgroundColor: selected ? currentTheme.link : currentTheme.card },
+          {
+            backgroundColor: selected ? "#d4edda" : currentTheme.card,
+          },
         ]}
       >
         <TouchableOpacity
           style={styles.check}
           onPress={() => toggleSelect(item.id)}
         >
-          <Text style={{ color: currentTheme.text }}>
-            {selected ? "✅" : "⬜"}
-          </Text>
+          <Text style={{ fontSize: 22 }}>{selected ? "✔" : "◯"}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.center}
-          onPress={() =>
-            navigation.navigate("SubIconDetail", { subIcon: item })
-          }
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          // SubIcons have their own detail screen; send the whole subIcon object there.
+          onPress={() => navigation.navigate("SubIconDetail", { subIcon: item })}
         >
           {imageUri ? (
             <Image
               source={{ uri: imageUri }}
-              style={[styles.image, { backgroundColor: currentTheme.card }]}
-              resizeMode="contain"
+              style={styles.image}
+              resizeMode="cover"
             />
           ) : (
             <FontAwesome5
               name={item.iconName || "image"}
-              size={130}
+              size={72}
               color={currentTheme.text}
+              style={{ marginVertical: 16 }}
             />
           )}
-
-          <View
-            style={[styles.cardFooter, { backgroundColor: "rgba(0,0,0,0.5)" }]}
-          >
+          <View style={styles.cardFooter}>
             <Text style={[styles.cardTitle, { color: currentTheme.text }]}>
-              {item[`title_${lang}`]}
+              {item[`title_${lang}`] || item.title_en}
             </Text>
             <Text style={[styles.cardExpr, { color: currentTheme.text }]}>
-              {item[`expression_${lang}`]}
+              {item[`expression_${lang}`] || item.expression_en}
             </Text>
           </View>
-        </TouchableOpacity>
-
-        {/* Add to Favourite Button */}
-        <TouchableOpacity
-          style={[
-            styles.btn,
-            {
-              backgroundColor: fav ? currentTheme.success : currentTheme.link,
-              position: "absolute",
-              bottom: 5,
-              left: 5,
-            },
-          ]}
-          onPress={() => toggleFavourite(item)}
-        >
-          <Text style={styles.btnText}>{fav ? "★ Favourite" : "☆ Add"}</Text>
         </TouchableOpacity>
       </View>
     );
   };
 
-  // ------------------- UI -------------------
-  if (!user) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Loading user...</Text>
-      </View>
-    );
-  }
-
   return (
-    <View style={{ flex: 1, backgroundColor: currentTheme.background }}>
-      <FlatList
-        data={filteredSubIcons}
-        renderItem={renderSubIcon}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={width > 900 ? 4 : 2}
-        columnWrapperStyle={{ marginBottom: 10 }}
-        contentContainerStyle={{ padding: 16, paddingBottom: 80 }}
-        ListHeaderComponent={
-          <>
-            <Text style={[styles.title, { color: currentTheme.text }]}>
-              {welcomeByLang[lang]}
-            </Text>
-            <Text
-              style={{
-                textAlign: "center",
-                color: currentTheme.text,
-                marginBottom: 10,
-              }}
-            >
-              {parentIcon.title_en}
-            </Text>
+    <View style={{ flex: 1, padding: 12, backgroundColor: currentTheme.background }}>
+      <Text style={[styles.title, { color: currentTheme.text }]}>{mainIcon[`title_${lang}`] || mainIcon.title_en}</Text>
 
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={styles.controls}>
-                <TextInput
-                  placeholder={lang === "ar" ? "بحث..." : "Search"}
-                  placeholderTextColor={currentTheme.text}
-                  value={searchTerm}
-                  onChangeText={setSearchTerm}
-                  style={[
-                    styles.input,
-                    {
-                      backgroundColor: currentTheme.card,
-                      color: currentTheme.text,
-                    },
-                  ]}
-                />
+      <View style={styles.controls}>
+        <TextInput
+          placeholder={lang === "ar" ? "بحث" : "Search"}
+          placeholderTextColor={currentTheme.text}
+          value={searchTerm}
+          onChangeText={setSearchTerm}
+          style={[
+            styles.input,
+            { backgroundColor: currentTheme.card, color: currentTheme.text },
+          ]}
+        />
 
-                <Picker
-                  selectedValue={connector}
-                  onValueChange={setConnector}
-                  style={[
-                    styles.picker,
-                    {
-                      backgroundColor: currentTheme.card,
-                      color: currentTheme.text,
-                    },
-                  ]}
-                >
-                  {connectorOptionsByLang[lang].map((o) => (
-                    <Picker.Item key={o} label={o} value={o} />
-                  ))}
-                </Picker>
+        <Picker
+          selectedValue={connector}
+          onValueChange={setConnector}
+          style={[styles.picker, { backgroundColor: currentTheme.card, color: currentTheme.text }]}
+        >
+          {connectorOptionsByLang[lang].map((o) => (
+            <Picker.Item key={o} label={o} value={o} />
+          ))}
+        </Picker>
 
-                <Picker
-                  selectedValue={timeOption}
-                  onValueChange={setTimeOption}
-                  style={[
-                    styles.picker,
-                    {
-                      backgroundColor: currentTheme.card,
-                      color: currentTheme.text,
-                    },
-                  ]}
-                >
-                  {timeOptionsByLang[lang].map((o) => (
-                    <Picker.Item key={o} label={o} value={o} />
-                  ))}
-                </Picker>
+        <Picker
+          selectedValue={timeOption}
+          onValueChange={setTimeOption}
+          style={[styles.picker, { backgroundColor: currentTheme.card, color: currentTheme.text }]}
+        >
+          {timeOptionsByLang[lang].map((o) => (
+            <Picker.Item key={o} label={o} value={o} />
+          ))}
+        </Picker>
 
-                <TouchableOpacity
-                  style={[styles.btn, { backgroundColor: currentTheme.link }]}
-                  onPress={handleSpeak}
-                  disabled={speaking || selectedIds.length === 0}
-                >
-                  <Text style={styles.btnText}>
-                    {speaking ? "..." : "🔊 Speak"}
-                  </Text>
-                </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.btn, { backgroundColor: currentTheme.link }]}
+          onPress={handleSpeak}
+          disabled={speaking || selectedIds.length === 0}
+        >
+          <Text style={styles.btnText}>{speaking ? "..." : "🔊 Speak"}</Text>
+        </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={[
-                    styles.btn,
-                    { backgroundColor: currentTheme.success },
-                  ]}
-                  onPress={() => setShowModal(true)}
-                >
-                  <Text style={styles.btnText}>
-                    {lang === "ar" ? "أضف أيقونة فرعية" : "Add SubIcon"}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
+        <TouchableOpacity
+          style={[styles.btn, { backgroundColor: currentTheme.success }]}
+          onPress={() => setShowModal(true)}
+        >
+          <Text style={styles.btnText}>
+            {lang === "ar" ? "أضف أيقونة فرعية" : "Add SubIcon"}
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-            {selectedIds.length > 0 && (
-              <View
-                style={[
-                  styles.sentenceBox,
-                  {
-                    backgroundColor: currentTheme.card,
-                    marginVertical: 10,
-                    padding: 10,
-                    borderRadius: 8,
-                  },
-                ]}
-              >
-                <Text style={{ color: currentTheme.text }}>
-                  {generateSentence()}
-                </Text>
-              </View>
-            )}
-          </>
-        }
-      />
+      {selectedIds.length > 0 && (
+        <View
+          style={[
+            styles.sentenceBox,
+            { backgroundColor: currentTheme.card },
+          ]}
+        >
+          <Text style={{ color: currentTheme.text }}>{generateSentence()}</Text>
+        </View>
+      )}
 
+    <FlatList
+  data={filteredSubIcons}
+  renderItem={renderIcon}
+  keyExtractor={(item, index) => (item?.id ? item.id.toString() : index.toString())} 
+  numColumns={width > 900 ? 4 : 2}
+  columnWrapperStyle={{ gap: 10 }}
+  contentContainerStyle={{ paddingBottom: 50 }}
+/>
       {/* Add SubIcon Modal */}
       <Modal visible={showModal} animationType="slide" transparent>
-        <ScrollView
-          style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
-          contentContainerStyle={{ flex: 1, justifyContent: "center" }}
-        >
-          <View
-            style={[
-              styles.modalBox,
-              {
-                backgroundColor: currentTheme.card,
-                margin: 20,
-                padding: 20,
-                borderRadius: 10,
-              },
-            ]}
+        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "center" }}>
+          <ScrollView
+            style={{ maxHeight: "90%" }}
+            contentContainerStyle={{ paddingVertical: 20, paddingHorizontal: 10 }}
           >
-            <Text
-              style={{
-                fontWeight: "700",
-                marginBottom: 10,
-                color: currentTheme.text,
-              }}
-            >
-              Enter SubIcon Details
-            </Text>
+            <View style={[styles.modalBox, { backgroundColor: currentTheme.card }]}>
+              <Text style={[styles.modalTitle, { color: currentTheme.text }]}>Add SubIcon</Text>
 
             {["en", "ar", "fr", "es"].map((l) => (
               <View key={l} style={{ marginBottom: 10 }}>
@@ -449,91 +525,252 @@ export default function SubIconDashboard() {
                   placeholder={`Title (${l.toUpperCase()})`}
                   placeholderTextColor={currentTheme.text}
                   value={newSubIcon[`title_${l}`]}
-                  onChangeText={(v) =>
-                    setNewSubIcon({ ...newSubIcon, [`title_${l}`]: v })
-                  }
-                  style={[
-                    styles.input,
-                    {
-                      marginBottom: 5,
-                      backgroundColor: currentTheme.background,
-                      color: currentTheme.text,
-                    },
-                  ]}
+                  onChangeText={(v) => setNewSubIcon({ ...newSubIcon, [`title_${l}`]: v })}
+                  style={[styles.input, { backgroundColor: currentTheme.background, color: currentTheme.text }]}
                 />
                 <TextInput
                   placeholder={`Expression (${l.toUpperCase()})`}
                   placeholderTextColor={currentTheme.text}
                   value={newSubIcon[`expression_${l}`]}
-                  onChangeText={(v) =>
-                    setNewSubIcon({ ...newSubIcon, [`expression_${l}`]: v })
-                  }
-                  style={[
-                    styles.input,
-                    {
-                      marginBottom: 5,
-                      backgroundColor: currentTheme.background,
-                      color: currentTheme.text,
-                    },
-                  ]}
+                  onChangeText={(v) => setNewSubIcon({ ...newSubIcon, [`expression_${l}`]: v })}
+                  style={[styles.input, { backgroundColor: currentTheme.background, color: currentTheme.text }]}
                 />
               </View>
             ))}
 
-            <TextInput
-              placeholder="Icon name (FontAwesome5)"
-              placeholderTextColor={currentTheme.text}
-              value={newSubIcon.iconName}
-              onChangeText={(v) =>
-                setNewSubIcon({ ...newSubIcon, iconName: v })
-              }
-              style={[
-                styles.input,
-                {
-                  marginBottom: 10,
-                  backgroundColor: currentTheme.background,
-                  color: currentTheme.text,
-                },
-              ]}
-            />
+           {/* <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>Image</Text>
+            <Picker
+              selectedValue={imageMethod}
+              onValueChange={setImageMethod}
+              style={[styles.pickerWide, { backgroundColor: currentTheme.card, color: currentTheme.text }]}
+            >
+              <Picker.Item label="Upload" value="upload" />
+              <Picker.Item label="URL" value="url" />
+              <Picker.Item label="Camera" value="camera" />
+            </Picker>
+
+            {imageMethod === "upload" || imageMethod === "camera" ? (
+              <TouchableOpacity
+                style={[styles.btn, { backgroundColor: currentTheme.link }]}
+                onPress={pickImage}
+              >
+                <Text style={styles.btnText}>
+                  {imageMethod === "camera" ? "Open Camera" : "Pick from Gallery"}
+                </Text>
+              </TouchableOpacity>
+            ) : null}
+
+            {imageMethod === "url" ? (
+              <TextInput
+                placeholder="Image URL"
+                placeholderTextColor={currentTheme.text}
+                value={
+                  newSubIcon.imgUrl && !newSubIcon.imgUrl.startsWith("file")
+                    ? newSubIcon.imgUrl
+                    : ""
+                }
+                onChangeText={(v) => {
+                  setNewSubIcon((p) => ({ ...p, imgUrl: v }));
+                  setImagePreview(v);
+                }}
+                style={[styles.input, { backgroundColor: currentTheme.background, color: currentTheme.text }]}
+              />
+            ) : null}
 
             <TouchableOpacity
-              style={[styles.btn, { backgroundColor: currentTheme.link }]}
-              onPress={handleAddSubIcon}
+              style={[styles.btn, { backgroundColor: currentTheme.muted || "#6c757d" }]}
+              onPress={() => {
+                setNewSubIcon((p) => ({ ...p, imgUrl: "" }));
+                setImagePreview(null);
+              }}
             >
-              <Text style={styles.btnText}>
-                {lang === "ar" ? "أضف أيقونة فرعية" : "Add SubIcon"}
+              <Text style={styles.btnText}>Clear</Text>
+            </TouchableOpacity>
+            {imagePreview ? (
+              <Image source={{ uri: imagePreview }} style={{ width: 200, height: 140, alignSelf: "center", borderRadius: 8 }} />
+            ) : null}*/}
+            <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>Image</Text>
+<Picker
+  selectedValue={imageMethod}
+  onValueChange={async (value) => {
+    setImageMethod(value);
+
+    if (value === "camera") {
+      // فتح الكاميرا مباشرة عند اختيارها
+      const perm = await ImagePicker.requestCameraPermissionsAsync();
+      if (perm.status !== "granted") {
+        alert(lang === "ar" ? "يجب منح إذن الكاميرا" : "Camera permission needed");
+        setImageMethod("upload"); // ارجع للـ upload لو مرفوض
+        return;
+      }
+
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+
+      if (!result.canceled) {
+        const asset = result.assets[0];
+        setNewSubIcon((p) => ({ ...p, imgUrl: asset.uri }));
+        setImagePreview(asset.uri);
+      }
+
+      setImageMethod("camera"); // رجع القيمة بعد التقاط الصورة
+    }
+  }}
+  style={[styles.pickerWide, { backgroundColor: currentTheme.card, color: currentTheme.text }]}
+>
+  <Picker.Item label="Upload" value="upload" />
+  <Picker.Item label="URL" value="url" />
+  <Picker.Item label="Camera" value="camera" />
+</Picker>
+
+{/* زر Upload موجود فقط لو الطريقة Upload */}
+{imageMethod === "upload" && (
+  <TouchableOpacity
+    style={[styles.btn, { backgroundColor: currentTheme.link }]}
+    onPress={pickImage} // picker من المعرض
+  >
+    <Text style={styles.btnText}>Pick from Gallery</Text>
+  </TouchableOpacity>
+)}
+
+{/* input URL فقط لو الطريقة URL */}
+{imageMethod === "url" && (
+  <TextInput
+    placeholder="Image URL"
+    placeholderTextColor={currentTheme.text}
+    value={
+      newSubIcon.imgUrl && !newSubIcon.imgUrl.startsWith("file")
+        ? newSubIcon.imgUrl
+        : ""
+    }
+    onChangeText={(v) => {
+      setNewSubIcon((p) => ({ ...p, imgUrl: v }));
+      setImagePreview(v);
+    }}
+    style={[styles.input, { backgroundColor: currentTheme.background, color: currentTheme.text }]}
+  />
+)}
+
+{/* زر Clear مشروط لو فيه صورة */}
+{imagePreview && (
+  <TouchableOpacity
+    style={[styles.btn, { backgroundColor: currentTheme.muted || "#6c757d" }]}
+    onPress={() => {
+      setNewSubIcon((p) => ({ ...p, imgUrl: "" }));
+      setImagePreview(null);
+    }}
+  >
+    <Text style={styles.btnText}>Clear</Text>
+  </TouchableOpacity>
+)}
+
+{/* عرض الصورة */}
+{imagePreview && (
+  <Image
+    source={{ uri: imagePreview }}
+    style={{ width: 200, height: 290, alignSelf: "center", borderRadius: 8 }}
+  />
+)}
+
+            <Text style={[styles.sectionTitle, { color: currentTheme.text, marginTop: 10 }]}>Audio</Text>
+            <Picker
+              selectedValue={audioMethod}
+              onValueChange={setAudioMethod}
+              style={[styles.pickerWide, { backgroundColor: currentTheme.card, color: currentTheme.text }]}
+            >
+              <Picker.Item label="Upload" value="upload" />
+              <Picker.Item label="URL" value="url" />
+              <Picker.Item label="Record (system)" value="record" />
+            </Picker>
+
+            {audioMethod === "upload" ? (
+              <TouchableOpacity
+                style={[styles.btn, { backgroundColor: currentTheme.link }]}
+                onPress={recordAudio}
+              >
+                <Text style={styles.btnText}>Pick audio file</Text>
+              </TouchableOpacity>
+            ) : null}
+
+            {audioMethod === "record" ? (
+              <TouchableOpacity
+                style={[styles.btn, { backgroundColor: currentTheme.link }]}
+                onPress={recordAudio}
+              >
+                <Text style={styles.btnText}>Open Recorder / Pick recording</Text>
+              </TouchableOpacity>
+            ) : null}
+
+            {audioMethod === "url" ? (
+              <TextInput
+                placeholder="Audio URL"
+                placeholderTextColor={currentTheme.text}
+                value={
+                  newSubIcon.audioUrl && !newSubIcon.audioUrl.startsWith("file")
+                    ? newSubIcon.audioUrl
+                    : ""
+                }
+                onChangeText={(v) => {
+                  setNewSubIcon((p) => ({ ...p, audioUrl: v }));
+                  setAudioPreview(v);
+                }}
+                style={[styles.input, { backgroundColor: currentTheme.background, color: currentTheme.text }]}
+              />
+            ) : null}
+
+            <TouchableOpacity
+              style={[styles.btn, { backgroundColor: currentTheme.muted || "#6c757d" }]}
+              onPress={() => {
+                setNewSubIcon((p) => ({ ...p, audioUrl: "" }));
+                setAudioPreview(null);
+              }}
+            >
+              <Text style={styles.btnText}>Clear</Text>
+            </TouchableOpacity>
+            {audioPreview ? (
+              <Text style={{ color: currentTheme.text, textAlign: "center", marginTop: 6 }}>
+                Audio ready ({audioPreview.startsWith("file") ? "local" : "url"})
               </Text>
+            ) : null}
+
+            <TouchableOpacity
+              style={[styles.btn, { backgroundColor: currentTheme.success, marginTop: 12 }]}
+              onPress={handleAddSubIcon}
+              disabled={isSubmitting}
+            >
+              <Text style={styles.btnText}>{isSubmitting ? "Saving..." : "Save"}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.btn, { backgroundColor: currentTheme.muted }]}
+              style={[styles.btn, { backgroundColor: currentTheme.muted || "#6c757d" }]}
               onPress={() => setShowModal(false)}
             >
-              <Text style={styles.btnText}>
-                {lang === "ar" ? "إلغاء" : "Cancel"}
-              </Text>
+              <Text style={styles.btnText}>{lang === "ar" ? "إلغاء" : "Cancel"}</Text>
             </TouchableOpacity>
-          </View>
-        </ScrollView>
+            </View>
+          </ScrollView>
+        </View>
       </Modal>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  title: { fontSize: 26, fontWeight: "800", textAlign: "center" },
-  controls: { flexDirection: "row", marginBottom: 10, flexWrap: "wrap" },
-  input: { padding: 10, borderRadius: 8, width: 140 },
-  picker: { width: 120 },
+  title: { fontSize: 26, fontWeight: "800", textAlign: "center", marginBottom: 8 },
+  controls: { flexDirection: "row", marginBottom: 10, flexWrap: "wrap", gap: 6 },
+  input: { padding: 10, borderRadius: 8, width: 160, borderWidth: 1, borderColor: "#ccc" },
+  picker: { width: 130, borderWidth: 1, borderColor: "#ccc" },
+  pickerWide: { width: "100%", borderWidth: 1, borderColor: "#ccc", marginBottom: 8 },
   card: {
     width: CARD_WIDTH,
     height: 220,
     borderRadius: 12,
     overflow: "hidden",
+    marginBottom: 12,
   },
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
-  image: { width: CARD_WIDTH, height: 180, marginBottom: 40, borderRadius: 12 },
+  image: { width: CARD_WIDTH, height: 160, borderRadius: 12 },
   cardFooter: { position: "absolute", bottom: 0, width: "100%", padding: 6 },
   cardTitle: { fontWeight: "700" },
   cardExpr: { fontSize: 12 },
@@ -548,6 +785,16 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   btnText: { color: "#fff", fontWeight: "700" },
-  sentenceBox: {},
-  modalBox: {},
+  sentenceBox: {
+    marginVertical: 8,
+    padding: 10,
+    borderRadius: 8,
+  },
+  modalBox: {
+    margin: 20,
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalTitle: { fontWeight: "800", fontSize: 18, marginBottom: 10 },
+  sectionTitle: { fontSize: 16, fontWeight: "700", marginTop: 8 },
 });

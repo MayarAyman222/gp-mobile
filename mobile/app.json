@@ -12,7 +12,14 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.beckymee.mobile",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSMicrophoneUsageDescription": "App needs microphone access for speech training.",
+        "NSCameraUsageDescription": "Camera access to capture sub icon images.",
+        "NSPhotoLibraryUsageDescription": "Photo library access to choose images and audio.",
+        "NSAppleMusicUsageDescription": "Audio selection for custom sounds.",
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
       }
     },
     "android": {
@@ -23,7 +30,8 @@
       "usesCleartextTraffic": true,
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.beckymee.mobile"
+      "package": "com.beckymee.mobile",
+      "permissions": ["RECORD_AUDIO"]
     },
     "web": {
       "output": "static",
@@ -57,8 +65,8 @@
       "reactCompiler": true
     },
     "extra": {
-      "appEnv": "production",
-      "devApiBaseUrl": "http://localhost:5550",
+      "appEnv": "development",
+      "devApiBaseUrl": "http://192.168.0.104:5550",
       "prodApiBaseUrl": "http://168.231.101.20:5550",
       "router": {},
       "eas": {

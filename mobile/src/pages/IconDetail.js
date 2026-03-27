@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Animated, ActivityIndicator } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { normalizeMediaUrl } from "../config/appConfig"; // adjust path if needed
 import Slider from '@react-native-community/slider';
 import { Audio } from "expo-av";
 import { useRoute } from "@react-navigation/native";
@@ -11,7 +12,8 @@ import { speakText } from "../Api/tts-translate-api";
 
 const IconDetail = () => {
   const route = useRoute();
-  const iconId = route.params?.iconId;
+  const iconParam = route.params?.icon;
+  const iconId = route.params?.iconId || iconParam?.id;
 
   const { language: lang, theme } = useContext(AppContext);
 
@@ -53,8 +55,14 @@ const IconDetail = () => {
   };
 
   useEffect(() => {
+    // If the full icon object is already provided (e.g., from Home), avoid a redundant fetch.
+    if (iconParam && !iconId) {
+      setIcon(iconParam);
+      setLoading(false);
+      return;
+    }
     fetchIcon();
-  }, [iconId]);
+  }, [iconId, iconParam]);
 
   // Update displayTitle & displayExpression
   useEffect(() => {
@@ -130,11 +138,15 @@ const IconDetail = () => {
         {/* Icon */}
         <Animated.View style={{ transform: [{ scale: scaleAnim }], alignItems: "center" }}>
           <TouchableOpacity activeOpacity={0.8} onPressIn={handlePressIn} onPressOut={handlePressOut}>
-            {icon.imgUrl ? (
-              <Image source={{ uri: icon.imgUrl }} style={styles.image} resizeMode="cover" />
-            ) : (
-              <FontAwesome5 name={icon.iconName} size={150} color={textColor} />
-            )}
+           {icon.imgUrl ? (
+           <Image
+            source={{ uri: normalizeMediaUrl(icon.imgUrl) }}
+             style={styles.image}
+            resizeMode="cover"
+            />
+           ) : (
+  <FontAwesome5 name={icon.iconName} size={150} color={textColor} />
+        )}
           </TouchableOpacity>
         </Animated.View>
 

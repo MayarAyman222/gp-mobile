@@ -16,6 +16,9 @@ import Home from "./src/pages/Home";
 import SubIconDetail from "./src/pages/SubIconDetail";
 import Profile from "./src/pages/profile";
 import Favourites from "./src/pages/favourite";
+import TimePeriod from "./src/pages/TimePeriod";
+import Emergency from "./src/pages/Emergency";
+import TryToSpeak from "./src/pages/TryToSpeak";
 // Context Providers
 import { AppProvider } from "./src/context/AppContext";
 import { LanguageProvider } from "./src/context/LanguageContext";
@@ -43,6 +46,9 @@ export default function App() {
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="Favourites" component={Favourites} />
+            <Stack.Screen name="TimePeriod" component={TimePeriod} />
+            <Stack.Screen name="Emergency" component={Emergency} />
+            <Stack.Screen name="TryToSpeak" component={TryToSpeak} />
           </Stack.Navigator>
         </NavigationContainer>
       </LanguageProvider>
