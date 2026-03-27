@@ -38,7 +38,6 @@
       "favicon": "./src/assets/user-avatar.png"
     },
     "plugins": [
-      "expo-router",
       [
         "expo-splash-screen",
         {
@@ -65,8 +64,8 @@
       "reactCompiler": true
     },
     "extra": {
-      "appEnv": "development",
-      "devApiBaseUrl": "http://192.168.0.104:5550",
+      "appEnv": "production",
+      "devApiBaseUrl": "http://168.231.101.20:5550",
       "prodApiBaseUrl": "http://168.231.101.20:5550",
       "router": {},
       "eas": {

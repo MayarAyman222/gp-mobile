@@ -37,13 +37,13 @@ app.use("/api", translateRoutes); // Translation API
 app.use("/api/auth", authRoutes); // Authentication API
 // ===== HEALTH CHECK =====
 app.get("/", (req, res) => {
-  res.send("✅ API is running...\n📌 Use /api/translate then /api/tts/speak");
+  res.send("??? API is running...\n???? Use /api/translate then /api/tts/speak");
 });
 app.use("/public", express.static(path.join(process.cwd(), "public")));
 
 // ===== START SERVER =====
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at: http://localhost:${PORT}`);
+  console.log(`Server running on ${hostUrl}`);
 });
 */
 import express from "express";
@@ -113,7 +113,7 @@ app.use("/api/auth", authRoutes);
 
 // ===== HEALTH CHECK =====
 app.get("/", (req, res) => {
-  res.send("✅ API is running...\n📌 Use /api/translate then /api/tts/speak");
+  res.send("??? API is running...\n???? Use /api/translate then /api/tts/speak");
 });
 
 // ===== MAIN CATEGORIES =====
@@ -202,8 +202,7 @@ app.post("/api/emergency-numbers", async (req, res) => {
 });
 
 // ===== START SERVER =====
-app.listen(PORT,"0.0.0.0", () => {
- // console.log(`🚀 Server running at: http://localhost:${PORT}`);
-   console.log("🚀 Server running on http://192.168.0.104:5550")
-
+app.listen(PORT, "0.0.0.0", () => {
+  const hostUrl = process.env.PUBLIC_BASE_URL || `http://168.231.101.20:${PORT}`;
+  console.log(`Server running on ${hostUrl}`);
 });

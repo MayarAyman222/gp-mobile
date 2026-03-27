@@ -1,7 +1,8 @@
 import { APP_CONFIG } from "../config/appConfig";
 
 const BASE_URL = APP_CONFIG.apiUrl;
-const FALLBACK_BASE_URL = "http://192.168.0.104:5550/api"; // fallback for device if config fails
+// Fallback aligned to production host to avoid localhost usage.
+const FALLBACK_BASE_URL = "http://168.231.101.20:5550/api";
 
 export const translateText = async (text, targetLang) => {
   const res = await fetch(`${BASE_URL}/translate`, {
@@ -14,7 +15,6 @@ export const translateText = async (text, targetLang) => {
 };
 
 export const speakText = async (text, language) => {
-  // helper to attempt fetch with given base
   const callApi = async (base) => {
     console.log("TTS request to:", `${base}/tts/speak`);
     const res = await fetch(`${base}/tts/speak`, {
