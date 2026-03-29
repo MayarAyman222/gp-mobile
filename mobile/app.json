@@ -34,7 +34,7 @@
       "permissions": ["RECORD_AUDIO"]
     },
     "web": {
-      "output": "static",
+      "output": "single",
       "favicon": "./src/assets/user-avatar.png"
     },
     "plugins": [
@@ -54,10 +54,12 @@
         "expo-build-properties",
         {
           "android": {
-            "usesCleartextTraffic": true
+            "usesCleartextTraffic": true,
+            "enableJetifier": true
           }
         }
-      ]
+      ],
+      "expo-speech-recognition"
     ],
     "experiments": {
       "typedRoutes": true,
