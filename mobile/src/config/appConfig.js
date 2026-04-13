@@ -2,6 +2,7 @@ import Constants from "expo-constants";
 
 // Force all environments to use the production API.
 const DEFAULT_API_BASE = "http://168.231.101.20:5550";
+const DEFAULT_LOCAL_API_BASE = "http://localhost:5550";
 
 const extra =
   Constants?.expoConfig?.extra ||
@@ -13,11 +14,16 @@ const extra =
 const runtimeAppEnv = process.env.EXPO_PUBLIC_APP_ENV;
 const runtimeDevApiBaseUrl = process.env.EXPO_PUBLIC_DEV_API_BASE_URL;
 const runtimeProdApiBaseUrl = process.env.EXPO_PUBLIC_PROD_API_BASE_URL;
+const runtimeLocalApiBaseUrl = process.env.EXPO_PUBLIC_LOCAL_API_BASE_URL;
 
 const appEnv = runtimeAppEnv || extra.appEnv || "production";
 const prodApiBaseUrl = runtimeProdApiBaseUrl || extra.prodApiBaseUrl || DEFAULT_API_BASE;
 const devApiBaseUrl =
   runtimeDevApiBaseUrl || extra.devApiBaseUrl || prodApiBaseUrl || DEFAULT_API_BASE;
+const localApiBaseUrl =
+  runtimeLocalApiBaseUrl ||
+  extra.localApiBaseUrl ||
+  DEFAULT_LOCAL_API_BASE;
 
 // Always hit production host.
 const apiBaseUrl = prodApiBaseUrl || devApiBaseUrl;
@@ -27,6 +33,10 @@ export const APP_CONFIG = {
   appEnv,
   apiBaseUrl: apiBaseUrl.replace(/\/$/, ""),
   apiUrl: toApiUrl(apiBaseUrl),
+  prodApiBaseUrl: prodApiBaseUrl.replace(/\/$/, ""),
+  prodApiUrl: toApiUrl(prodApiBaseUrl),
+  localApiBaseUrl: localApiBaseUrl.replace(/\/$/, ""),
+  localApiUrl: toApiUrl(localApiBaseUrl),
 };
 
 // Normalize any media URL to the current API origin.

@@ -954,6 +954,14 @@ export const mainCategories = [
     title_fr: "Essayez et entraînez-vous à parler",
     title_es: "Intenta y entrena para hablar",
     imgUrl:   "/public/categories/train.png"
+  },
+  {
+    name:     "expressyourfeelingsbydrawing",
+    title_en: "Express By Drawing",
+    title_ar: "Ø¹Ø¨Ù‘Ø± Ø¨Ø§Ù„Ø±Ø³Ù…",
+    title_fr: "Exprime-toi par le dessin",
+    title_es: "ExprÃ©sate dibujando",
+    imgUrl:   "/public/categories/train.png"
   }
 ];
  

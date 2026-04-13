@@ -19,6 +19,7 @@ import Favourites from "./src/pages/favourite";
 import TimePeriod from "./src/pages/TimePeriod";
 import Emergency from "./src/pages/Emergency";
 import TryToSpeak from "./src/pages/TryToSpeak";
+import ExpressByDrawing from "./src/pages/expressbydrawing";
 // Context Providers
 import { AppProvider } from "./src/context/AppContext";
 import { LanguageProvider } from "./src/context/LanguageContext";
@@ -49,6 +50,10 @@ export default function App() {
             <Stack.Screen name="TimePeriod" component={TimePeriod} />
             <Stack.Screen name="Emergency" component={Emergency} />
             <Stack.Screen name="TryToSpeak" component={TryToSpeak} />
+            <Stack.Screen
+              name="ExpressByDrawing"
+              component={ExpressByDrawing}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </LanguageProvider>

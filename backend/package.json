@@ -26,7 +26,9 @@
     "gtts.js": "^1.0.1",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.1.1",
+    "node-fetch": "^3.3.2",
     "prisma": "^6.19.0",
+    "tesseract.js": "^7.0.0",
     "uuid": "^3.4.0"
   },
   "devDependencies": {

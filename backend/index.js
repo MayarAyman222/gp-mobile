@@ -10,6 +10,8 @@ import iconRoutes from "./routes/iconRoutes.js";
 import ttsRoutes from "./routes/ttsRoutes.js";
 import translateRoutes from "./routes/translateRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import drawingRoutes from "./routes/drawingRoutes.js";
+import drawingRoutes from "./routes/drawingRoutes.js";
 // ===== APP SETUP =====
 const app = express();
 const PORT = env.port;
@@ -62,6 +64,7 @@ import iconRoutes from "./routes/iconRoutes.js";
 import ttsRoutes from "./routes/ttsRoutes.js";
 import translateRoutes from "./routes/translateRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import drawingRoutes from "./routes/drawingRoutes.js";
 
 // ===== APP SETUP =====
 const app = express();
@@ -108,6 +111,7 @@ async function downloadFile(url, folder = "public/uploads") {
 // ===== ROUTES MOUNTING =====
 app.use("/api/icons", iconRoutes);
 app.use("/api/tts", ttsRoutes);
+app.use("/api/drawing", drawingRoutes);
 app.use("/api", translateRoutes);
 app.use("/api/auth", authRoutes);
 

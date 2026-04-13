@@ -239,6 +239,15 @@ const uiTranslations = {
 ======================= */
 const EXTRA_CARDS = [
   {
+    id: "expressyourfeelingsbydrawing",
+    name: "expressyourfeelingsbydrawing",
+    title_en: "Express By Drawing",
+    title_ar: "عبّر بالرسم",
+    title_fr: "Exprime-toi par le dessin",
+    title_es: "Exprésate dibujando",
+    imgUrl: "/public/categories/train.png",
+  },
+  {
     id: "all",
     name: "All",
     title_en: "All",
@@ -262,6 +271,8 @@ const EXTRA_CARDS = [
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? 320 : width * 0.75;
+const normalizeKey = (val) =>
+  (val || "").toString().toLowerCase().replace(/\s+/g, "");
 
 const labelFor = (item, lang) =>
   item[`title_${lang}`] ??
@@ -298,7 +309,20 @@ const Category = () => {
         const res  = await fetch(`${APP_CONFIG.apiUrl}/maincategories`);
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
         const data = await res.json();
-        setCategories([...data, ...EXTRA_CARDS]);
+        const merged = [...data, ...EXTRA_CARDS];
+        const deduped = merged.filter((item, index) => {
+          const itemKey = normalizeKey(item.name || item.title_en || item.id);
+          return (
+            index ===
+            merged.findIndex(
+              (candidate) =>
+                normalizeKey(
+                  candidate.name || candidate.title_en || candidate.id,
+                ) === itemKey,
+            )
+          );
+        });
+        setCategories(deduped);
       } catch (err) {
         console.error("Category fetch error:", err);
         setError(err.message);
@@ -309,10 +333,6 @@ const Category = () => {
 
     fetchCategories();
   }, []);
-
-  const normalizeKey = (val) =>
-    (val || "").toString().toLowerCase().replace(/\s+/g, "");
-
   const apiCategoryFor = (cat) => cat.apiCategory || cat.name;
 
   // ── Navigation ───────────────────────────────
@@ -336,6 +356,12 @@ const Category = () => {
       });
     } else if (key === "emergency" || key.includes("emergency")) {
       navigation.navigate("Emergency");
+    } else if (
+      key === "expressyourfeelingsbydrawing" ||
+      key === "expressbydrawing" ||
+      key.includes("drawing")
+    ) {
+      navigation.navigate("ExpressByDrawing");
     } else if (
       key === "learnandtry" ||
       key === "trytospeak" ||
