@@ -196,7 +196,13 @@ export default function SubIconDashboard() {
     const navigateWithItem = (resolvedItem) => {
       blurActiveElementOnWeb();
 
+      console.log("=== DEBUG openSubIcon ===");
+      console.log("Resolved item:", JSON.stringify(resolvedItem, null, 2));
+      console.log("Has subSubIcons?", !!resolvedItem?.subSubIcons);
+      console.log("subSubIcons length:", resolvedItem?.subSubIcons?.length);
+
       if (resolvedItem?.subSubIcons?.length) {
+        console.log("NAVIGATING TO SubSubIcon PAGE");
         navigation.navigate("SubSubIcon", {
           parentSubIcon: resolvedItem,
           parentIcon: mainIcon,
@@ -204,6 +210,7 @@ export default function SubIconDashboard() {
         return;
       }
 
+      console.log("NAVIGATING TO SubIconDetail PAGE");
       navigation.navigate("SubIconDetail", { subIcon: resolvedItem });
     };
 
@@ -213,7 +220,9 @@ export default function SubIconDashboard() {
     }
 
     try {
+      console.log("Fetching detailed subIcon for item:", item.title_en);
       const detailedSubIcon = await getSubIconById(mainIcon.id, item.id);
+      console.log("API Response:", JSON.stringify(detailedSubIcon, null, 2));
       const resolvedItem = detailedSubIcon || item;
 
       setSubIcons((previous) =>

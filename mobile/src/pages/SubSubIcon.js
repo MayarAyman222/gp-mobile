@@ -91,6 +91,10 @@ export default function SubSubIconPage() {
   const { language: lang, theme } = useContext(AppContext);
   const currentTheme = themes[theme] || themes.light;
 
+  console.log("=== SubSubIcon Page ===");
+  console.log("parentSubIcon:", JSON.stringify(parentSubIcon, null, 2));
+  console.log("parentIcon:", parentIcon?.title_en);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [timeOption, setTimeOption] = useState(timeOptionsByLang[lang][0]);

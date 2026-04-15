@@ -274,10 +274,17 @@ async function seedSubSubIcons() {
   console.log("Seeding sub-sub-icons...");
 
   const dbSubIcons = await prisma.subIcon.findMany();
+  const missingSubIcons = [];
+  let seededCount = 0;
 
   for (const dbSubIcon of dbSubIcons) {
-    const subSubIcons = subSubIconsMap[getSubSubKey(dbSubIcon)];
-    if (!subSubIcons?.length) continue;
+    const key = getSubSubKey(dbSubIcon);
+    const subSubIcons = subSubIconsMap[key];
+    
+    if (!subSubIcons?.length) {
+      missingSubIcons.push(key);
+      continue;
+    }
 
     for (const subSubIcon of subSubIcons) {
       await prisma.subSubIcon.upsert({
@@ -314,7 +321,14 @@ async function seedSubSubIcons() {
           },
         },
       });
+      seededCount++;
     }
+  }
+
+  console.log(`✓ Seeded ${seededCount} sub-sub-icons`);
+  if (missingSubIcons.length > 0) {
+    console.warn(`⚠ ${missingSubIcons.length} sub-icons have NO sub-sub-icons data:`);
+    missingSubIcons.forEach(key => console.warn(`   - ${key}`));
   }
 }
 
