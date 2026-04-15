@@ -1,7 +1,7 @@
 import axios from "axios";
 import { APP_CONFIG } from "../config/appConfig";
 
-const BASE_URL = APP_CONFIG.apiUrl;
+const BASE_URL = APP_CONFIG.contentApiUrl;
 
 // Get all icons or filter by category
 export const getAllIcons = async (category = null) => {
@@ -27,6 +27,14 @@ export const getSubIconById = async (iconId, subIconId) => {
   return res.data;
 };
 
+// Get single subSubIcon by parent ids
+export const getSubSubIconById = async (iconId, subIconId, subSubIconId) => {
+  const res = await axios.get(
+    `${BASE_URL}/icons/${iconId}/subicons/${subIconId}/subsubicons/${subSubIconId}`,
+  );
+  return res.data;
+};
+
 // Create new icon
 export const createIcon = async (iconData) => {
   const res = await axios.post(`${BASE_URL}/icons`, iconData);
@@ -38,6 +46,15 @@ export const createSubIcon = async (iconId, subIconData) => {
   const res = await axios.post(
     `${BASE_URL}/icons/${iconId}/subicons`,
     subIconData,
+  );
+  return res.data;
+};
+
+// Create new subSubIcon
+export const createSubSubIcon = async (iconId, subIconId, subSubIconData) => {
+  const res = await axios.post(
+    `${BASE_URL}/icons/${iconId}/subicons/${subIconId}/subsubicons`,
+    subSubIconData,
   );
   return res.data;
 };

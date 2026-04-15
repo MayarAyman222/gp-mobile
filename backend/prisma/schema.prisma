@@ -99,7 +99,33 @@ model SubIcon {
 
   createdAt DateTime @default(now())
 
+  subSubIcons SubSubIcon[]
+
   @@unique([title_en, iconId])
+}
+
+model SubSubIcon {
+  id            Int      @id @default(autoincrement())
+
+  title_en      String
+  title_ar      String
+  title_fr      String
+  title_es      String
+
+  expression_en String
+  expression_ar String
+  expression_fr String
+  expression_es String
+
+  imgUrl        String?
+  category      String
+
+  subIconId Int
+  subIcon   SubIcon @relation(fields: [subIconId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([title_en, subIconId])
 }
 
 model EmergencyNumber {

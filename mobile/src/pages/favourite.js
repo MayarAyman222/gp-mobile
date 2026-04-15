@@ -18,7 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { speakText } from "../Api/tts-translate-api";
-import { normalizeMediaUrl } from "../config/appConfig";
+import { APP_CONFIG, normalizeMediaUrl } from "../config/appConfig";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
@@ -127,7 +127,10 @@ export default function Favourites() {
   // card
   const renderCard = ({ item }) => {
     const isSelected = selectedIds.includes(item.id);
-    const imageUri = normalizeMediaUrl(item.imageUrl);
+    const imageUri = normalizeMediaUrl(
+      item?.imgUrl || item?.imageUrl,
+      APP_CONFIG.contentApiBaseUrl,
+    );
 
     return (
       <View
@@ -152,9 +155,19 @@ export default function Favourites() {
 
         <TouchableOpacity
           style={styles.center}
-          onPress={() =>
-            navigation.navigate("SubIconDetail", { subIcon: item })
-          }
+          onPress={() => {
+            if (item?.subSubIcons?.length) {
+              navigation.navigate("SubSubIcon", { parentSubIcon: item });
+              return;
+            }
+
+            if (item?.subIconId) {
+              navigation.navigate("SubSubIconDetail", { subSubIcon: item });
+              return;
+            }
+
+            navigation.navigate("SubIconDetail", { subIcon: item });
+          }}
         >
           {imageUri ? (
             <Image

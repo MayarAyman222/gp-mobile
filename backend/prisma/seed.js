@@ -1,203 +1,3 @@
-/*import { PrismaClient } from "@prisma/client";
-import { icons, subIconsData } from "./data.js";
-
-const prisma = new PrismaClient();
-
-async function main() {
-  console.log("Seeding main icons...");
-
-  // Insert main icons with upsert
-  await Promise.all(
-    icons.map(async (icon) => {
-      try {
-        // Validation: must have either iconName or imgUrl
-        if ((!icon.iconName && !icon.imgUrl) || (icon.iconName && icon.imgUrl)) {
-          throw new Error(
-            `Icon "${icon.title_en}" must have either iconName or imgUrl, not both or neither.`
-          );
-        }
-
-        await prisma.icon.upsert({
-          where: { title_en: icon.title_en },
-          update: {},
-          create: {
-            title_en: icon.title_en,
-            title_ar: icon.title_ar || "",
-            title_fr: icon.title_fr || "",
-            title_es: icon.title_es || "",
-            expression_en: icon.expression_en || "",
-            expression_ar: icon.expression_ar || "",
-            expression_fr: icon.expression_fr || "",
-            expression_es: icon.expression_es || "",
-            iconName: icon.iconName || null,
-            imgUrl: icon.imgUrl || null,
-            category: icon.category || "",
-          },
-        });
-
-        console.log(`Main icon created/upserted: ${icon.title_en}`);
-      } catch (err) {
-        console.error(`Error creating main icon ${icon.title_en}:`, err.message);
-      }
-    })
-  );
-
-  console.log("Main icons created.");
-
-  // Fetch all main icons to link sub-icons
-  const mainIcons = await prisma.icon.findMany();
-
-  console.log("Seeding sub icons...");
-
-  await Promise.all(
-    mainIcons.map(async (mainIcon) => {
-      const subIcons = subIconsData[mainIcon.title_en];
-      if (!subIcons) return;
-
-      await Promise.all(
-        subIcons.map(async (s) => {
-          try {
-            await prisma.subIcon.upsert({
-              where: { title_en_iconId: { title_en: s.title_en, iconId: mainIcon.id } },
-              update: {},
-              create: {
-                title_en: s.title_en,
-                title_ar: s.title_ar || "",
-                title_fr: s.title_fr || "",
-                title_es: s.title_es || "",
-                imageUrl: s.img || "",
-                expression_en: `${mainIcon.expression_en} - ${s.title_en}`,
-                expression_ar: `${mainIcon.expression_ar} - ${s.title_ar}`,
-                expression_fr: `${mainIcon.expression_fr} - ${s.title_fr}`,
-                expression_es: `${mainIcon.expression_es} - ${s.title_es}`,
-                icon: { connect: { id: mainIcon.id } },
-              },
-            });
-
-            console.log(
-              `Sub icon created/upserted: ${s.title_en} for main icon: ${mainIcon.title_en}`
-            );
-          } catch (err) {
-            console.error(`Error creating sub icon ${s.title_en}:`, err.message);
-          }
-        })
-      );
-    })
-  );
-
-  console.log("All sub icons created.");
-}
-
-main()
-  .catch((err) => console.error("Seed script failed:", err))
-  .finally(async () => {
-    await prisma.$disconnect();
-  });*/
-  /*import { PrismaClient } from "@prisma/client";
-import { icons, subIconsData } from "./data.js";
-
-const prisma = new PrismaClient({
-  log: ["error", "warn"],
-});
-
-async function main() {
-  console.log("🌱 Seeding main icons...");
-
-  // ===== MAIN ICONS =====
-  for (const icon of icons) {
-    try {
-      // validation
-      if ((!icon.iconName && !icon.imgUrl) || (icon.iconName && icon.imgUrl)) {
-        throw new Error(
-          `Icon "${icon.title_en}" must have either iconName OR imgUrl`
-        );
-      }
-
-      await prisma.icon.upsert({
-        where: { title_en: icon.title_en },
-        update: {},
-        create: {
-          title_en: icon.title_en,
-          title_ar: icon.title_ar || "",
-          title_fr: icon.title_fr || "",
-          title_es: icon.title_es || "",
-          expression_en: icon.expression_en || "",
-          expression_ar: icon.expression_ar || "",
-          expression_fr: icon.expression_fr || "",
-          expression_es: icon.expression_es || "",
-          iconName: icon.iconName || null,
-          imgUrl: icon.imgUrl || null,
-          category: icon.category || "",
-        },
-      });
-
-      console.log(`✅ Main icon: ${icon.title_en}`);
-    } catch (err) {
-      console.error(`❌ Main icon error (${icon.title_en}):`, err.message);
-    }
-  }
-
-  console.log("✅ Main icons done");
-
-  // ===== FETCH MAIN ICONS =====
-  const mainIcons = await prisma.icon.findMany();
-
-  console.log("🌱 Seeding sub icons...");
-
-  // ===== SUB ICONS =====
-  for (const mainIcon of mainIcons) {
-    const subIcons = subIconsData[mainIcon.title_en];
-    if (!subIcons) continue;
-
-    for (const s of subIcons) {
-      try {
-        await prisma.subIcon.upsert({
-          where: {
-            title_en_iconId: {
-              title_en: s.title_en,
-              iconId: mainIcon.id,
-            },
-          },
-          update: {},
-          create: {
-            title_en: s.title_en,
-            title_ar: s.title_ar || "",
-            title_fr: s.title_fr || "",
-            title_es: s.title_es || "",
-            imageUrl: s.img || "",
-            expression_en: `${mainIcon.expression_en} - ${s.title_en}`,
-            expression_ar: `${mainIcon.expression_ar} - ${s.title_ar}`,
-            expression_fr: `${mainIcon.expression_fr} - ${s.title_fr}`,
-            expression_es: `${mainIcon.expression_es} - ${s.title_es}`,
-            icon: {
-              connect: { id: mainIcon.id },
-            },
-          },
-        });
-
-        console.log(
-          `✅ Sub icon: ${s.title_en} → ${mainIcon.title_en}`
-        );
-      } catch (err) {
-        console.error(
-          `❌ Sub icon error (${s.title_en}):`,
-          err.message
-        );
-      }
-    }
-  }
-
-  console.log("🎉 All seeding completed successfully");
-}
-
-main()
-  .catch((err) => {
-    console.error("🔥 Seed failed:", err);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
-*/
 import { PrismaClient } from "@prisma/client";
 import {
   mainCategories,
@@ -235,253 +35,152 @@ import {
   doctorSubIcons,
   afraidSubIcons,
 } from "./data.js";
-
-// ─────────────────────────────────────────────
-//  Map: icon category → its sub-icons array
-// ─────────────────────────────────────────────
-const subIconsMap = {
-  "Animals":        animalSubIcons,
-  "Get Dressed":    getDressedSubIcons,
-  "Family":         familySubIcons,
-  "Feelings":       feelingsSubIcons,
-  "Food and Drink": foodAndDrinkSubIcons,
-  "Drinking":       drinkingSubIcons,
-  "Sleeping":       sleepingSubIcons,
-  "Transport":      transportSubIcons,
-  "Call":           callSubIcons,
-  "Talk":           talkSubIcons,
-  "Listen":         listenSubIcons,
-  "Home":           homeSubIcons,
-  "places":         placesSubIcons,
-  "Breakfast":      breakfastSubIcons,
-  "Lunch":          lunchSubIcons,
-  "Dinner":         dinnerSubIcons,
-  "Snack":          snackSubIcons,
-  "TV":             tvSubIcons,
-  "Play":           playSubIcons,
-  "Music":          musicSubIcons,
-  "Questions":      questionsSubIcons,
-  "Relations":      relationsSubIcons,
-  "Times":          timesSubIcons,
-  "Tools":          toolsSubIcons,
-  "Verbs":          verbsSubIcons,
-  "Reminder Mee":   memoriesSubIcons,
-  "Neighbours":     neighboursSubIcons,
-  "Medicine":       medicineSubIcons,
-  "Doctor":         doctorSubIcons,
-  "Afraid":         afraidSubIcons,
-};
+import { subSubIconsMap } from "./subSubIconData.js";
 
 const prisma = new PrismaClient({ log: ["error", "warn"] });
 
-async function main() {
+const subIconsMap = {
+  Animals: animalSubIcons,
+  "Get Dressed": getDressedSubIcons,
+  Family: familySubIcons,
+  Feelings: feelingsSubIcons,
+  "Food and Drink": foodAndDrinkSubIcons,
+  Drinking: drinkingSubIcons,
+  Sleeping: sleepingSubIcons,
+  Transport: transportSubIcons,
+  Call: callSubIcons,
+  Talk: talkSubIcons,
+  Listen: listenSubIcons,
+  Home: homeSubIcons,
+  places: placesSubIcons,
+  Breakfast: breakfastSubIcons,
+  Lunch: lunchSubIcons,
+  Dinner: dinnerSubIcons,
+  Snack: snackSubIcons,
+  TV: tvSubIcons,
+  Play: playSubIcons,
+  Music: musicSubIcons,
+  Questions: questionsSubIcons,
+  Relations: relationsSubIcons,
+  Times: timesSubIcons,
+  Tools: toolsSubIcons,
+  Verbs: verbsSubIcons,
+  "Reminder Mee": memoriesSubIcons,
+  Neighbours: neighboursSubIcons,
+  Medicine: medicineSubIcons,
+  Doctor: doctorSubIcons,
+  Afraid: afraidSubIcons,
+};
 
-  // ─────────────────────────────────────────────
-  //  1. MAIN CATEGORIES
-  // ─────────────────────────────────────────────
-  /*console.log("🌱 Seeding main categories...");
-  for (const cat of mainCategories) {
+const getSubSubKey = (subIcon) => `${subIcon.category}::${subIcon.title_en}`;
+
+async function seedMainCategories() {
+  console.log("Seeding main categories...");
+
+  for (const category of mainCategories) {
     await prisma.mainCategory.upsert({
-      where:  { name: cat.name },
-      update: {},
-      create: { name: cat.name },
-    });
-  }
-  console.log("✅ Main categories done");*/
- 
-
-// ─────────────────────────────────────────────
-//  1. MAIN CATEGORIES
-// ─────────────────────────────────────────────
-console.log("🌱 Seeding main categories...");
-for (const cat of mainCategories) {
-  await prisma.mainCategory.upsert({
-    where:  { name: cat.name },
-    update: {
-      title_en: cat.title_en,
-      title_ar: cat.title_ar,
-      title_fr: cat.title_fr,
-      title_es: cat.title_es,
-      imgUrl:   cat.imgUrl ?? null,
-    },
-    create: {
-      name:     cat.name,
-      title_en: cat.title_en,
-      title_ar: cat.title_ar,
-      title_fr: cat.title_fr,
-      title_es: cat.title_es,
-      imgUrl:   cat.imgUrl ?? null,
-    },
-  });
-}
-console.log("✅ Main categories done");
- 
-// ─────────────────────────────────────────────
-//  2. TIME PERIODS
-// ─────────────────────────────────────────────
-console.log("🌱 Seeding time periods...");
- 
-for (const tp of timePeriods) {
-  const category = await prisma.mainCategory.findUnique({
-    where: { name: tp.mainCategory },
-  });
- 
-  if (!category) {
-    console.log(`❌ Category not found: ${tp.mainCategory}`);
-    continue;
-  }
- 
-  await prisma.timePeriod.upsert({
-    where: {
-      name_mainCategoryId: {
-        name:           tp.name,
-        mainCategoryId: category.id,
+      where: { name: category.name },
+      update: {
+        title_en: category.title_en,
+        title_ar: category.title_ar,
+        title_fr: category.title_fr,
+        title_es: category.title_es,
+        imgUrl: category.imgUrl ?? null,
       },
-    },
-    update: {
-      title_en: tp.title_en,
-      title_ar: tp.title_ar,
-      title_fr: tp.title_fr,
-      title_es: tp.title_es,
-      imgUrl:   tp.imgUrl ?? null,
-    },
-    create: {
-      name:           tp.name,
-      title_en:       tp.title_en,
-      title_ar:       tp.title_ar,
-      title_fr:       tp.title_fr,
-      title_es:       tp.title_es,
-      imgUrl:         tp.imgUrl ?? null,
-      order:          tp.order,
-      mainCategoryId: category.id,
-    },
-  });
- 
-  console.log(`✅ TimePeriod: ${tp.name}`);
-}
- 
-console.log("✅ Time periods done");
- 
-
-  // ─────────────────────────────────────────────
-  //  2. TIME PERIODS
-  // ─────────────────────────────────────────────
-  /*console.log("🌱 Seeding time periods...");
-  /*for (const tp of timePeriods) {
-    await prisma.timePeriod.upsert({
-      where:  { name: tp.name },
-      update: {},
       create: {
-        name:         tp.name,
-        order:        tp.order,
-        mainCategory: tp.mainCategory,
+        name: category.name,
+        title_en: category.title_en,
+        title_ar: category.title_ar,
+        title_fr: category.title_fr,
+        title_es: category.title_es,
+        imgUrl: category.imgUrl ?? null,
       },
     });
-  }*
- console.log("🌱 Seeding time periods...");
-
-for (const tp of timePeriods) {
-  const category = await prisma.mainCategory.findUnique({
-    where: { name: tp.mainCategory },
-  });
-
-  if (!category) {
-    console.log(`❌ Category not found: ${tp.mainCategory}`);
-    continue;
   }
-
-  await prisma.timePeriod.upsert({
-    where: {
-      name_mainCategoryId: {
-        name: tp.name,
-        mainCategoryId: category.id,
-      },
-    },
-    update: {},
-    create: {
-      name: tp.name,
-      order: tp.order,
-      mainCategoryId: category.id,
-    },
-  });
-
-  console.log(`✅ TimePeriod: ${tp.name}`);
 }
 
-console.log("✅ Time periods done");*/
+async function seedTimePeriods() {
+  console.log("Seeding time periods...");
 
-  // ─────────────────────────────────────────────
-  //  3. EMERGENCY NUMBERS
-  // ─────────────────────────────────────────────
-  console.log("🌱 Seeding emergency numbers...");
-  for (const en of emergencyNumbers) {
-    await prisma.emergencyNumber.upsert({
-      where:  { number: en.number },
-      update: {},
-      create: {
-        number:   en.number,
-        label_en: en.label_en,
-        label_ar: en.label_ar,
-        label_fr: en.label_fr,
-        label_es: en.label_es,
-      },
+  for (const period of timePeriods) {
+    const category = await prisma.mainCategory.findUnique({
+      where: { name: period.mainCategory },
     });
-  }
-  console.log("✅ Emergency numbers done");
 
-  // ─────────────────────────────────────────────
-  //  4. MAIN ICONS
-  // ─────────────────────────────────────────────
-  console.log("🌱 Seeding main icons...");
-  /*for (const icon of icons) {
-    try {
-      await prisma.icon.upsert({
-        where: {
-          title_en_category: {
-            title_en: icon.title_en,
-            category: icon.category,
-          },
-        },
-        update: {},
-        create: {
-          title_en:      icon.title_en,
-          title_ar:      icon.title_ar      || "",
-          title_fr:      icon.title_fr      || "",
-          title_es:      icon.title_es      || "",
-          expression_en: icon.expression_en || "",
-          expression_ar: icon.expression_ar || "",
-          expression_fr: icon.expression_fr || "",
-          expression_es: icon.expression_es || "",
-          imgUrl:        icon.imgUrl        || null,
-          iconName:      icon.iconName      || null,
-          category:      icon.category      || "",
-          timePeriod:    icon.timePeriod    || null,
-          mainCategory:  icon.mainCategory  || "",
-        },
-      });
-      console.log(`✅ Icon: ${icon.title_en} [${icon.category}]`);
-    } catch (err) {
-      console.error(`❌ Icon error (${icon.title_en}):`, err.message);
+    if (!category) {
+      console.warn(`Skipping time period "${period.name}" because category "${period.mainCategory}" was not found.`);
+      continue;
     }
-  }*/
- console.log("🌱 Seeding main icons...");
 
-for (const icon of icons) {
-  try {
+    await prisma.timePeriod.upsert({
+      where: {
+        name_mainCategoryId: {
+          name: period.name,
+          mainCategoryId: category.id,
+        },
+      },
+      update: {
+        title_en: period.title_en,
+        title_ar: period.title_ar,
+        title_fr: period.title_fr,
+        title_es: period.title_es,
+        imgUrl: period.imgUrl ?? null,
+        order: period.order,
+      },
+      create: {
+        name: period.name,
+        title_en: period.title_en,
+        title_ar: period.title_ar,
+        title_fr: period.title_fr,
+        title_es: period.title_es,
+        imgUrl: period.imgUrl ?? null,
+        order: period.order,
+        mainCategoryId: category.id,
+      },
+    });
+  }
+}
+
+async function seedEmergencyNumbers() {
+  console.log("Seeding emergency numbers...");
+
+  for (const emergency of emergencyNumbers) {
+    await prisma.emergencyNumber.upsert({
+      where: { number: emergency.number },
+      update: {
+        label_en: emergency.label_en,
+        label_ar: emergency.label_ar,
+        label_fr: emergency.label_fr,
+        label_es: emergency.label_es,
+      },
+      create: emergency,
+    });
+  }
+}
+
+async function seedIcons() {
+  console.log("Seeding icons...");
+
+  for (const icon of icons) {
     const mainCategory = await prisma.mainCategory.findUnique({
       where: { name: icon.mainCategory },
     });
 
     if (!mainCategory) {
-      console.log(`❌ MainCategory not found: ${icon.mainCategory}`);
+      console.warn(`Skipping icon "${icon.title_en}" because main category "${icon.mainCategory}" was not found.`);
       continue;
     }
 
-    let timePeriod = null;
+    let timePeriodId = null;
+
     if (icon.timePeriod) {
-      timePeriod = await prisma.timePeriod.findFirst({
-        where: { name: icon.timePeriod },
+      const period = await prisma.timePeriod.findFirst({
+        where: {
+          name: icon.timePeriod,
+          mainCategoryId: mainCategory.id,
+        },
       });
+      timePeriodId = period?.id ?? null;
     }
 
     await prisma.icon.upsert({
@@ -491,7 +190,19 @@ for (const icon of icons) {
           category: icon.category,
         },
       },
-      update: {},
+      update: {
+        title_ar: icon.title_ar || "",
+        title_fr: icon.title_fr || "",
+        title_es: icon.title_es || "",
+        expression_en: icon.expression_en || "",
+        expression_ar: icon.expression_ar || "",
+        expression_fr: icon.expression_fr || "",
+        expression_es: icon.expression_es || "",
+        imgUrl: icon.imgUrl || null,
+        iconName: icon.iconName || null,
+        mainCategoryId: mainCategory.id,
+        timePeriodId,
+      },
       create: {
         title_en: icon.title_en,
         title_ar: icon.title_ar || "",
@@ -505,66 +216,122 @@ for (const icon of icons) {
         iconName: icon.iconName || null,
         category: icon.category || "",
         mainCategoryId: mainCategory.id,
-        timePeriodId: timePeriod?.id || null,
+        timePeriodId,
       },
     });
-
-    console.log(`✅ Icon: ${icon.title_en}`);
-  } catch (err) {
-    console.error(`❌ Icon error (${icon.title_en}):`, err.message);
   }
 }
 
-  console.log("✅ Main icons done");
-
-  // ─────────────────────────────────────────────
-  //  5. SUB-ICONS
-  // ─────────────────────────────────────────────
-  console.log("🌱 Seeding sub-icons...");
+async function seedSubIcons() {
+  console.log("Seeding sub-icons...");
 
   const dbIcons = await prisma.icon.findMany();
 
   for (const dbIcon of dbIcons) {
     const subIcons = subIconsMap[dbIcon.category];
-    if (!subIcons || subIcons.length === 0) continue;
+    if (!subIcons?.length) continue;
 
-    for (const s of subIcons) {
-      try {
-        await prisma.subIcon.upsert({
-          where: {
-            title_en_iconId: {
-              title_en: s.title_en,
-              iconId:   dbIcon.id,
-            },
+    for (const subIcon of subIcons) {
+      await prisma.subIcon.upsert({
+        where: {
+          title_en_iconId: {
+            title_en: subIcon.title_en,
+            iconId: dbIcon.id,
           },
-          update: {},
-          create: {
-            title_en:      s.title_en      || "",
-            title_ar:      s.title_ar      || "",
-            title_fr:      s.title_fr      || "",
-            title_es:      s.title_es      || "",
-            expression_en: s.expression_en || "",
-            expression_ar: s.expression_ar || "",
-            expression_fr: s.expression_fr || "",
-            expression_es: s.expression_es || "",
-            imgUrl:        s.imgUrl        || "",
-            category:      s.category      || "",
-            icon: { connect: { id: dbIcon.id } },
+        },
+        update: {
+          title_ar: subIcon.title_ar || "",
+          title_fr: subIcon.title_fr || "",
+          title_es: subIcon.title_es || "",
+          expression_en: subIcon.expression_en || "",
+          expression_ar: subIcon.expression_ar || "",
+          expression_fr: subIcon.expression_fr || "",
+          expression_es: subIcon.expression_es || "",
+          imgUrl: subIcon.imgUrl || "",
+          category: subIcon.category || dbIcon.category,
+        },
+        create: {
+          title_en: subIcon.title_en || "",
+          title_ar: subIcon.title_ar || "",
+          title_fr: subIcon.title_fr || "",
+          title_es: subIcon.title_es || "",
+          expression_en: subIcon.expression_en || "",
+          expression_ar: subIcon.expression_ar || "",
+          expression_fr: subIcon.expression_fr || "",
+          expression_es: subIcon.expression_es || "",
+          imgUrl: subIcon.imgUrl || "",
+          category: subIcon.category || dbIcon.category,
+          icon: {
+            connect: { id: dbIcon.id },
           },
-        });
-        console.log(`✅ SubIcon: ${s.title_en} → ${dbIcon.title_en}`);
-      } catch (err) {
-        console.error(`❌ SubIcon error (${s.title_en} → ${dbIcon.title_en}):`, err.message);
-      }
+        },
+      });
     }
   }
+}
 
-  console.log("🎉 All seeding completed successfully!");
+async function seedSubSubIcons() {
+  console.log("Seeding sub-sub-icons...");
+
+  const dbSubIcons = await prisma.subIcon.findMany();
+
+  for (const dbSubIcon of dbSubIcons) {
+    const subSubIcons = subSubIconsMap[getSubSubKey(dbSubIcon)];
+    if (!subSubIcons?.length) continue;
+
+    for (const subSubIcon of subSubIcons) {
+      await prisma.subSubIcon.upsert({
+        where: {
+          title_en_subIconId: {
+            title_en: subSubIcon.title_en,
+            subIconId: dbSubIcon.id,
+          },
+        },
+        update: {
+          title_ar: subSubIcon.title_ar || "",
+          title_fr: subSubIcon.title_fr || "",
+          title_es: subSubIcon.title_es || "",
+          expression_en: subSubIcon.expression_en || "",
+          expression_ar: subSubIcon.expression_ar || "",
+          expression_fr: subSubIcon.expression_fr || "",
+          expression_es: subSubIcon.expression_es || "",
+          imgUrl: subSubIcon.imgUrl || null,
+          category: subSubIcon.category || dbSubIcon.category,
+        },
+        create: {
+          title_en: subSubIcon.title_en || "",
+          title_ar: subSubIcon.title_ar || "",
+          title_fr: subSubIcon.title_fr || "",
+          title_es: subSubIcon.title_es || "",
+          expression_en: subSubIcon.expression_en || "",
+          expression_ar: subSubIcon.expression_ar || "",
+          expression_fr: subSubIcon.expression_fr || "",
+          expression_es: subSubIcon.expression_es || "",
+          imgUrl: subSubIcon.imgUrl || null,
+          category: subSubIcon.category || dbSubIcon.category,
+          subIcon: {
+            connect: { id: dbSubIcon.id },
+          },
+        },
+      });
+    }
+  }
+}
+
+async function main() {
+  await seedMainCategories();
+  await seedTimePeriods();
+  await seedEmergencyNumbers();
+  await seedIcons();
+  await seedSubIcons();
+  await seedSubSubIcons();
+  console.log("Seeding finished successfully.");
 }
 
 main()
-  .catch((err) => {
-    console.error("🔥 Seed failed:", err);
+  .catch((error) => {
+    console.error("Seed failed:", error);
+    process.exitCode = 1;
   })
   .finally(async () => {
     await prisma.$disconnect();

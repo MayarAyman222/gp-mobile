@@ -72,10 +72,21 @@ const PORT = env.port;
 const prisma = new PrismaClient();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const PUBLIC_DIR = path.join(__dirname, "public");
+const UPLOADS_DIR = path.join(PUBLIC_DIR, "uploads");
+const nestedIconInclude = {
+  subIcons: {
+    include: {
+      subSubIcons: true,
+    },
+  },
+};
 
 // ===== MULTER SETUP =====
+fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.join(__dirname, "public/uploads")),
+  destination: (req, file, cb) => cb(null, UPLOADS_DIR),
   filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
 });
 const upload = multer({ storage });
@@ -95,15 +106,15 @@ app.set("trust proxy", true);
 const AUDIO_DIR = path.join(process.cwd(), "generated_audio");
 if (!fs.existsSync(AUDIO_DIR)) fs.mkdirSync(AUDIO_DIR);
 app.use("/audio", express.static(AUDIO_DIR));
-app.use("/public", express.static(path.join(process.cwd(), "public")));
+app.use("/public", express.static(PUBLIC_DIR));
 
 // ===== HELPER: Download file from URL =====
-async function downloadFile(url, folder = "public/uploads") {
+async function downloadFile(url, folderPath = UPLOADS_DIR) {
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to download " + url);
   const buffer = Buffer.from(await res.arrayBuffer());
   const filename = Date.now() + "-" + path.basename(url);
-  const filePath = path.join(__dirname, folder, filename);
+  const filePath = path.join(folderPath, filename);
   fs.writeFileSync(filePath, buffer);
   return `/public/uploads/${filename}`;
 }
@@ -135,7 +146,7 @@ app.get("/api/maincategories/:id/icons", async (req, res) => {
   try {
     const icons = await prisma.icon.findMany({
       where: { mainCategoryId },
-      include: { subIcons: true },
+      include: nestedIconInclude,
     });
     res.json(icons);
   } catch (err) {
@@ -162,7 +173,7 @@ app.get("/api/timeperiods/:id/icons", async (req, res) => {
   try {
     const icons = await prisma.icon.findMany({
       where: { timePeriodId },
-      include: { subIcons: true },
+      include: nestedIconInclude,
     });
     res.json(icons);
   } catch (err) {

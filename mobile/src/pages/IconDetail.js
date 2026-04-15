@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Animated, ActivityIndicator } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { normalizeMediaUrl } from "../config/appConfig"; // adjust path if needed
+import { APP_CONFIG, normalizeMediaUrl } from "../config/appConfig"; // adjust path if needed
 import Slider from '@react-native-community/slider';
 import { Audio } from "expo-av";
 import { useRoute } from "@react-navigation/native";
@@ -139,8 +139,8 @@ const IconDetail = () => {
         <Animated.View style={{ transform: [{ scale: scaleAnim }], alignItems: "center" }}>
           <TouchableOpacity activeOpacity={0.8} onPressIn={handlePressIn} onPressOut={handlePressOut}>
            {icon.imgUrl ? (
-           <Image
-            source={{ uri: normalizeMediaUrl(icon.imgUrl) }}
+            <Image
+            source={{ uri: normalizeMediaUrl(icon.imgUrl, APP_CONFIG.contentApiBaseUrl) }}
              style={styles.image}
             resizeMode="cover"
             />

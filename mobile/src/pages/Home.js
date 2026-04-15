@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Image } from "react-native";
-import { normalizeMediaUrl } from "../config/appConfig";
+import { APP_CONFIG, normalizeMediaUrl } from "../config/appConfig";
 import {
   View,
   Text,
@@ -167,9 +167,9 @@ const Home = () => {
           style={{ flex:1, justifyContent:"center", alignItems:"center" }}
           onPress={() => handleIconPress(item)}
         >
-         {item.imgUrl && normalizeMediaUrl(item.imgUrl) ? (
+         {item.imgUrl && normalizeMediaUrl(item.imgUrl, APP_CONFIG.contentApiBaseUrl) ? (
   <Image
-    source={{ uri: normalizeMediaUrl(item.imgUrl) }}
+    source={{ uri: normalizeMediaUrl(item.imgUrl, APP_CONFIG.contentApiBaseUrl) }}
     style={{ width: 95, height: 95, marginTop: 30 }}
     resizeMode="contain"
   />

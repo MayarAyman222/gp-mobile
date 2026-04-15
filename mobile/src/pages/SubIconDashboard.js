@@ -3,6 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
+  Animated,
   FlatList,
   TouchableOpacity,
   TextInput,
@@ -11,16 +12,19 @@ import {
   ScrollView,
   Image,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Audio } from "expo-av";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
+import * as DocumentPicker from "expo-document-picker";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { AppContext } from "../context/AppContext";
 import { themes } from "../theme/theme";
 import { APP_CONFIG, normalizeMediaUrl } from "../config/appConfig";
 import { speakText } from "../Api/tts-translate-api";
+import { getSubIconById } from "../Api/iconApi";
 import { FontAwesome5 } from "@expo/vector-icons";
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
@@ -40,6 +44,68 @@ const connectorOptionsByLang = {
 };
 
 const reorderCategories = ["Food and Drink", "Medicine"];
+const isLocalMediaUri = (uri = "") =>
+  typeof uri === "string" &&
+  (uri.startsWith("file:") ||
+    uri.startsWith("content:") ||
+    uri.startsWith("blob:"));
+
+const blurActiveElementOnWeb = () => {
+  if (Platform.OS !== "web") return;
+
+  const activeElement = globalThis.document?.activeElement;
+  if (activeElement && typeof activeElement.blur === "function") {
+    activeElement.blur();
+  }
+};
+
+function SelectableZoomCard({ selected, hasAnySelection, children }) {
+  const progress = useRef(
+    new Animated.Value(hasAnySelection ? (selected ? 1 : 0) : 0.5),
+  ).current;
+
+  useEffect(() => {
+    const toValue = hasAnySelection ? (selected ? 1 : 0) : 0.5;
+
+    Animated.spring(progress, {
+      toValue,
+      friction: 7,
+      tension: 60,
+      useNativeDriver: true,
+    }).start();
+  }, [hasAnySelection, progress, selected]);
+
+  return (
+    <Animated.View
+      style={[
+        styles.cardAnimatedWrapper,
+        {
+          opacity: progress.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [0.55, 1, 1],
+          }),
+          transform: [
+            {
+              scale: progress.interpolate({
+                inputRange: [0, 0.5, 1],
+                outputRange: [0.94, 1, 1.09],
+              }),
+            },
+            {
+              translateY: progress.interpolate({
+                inputRange: [0, 0.5, 1],
+                outputRange: [6, 0, -8],
+              }),
+            },
+          ],
+        },
+        selected ? styles.cardSelectedLayer : null,
+      ]}
+    >
+      {children}
+    </Animated.View>
+  );
+}
 
 export default function SubIconDashboard() {
   const route = useRoute();
@@ -60,6 +126,8 @@ export default function SubIconDashboard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [audioPreview, setAudioPreview] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [audioFile, setAudioFile] = useState(null);
   const recordingRef = useRef(null);
   const [imageMethod, setImageMethod] = useState("upload"); // upload | url | camera
   const [audioMethod, setAudioMethod] = useState("upload"); // upload | url | record
@@ -122,6 +190,48 @@ export default function SubIconDashboard() {
     setSelectedIds((p) =>
       p.includes(id) ? p.filter((i) => i !== id) : [...p, id],
     );
+  };
+
+  const openSubIcon = async (item) => {
+    const navigateWithItem = (resolvedItem) => {
+      blurActiveElementOnWeb();
+
+      if (resolvedItem?.subSubIcons?.length) {
+        navigation.navigate("SubSubIcon", {
+          parentSubIcon: resolvedItem,
+          parentIcon: mainIcon,
+        });
+        return;
+      }
+
+      navigation.navigate("SubIconDetail", { subIcon: resolvedItem });
+    };
+
+    if (item?.subSubIcons?.length) {
+      navigateWithItem(item);
+      return;
+    }
+
+    try {
+      const detailedSubIcon = await getSubIconById(mainIcon.id, item.id);
+      const resolvedItem = detailedSubIcon || item;
+
+      setSubIcons((previous) =>
+        previous.map((subIcon) =>
+          subIcon.id === resolvedItem.id ? resolvedItem : subIcon,
+        ),
+      );
+      setOrderedIcons((previous) =>
+        previous.map((subIcon) =>
+          subIcon.id === resolvedItem.id ? resolvedItem : subIcon,
+        ),
+      );
+
+      navigateWithItem(resolvedItem);
+    } catch (error) {
+      console.log("Failed to load sub icon details", error);
+      navigateWithItem(item);
+    }
   };
 
   const generateSentence = () => {
@@ -264,6 +374,7 @@ const handleSpeak = async () => {
       const asset = result.assets[0];
       setNewSubIcon((p) => ({ ...p, imgUrl: asset.uri }));
       setImagePreview(asset.uri);
+      setImageFile(asset.file ?? null);
     }
   };
 
@@ -274,14 +385,16 @@ const handleSpeak = async () => {
       alert(lang === "ar" ? "يجب منح إذن الوصول للملفات" : "Permission needed");
       return;
     }
-    const res = await ImagePicker.launchDocumentPickerAsync({
+    const res = await DocumentPicker.getDocumentAsync({
       type: "audio/*",
       multiple: false,
+      copyToCacheDirectory: true,
     });
     if (!res.canceled && res.assets?.length) {
       const asset = res.assets[0];
       setNewSubIcon((p) => ({ ...p, audioUrl: asset.uri }));
       setAudioPreview(asset.uri);
+      setAudioFile(asset.file ?? null);
     }
   };
 
@@ -322,7 +435,15 @@ const handleSpeak = async () => {
     fd.append("expression_es", newSubIcon.expression_es);
     fd.append("category", parentIcon.category || "");
 
-    if (newSubIcon.imgUrl && newSubIcon.imgUrl.startsWith("file")) {
+    if (imageFile) {
+      fd.append("image", imageFile);
+    } else if (newSubIcon.imgUrl && isLocalMediaUri(newSubIcon.imgUrl)) {
+      if (Platform.OS === "web" && newSubIcon.imgUrl.startsWith("blob:")) {
+        alert("Please pick the image again before saving.");
+        setIsSubmitting(false);
+        return;
+      }
+
       fd.append("image", {
         uri: newSubIcon.imgUrl,
         name: "image.jpg",
@@ -332,7 +453,15 @@ const handleSpeak = async () => {
       fd.append("imageUrl", newSubIcon.imgUrl);
     }
 
-    if (newSubIcon.audioUrl && newSubIcon.audioUrl.startsWith("file")) {
+    if (audioFile) {
+      fd.append("audio", audioFile);
+    } else if (newSubIcon.audioUrl && isLocalMediaUri(newSubIcon.audioUrl)) {
+      if (Platform.OS === "web" && newSubIcon.audioUrl.startsWith("blob:")) {
+        alert("Please pick the audio again before saving.");
+        setIsSubmitting(false);
+        return;
+      }
+
       fd.append("audio", {
         uri: newSubIcon.audioUrl,
         name: "audio.m4a",
@@ -344,7 +473,7 @@ const handleSpeak = async () => {
 
     try {
       const res = await fetch(
-        `${APP_CONFIG.apiUrl.replace(/\/$/, "")}/icons/${parentIcon.id}/subicons`,
+        `${APP_CONFIG.contentApiUrl.replace(/\/$/, "")}/icons/${parentIcon.id}/subicons`,
         {
           method: "POST",
           body: fd,
@@ -353,6 +482,7 @@ const handleSpeak = async () => {
       const created = await res.json();
       setSubIcons((prev) => [...prev, created]);
       setOrderedIcons((prev) => [...prev, created]);
+      blurActiveElementOnWeb();
       setShowModal(false);
       setNewSubIcon({
         title_en: "",
@@ -369,6 +499,8 @@ const handleSpeak = async () => {
       });
       setImagePreview(null);
       setAudioPreview(null);
+      setImageFile(null);
+      setAudioFile(null);
     } catch (err) {
       console.error(err);
       alert("Failed to add SubIcon");
@@ -387,8 +519,13 @@ const handleSpeak = async () => {
 
   const renderIcon = ({ item }) => {
     const selected = selectedIds.includes(item.id);
-    const imageUri = normalizeMediaUrl(item?.imgUrl || item?.imageUrl);
+    const hasAnySelection = selectedIds.length > 0;
+    const rawImageUri = item?.imgUrl || item?.imageUrl;
+    const imageUri = rawImageUri?.startsWith("blob:")
+      ? null
+      : normalizeMediaUrl(rawImageUri, APP_CONFIG.contentApiBaseUrl);
     return (
+      <SelectableZoomCard selected={selected} hasAnySelection={hasAnySelection}>
       <View
         style={[
           styles.card,
@@ -406,8 +543,7 @@ const handleSpeak = async () => {
 
         <TouchableOpacity
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          // SubIcons have their own detail screen; send the whole subIcon object there.
-          onPress={() => navigation.navigate("SubIconDetail", { subIcon: item })}
+          onPress={() => openSubIcon(item)}
         >
           {imageUri ? (
             <Image
@@ -430,9 +566,15 @@ const handleSpeak = async () => {
             <Text style={[styles.cardExpr, { color: currentTheme.text }]}>
               {item[`expression_${lang}`] || item.expression_en}
             </Text>
+            {item?.subSubIcons?.length ? (
+              <Text style={[styles.cardExpr, { color: currentTheme.link || "#0d6efd" }]}>
+                {lang === "ar" ? "افتح تفاصيل أكثر" : "Open more options"}
+              </Text>
+            ) : null}
           </View>
         </TouchableOpacity>
       </View>
+      </SelectableZoomCard>
     );
   };
 
@@ -565,13 +707,14 @@ const handleSpeak = async () => {
                 placeholder="Image URL"
                 placeholderTextColor={currentTheme.text}
                 value={
-                  newSubIcon.imgUrl && !newSubIcon.imgUrl.startsWith("file")
+                  newSubIcon.imgUrl && !isLocalMediaUri(newSubIcon.imgUrl)
                     ? newSubIcon.imgUrl
                     : ""
                 }
                 onChangeText={(v) => {
                   setNewSubIcon((p) => ({ ...p, imgUrl: v }));
                   setImagePreview(v);
+                  setImageFile(null);
                 }}
                 style={[styles.input, { backgroundColor: currentTheme.background, color: currentTheme.text }]}
               />
@@ -582,6 +725,7 @@ const handleSpeak = async () => {
               onPress={() => {
                 setNewSubIcon((p) => ({ ...p, imgUrl: "" }));
                 setImagePreview(null);
+                setImageFile(null);
               }}
             >
               <Text style={styles.btnText}>Clear</Text>
@@ -612,6 +756,7 @@ const handleSpeak = async () => {
         const asset = result.assets[0];
         setNewSubIcon((p) => ({ ...p, imgUrl: asset.uri }));
         setImagePreview(asset.uri);
+        setImageFile(asset.file ?? null);
       }
 
       setImageMethod("camera"); // رجع القيمة بعد التقاط الصورة
@@ -640,13 +785,14 @@ const handleSpeak = async () => {
     placeholder="Image URL"
     placeholderTextColor={currentTheme.text}
     value={
-      newSubIcon.imgUrl && !newSubIcon.imgUrl.startsWith("file")
+      newSubIcon.imgUrl && !isLocalMediaUri(newSubIcon.imgUrl)
         ? newSubIcon.imgUrl
         : ""
     }
     onChangeText={(v) => {
       setNewSubIcon((p) => ({ ...p, imgUrl: v }));
       setImagePreview(v);
+      setImageFile(null);
     }}
     style={[styles.input, { backgroundColor: currentTheme.background, color: currentTheme.text }]}
   />
@@ -659,6 +805,7 @@ const handleSpeak = async () => {
     onPress={() => {
       setNewSubIcon((p) => ({ ...p, imgUrl: "" }));
       setImagePreview(null);
+      setImageFile(null);
     }}
   >
     <Text style={styles.btnText}>Clear</Text>
@@ -707,13 +854,14 @@ const handleSpeak = async () => {
                 placeholder="Audio URL"
                 placeholderTextColor={currentTheme.text}
                 value={
-                  newSubIcon.audioUrl && !newSubIcon.audioUrl.startsWith("file")
+                  newSubIcon.audioUrl && !isLocalMediaUri(newSubIcon.audioUrl)
                     ? newSubIcon.audioUrl
                     : ""
                 }
                 onChangeText={(v) => {
                   setNewSubIcon((p) => ({ ...p, audioUrl: v }));
                   setAudioPreview(v);
+                  setAudioFile(null);
                 }}
                 style={[styles.input, { backgroundColor: currentTheme.background, color: currentTheme.text }]}
               />
@@ -724,13 +872,14 @@ const handleSpeak = async () => {
               onPress={() => {
                 setNewSubIcon((p) => ({ ...p, audioUrl: "" }));
                 setAudioPreview(null);
+                setAudioFile(null);
               }}
             >
               <Text style={styles.btnText}>Clear</Text>
             </TouchableOpacity>
             {audioPreview ? (
               <Text style={{ color: currentTheme.text, textAlign: "center", marginTop: 6 }}>
-                Audio ready ({audioPreview.startsWith("file") ? "local" : "url"})
+                Audio ready ({isLocalMediaUri(audioPreview) ? "local" : "url"})
               </Text>
             ) : null}
 
@@ -744,7 +893,10 @@ const handleSpeak = async () => {
 
             <TouchableOpacity
               style={[styles.btn, { backgroundColor: currentTheme.muted || "#6c757d" }]}
-              onPress={() => setShowModal(false)}
+              onPress={() => {
+                blurActiveElementOnWeb();
+                setShowModal(false);
+              }}
             >
               <Text style={styles.btnText}>{lang === "ar" ? "إلغاء" : "Cancel"}</Text>
             </TouchableOpacity>
@@ -762,6 +914,13 @@ const styles = StyleSheet.create({
   input: { padding: 10, borderRadius: 8, width: 160, borderWidth: 1, borderColor: "#ccc" },
   picker: { width: 130, borderWidth: 1, borderColor: "#ccc" },
   pickerWide: { width: "100%", borderWidth: 1, borderColor: "#ccc", marginBottom: 8 },
+  cardAnimatedWrapper: {
+    paddingTop: 8,
+    paddingBottom: 10,
+  },
+  cardSelectedLayer: {
+    zIndex: 2,
+  },
   card: {
     width: CARD_WIDTH,
     height: 220,

@@ -1,80 +1,8 @@
-/*import express from "express";
-import {
-  getAllIcons,
-  getIconById,
-  createIcon,
-  updateIcon,
-  deleteIcon,
-  getSubIconById,
-  createSubIcon,
-  updateSubIcon,
-  deleteSubIcon
-} from "../controllers/iconController.js";
-
-const router = express.Router();
-
-// ===== ICON ROUTES =====
-// GET /icons?category=Real%20Life
-router.get("/", getAllIcons);
-
-// GET /icons/:id
-router.get("/:id", getIconById);
-
-// POST /icons
-router.post("/", createIcon);
-
-// PUT /icons/:id
-router.put("/:id", updateIcon);
-
-// DELETE /icons/:id
-router.delete("/:id", deleteIcon);
-
-// ===== SUBICON ROUTES =====
-// GET single subIcon
-router.get("/:iconId/subicons/:subIconId", getSubIconById);
-
-// POST new subIcon under an icon
-router.post("/:iconId/subicons", createSubIcon);
-
-// PUT update subIcon
-router.put("/subicons/:id", updateSubIcon);
-
-// DELETE subIcon
-router.delete("/subicons/:id", deleteSubIcon);
-
-export default router;*/
-/*import express from "express";
-import {
-  getAllIcons,
-  getIconById,
-  createIcon,
-  updateIcon,
-  deleteIcon,
-  getSubIconById,
-  createSubIcon,
-  updateSubIcon,
-  deleteSubIcon,
-} from "../controllers/iconController.js";
-
-const router = express.Router();
-
-// ===== ICONS =====
-router.get("/", getAllIcons);
-router.get("/:id", getIconById);
-router.post("/", createIcon);
-router.put("/:id", updateIcon);
-router.delete("/:id", deleteIcon);
-
-// ===== SUBICONS =====
-router.get("/:iconId/subicons/:subIconId", getSubIconById);
-router.post("/:iconId/subicons", createSubIcon);
-router.put("/subicons/:id", updateSubIcon);
-router.delete("/subicons/:id", deleteSubIcon);
-
-export default router;*/
 import express from "express";
-import multer from "multer"; // استيراد multer
+import fs from "fs";
 import path from "path";
+import multer from "multer";
+import { fileURLToPath } from "url";
 import {
   getAllIcons,
   getIconById,
@@ -85,31 +13,47 @@ import {
   createSubIcon,
   updateSubIcon,
   deleteSubIcon,
+  getSubSubIconById,
+  createSubSubIcon,
+  updateSubSubIcon,
+  deleteSubSubIcon,
 } from "../controllers/iconController.js";
 
 const router = express.Router();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const UPLOADS_DIR = path.join(__dirname, "..", "public", "uploads");
 
-// ===== MULTER =====
+fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "public/uploads"),
-  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
+  destination: (req, file, cb) => cb(null, UPLOADS_DIR),
+  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
 });
+
 const upload = multer({ storage });
 
-// ===== ICONS =====
 router.get("/", getAllIcons);
 router.get("/:id", getIconById);
 router.post("/", createIcon);
 router.put("/:id", updateIcon);
 router.delete("/:id", deleteIcon);
 
-// ===== SUBICONS =====
 router.get("/:iconId/subicons/:subIconId", getSubIconById);
-
-// **هنا نضيف multer**
 router.post("/:iconId/subicons", upload.single("image"), createSubIcon);
-
-router.put("/subicons/:id", updateSubIcon);
+router.put("/subicons/:id", upload.single("image"), updateSubIcon);
 router.delete("/subicons/:id", deleteSubIcon);
+
+router.get(
+  "/:iconId/subicons/:subIconId/subsubicons/:subSubIconId",
+  getSubSubIconById,
+);
+router.post(
+  "/:iconId/subicons/:subIconId/subsubicons",
+  upload.single("image"),
+  createSubSubIcon,
+);
+router.put("/subsubicons/:id", upload.single("image"), updateSubSubIcon);
+router.delete("/subsubicons/:id", deleteSubSubIcon);
 
 export default router;

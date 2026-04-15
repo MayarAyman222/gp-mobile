@@ -286,6 +286,7 @@ const imageFor = (item) =>
     item.imgUrl ||
     item.image ||
     item.translations?.image,
+    APP_CONFIG.contentApiBaseUrl,
   );
 
 /* =======================
@@ -306,7 +307,7 @@ const Category = () => {
     const fetchCategories = async () => {
       try {
         setLoading(true);
-        const res  = await fetch(`${APP_CONFIG.apiUrl}/maincategories`);
+        const res  = await fetch(`${APP_CONFIG.contentApiUrl}/maincategories`);
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
         const data = await res.json();
         const merged = [...data, ...EXTRA_CARDS];

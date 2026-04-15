@@ -52,7 +52,7 @@ const TimePeriod = () => {
       try {
         setLoading(true);
         const res = await fetch(
-          `${APP_CONFIG.apiUrl}/maincategories/${mainCategoryId}/timeperiods`,
+          `${APP_CONFIG.contentApiUrl}/maincategories/${mainCategoryId}/timeperiods`,
         );
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
         const data = await res.json();
@@ -77,7 +77,7 @@ const TimePeriod = () => {
 
   const renderItem = ({ item }) => {
     const label = labelFor(item, language);
-    const image = normalizeMediaUrl(item.imgUrl);
+    const image = normalizeMediaUrl(item.imgUrl, APP_CONFIG.contentApiBaseUrl);
 
     return (
       <TouchableOpacity

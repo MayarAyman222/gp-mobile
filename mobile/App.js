@@ -14,6 +14,8 @@ import SubIconDashboard from "./src/pages/SubIconDashboard";
 import IconDetail from "./src/pages/IconDetail";
 import Home from "./src/pages/Home";
 import SubIconDetail from "./src/pages/SubIconDetail";
+import SubSubIconPage from "./src/pages/SubSubIcon";
+import SubSubIconDetail from "./src/pages/SubSubIconDetail";
 import Profile from "./src/pages/profile";
 import Favourites from "./src/pages/favourite";
 import TimePeriod from "./src/pages/TimePeriod";
@@ -43,6 +45,8 @@ export default function App() {
              <Stack.Screen name="Dashboard" component={Dashboard} />
              <Stack.Screen name="SubIconDashboard" component={SubIconDashboard} />
             <Stack.Screen name="SubIconDetail" component={SubIconDetail} />
+            <Stack.Screen name="SubSubIcon" component={SubSubIconPage} />
+            <Stack.Screen name="SubSubIconDetail" component={SubSubIconDetail} />
             <Stack.Screen name="IconDetail" component={IconDetail} />
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Profile" component={Profile} />

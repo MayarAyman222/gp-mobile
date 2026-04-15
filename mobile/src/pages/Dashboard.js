@@ -74,11 +74,11 @@ const Dashboard = () => {
       try {
         let data;
         if (timePeriodId) {
-          const res = await fetch(`${APP_CONFIG.apiUrl}/timeperiods/${timePeriodId}/icons`);
+          const res = await fetch(`${APP_CONFIG.contentApiUrl}/timeperiods/${timePeriodId}/icons`);
           if (!res.ok) throw new Error(`Server error: ${res.status}`);
           data = await res.json();
         } else if (mainCategoryId) {
-          const res = await fetch(`${APP_CONFIG.apiUrl}/maincategories/${mainCategoryId}/icons`);
+          const res = await fetch(`${APP_CONFIG.contentApiUrl}/maincategories/${mainCategoryId}/icons`);
           if (!res.ok) throw new Error(`Server error: ${res.status}`);
           data = await res.json();
         } else {
@@ -165,7 +165,7 @@ const Dashboard = () => {
         >
           {item.imgUrl ? (
        <Image
-       source={{ uri: normalizeMediaUrl(item.imgUrl) }}
+       source={{ uri: normalizeMediaUrl(item.imgUrl, APP_CONFIG.contentApiBaseUrl) }}
         style={{ width: 95, height: 95, marginTop: 30 }}
             resizeMode="contain"
            />

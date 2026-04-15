@@ -1,6 +1,5 @@
 import Constants from "expo-constants";
 
-// Force all environments to use the production API.
 const DEFAULT_API_BASE = "http://168.231.101.20:5550";
 const DEFAULT_LOCAL_API_BASE = "http://localhost:5550";
 
@@ -15,6 +14,7 @@ const runtimeAppEnv = process.env.EXPO_PUBLIC_APP_ENV;
 const runtimeDevApiBaseUrl = process.env.EXPO_PUBLIC_DEV_API_BASE_URL;
 const runtimeProdApiBaseUrl = process.env.EXPO_PUBLIC_PROD_API_BASE_URL;
 const runtimeLocalApiBaseUrl = process.env.EXPO_PUBLIC_LOCAL_API_BASE_URL;
+const runtimeContentApiBaseUrl = process.env.EXPO_PUBLIC_CONTENT_API_BASE_URL;
 
 const appEnv = runtimeAppEnv || extra.appEnv || "production";
 const prodApiBaseUrl = runtimeProdApiBaseUrl || extra.prodApiBaseUrl || DEFAULT_API_BASE;
@@ -25,30 +25,43 @@ const localApiBaseUrl =
   extra.localApiBaseUrl ||
   DEFAULT_LOCAL_API_BASE;
 
-// Always hit production host.
+// Legacy/old flows stay on production by default.
 const apiBaseUrl = prodApiBaseUrl || devApiBaseUrl;
+// New content hierarchy flows use localhost in development and production in prod builds.
+const defaultContentApiBaseUrl =
+  appEnv === "development" ? localApiBaseUrl : apiBaseUrl;
+const contentApiBaseUrl =
+  runtimeContentApiBaseUrl ||
+  extra.contentApiBaseUrl ||
+  defaultContentApiBaseUrl;
+
 const toApiUrl = (baseUrl) => `${baseUrl.replace(/\/$/, "")}/api`;
 
 export const APP_CONFIG = {
   appEnv,
   apiBaseUrl: apiBaseUrl.replace(/\/$/, ""),
   apiUrl: toApiUrl(apiBaseUrl),
+  contentApiBaseUrl: contentApiBaseUrl.replace(/\/$/, ""),
+  contentApiUrl: toApiUrl(contentApiBaseUrl),
   prodApiBaseUrl: prodApiBaseUrl.replace(/\/$/, ""),
   prodApiUrl: toApiUrl(prodApiBaseUrl),
   localApiBaseUrl: localApiBaseUrl.replace(/\/$/, ""),
   localApiUrl: toApiUrl(localApiBaseUrl),
 };
 
-// Normalize any media URL to the current API origin.
-const baseOrigin = APP_CONFIG.apiBaseUrl;
-
-export const normalizeMediaUrl = (url) => {
+export const normalizeMediaUrl = (
+  url,
+  preferredBaseOrigin = APP_CONFIG.apiBaseUrl,
+) => {
   if (!url) return url;
   if (url.startsWith("blob:")) return url; // keep blobs untouched
+  const baseOrigin = preferredBaseOrigin.replace(/\/$/, "");
 
   if (/^https?:\/\//i.test(url)) {
     return url
       .replace(/https?:\/\/localhost(?::\d+)?/i, baseOrigin)
+      .replace(/https?:\/\/127\.0\.0\.1(?::\d+)?/i, baseOrigin)
+      .replace(/https?:\/\/10\.0\.2\.2(?::\d+)?/i, baseOrigin)
       .replace(/https?:\/\/192\.168\.\d+\.\d+(?::\d+)?/i, baseOrigin);
   }
 

@@ -1,17 +1,16 @@
-// SubIconDetail.js
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
   Animated,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
   useWindowDimensions,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { useRoute } from "@react-navigation/native";
 import { AppContext } from "../context/AppContext";
@@ -19,15 +18,16 @@ import { speakText } from "../Api/tts-translate-api";
 import { themes } from "../theme/theme";
 import { APP_CONFIG, normalizeMediaUrl } from "../config/appConfig";
 
-const SubIconDetail = () => {
+const SubSubIconDetail = () => {
   const route = useRoute();
-  const { subIcon } = route.params;
-
+  const { subSubIcon, parentSubIcon, parentIcon } = route.params || {};
   const { width } = useWindowDimensions();
-  const isMobile = width < 768;
-
   const { language: lang, theme } = useContext(AppContext);
-  const currentTheme = themes[theme];
+
+  const currentTheme = themes[theme] || themes.light;
+  const isMobile = width < 768;
+  const soundRef = useRef(null);
+  const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const [title, setTitle] = useState("");
   const [expression, setExpression] = useState("");
@@ -35,20 +35,39 @@ const SubIconDetail = () => {
   const [volume, setVolume] = useState(1);
   const [speed, setSpeed] = useState(1);
 
-  const soundRef = useRef(null);
-  const scaleAnim = useRef(new Animated.Value(1)).current;
+  useEffect(() => {
+    if (!subSubIcon) return;
+
+    setTitle(subSubIcon[`title_${lang}`] || subSubIcon.title_en || "");
+    setExpression(
+      subSubIcon[`expression_${lang}`] || subSubIcon.expression_en || "",
+    );
+  }, [lang, subSubIcon]);
 
   useEffect(() => {
-    if (!subIcon) return;
-    setTitle(subIcon[`title_${lang}`] || subIcon.title_en);
-    setExpression(subIcon[`expression_${lang}`] || subIcon.expression_en);
-  }, [subIcon, lang]);
+    return () => {
+      if (soundRef.current) {
+        soundRef.current.unloadAsync().catch(() => {});
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (soundRef.current) {
+      soundRef.current.setVolumeAsync(volume);
+      soundRef.current.setRateAsync(speed, true);
+    }
+  }, [speed, volume]);
 
   const handleSpeak = async () => {
     if (!expression) return;
 
     try {
       setSpeaking(true);
+
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+      });
 
       const result = await speakText(expression, lang);
       if (!result?.url) throw new Error("TTS failed");
@@ -61,41 +80,54 @@ const SubIconDetail = () => {
       const { sound } = await Audio.Sound.createAsync({
         uri: normalizeMediaUrl(result.url),
       });
-      soundRef.current = sound;
 
+      soundRef.current = sound;
       await sound.setVolumeAsync(volume);
       await sound.setRateAsync(speed, true);
       await sound.playAsync();
 
       sound.setOnPlaybackStatusUpdate((status) => {
-        if (status.didJustFinish) setSpeaking(false);
+        if (status.didJustFinish) {
+          setSpeaking(false);
+        }
       });
-    } catch (err) {
-      console.log("TTS error:", err);
+    } catch (error) {
+      console.log("SubSubIcon detail TTS error:", error);
       setSpeaking(false);
     }
   };
-
-  useEffect(() => {
-    if (soundRef.current) {
-      soundRef.current.setVolumeAsync(volume);
-      soundRef.current.setRateAsync(speed, true);
-    }
-  }, [volume, speed]);
 
   const pressIn = () =>
     Animated.spring(scaleAnim, {
       toValue: 1.05,
       useNativeDriver: true,
     }).start();
-  const pressOut = () =>
-    Animated.spring(scaleAnim, { toValue: 1, useNativeDriver: true }).start();
 
-  // backend uses `imgUrl`, but some code may send `imageUrl`; support both
+  const pressOut = () =>
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+
   const imageUri = normalizeMediaUrl(
-    subIcon?.imgUrl || subIcon?.imageUrl,
+    subSubIcon?.imgUrl || subSubIcon?.imageUrl,
     APP_CONFIG.contentApiBaseUrl,
   );
+
+  const parentSubIconTitle =
+    parentSubIcon?.[`title_${lang}`] || parentSubIcon?.title_en || "";
+  const parentIconTitle =
+    parentIcon?.[`title_${lang}`] || parentIcon?.title_en || "";
+
+  if (!subSubIcon) {
+    return (
+      <View
+        style={[styles.emptyState, { backgroundColor: currentTheme.background }]}
+      >
+        <Text style={{ color: currentTheme.text }}>No data found.</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView
@@ -111,26 +143,26 @@ const SubIconDetail = () => {
           },
         ]}
       >
-        {/* IMAGE */}
         <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
           <TouchableOpacity onPressIn={pressIn} onPressOut={pressOut}>
             {imageUri ? (
               <Image source={{ uri: imageUri }} style={styles.image} />
             ) : (
-              <FontAwesome5
-                name={subIcon.iconName || "image"}
-                size={180}
-                color={currentTheme.text}
-              />
+              <View style={styles.imageFallback}>
+                <FontAwesome5 name="image" size={140} color={currentTheme.text} />
+              </View>
             )}
           </TouchableOpacity>
         </Animated.View>
 
-        {/* CONTENT */}
         <View style={styles.content}>
-          <Text style={[styles.title, { color: currentTheme.text }]}>
-            {title}
-          </Text>
+          <Text style={[styles.title, { color: currentTheme.text }]}>{title}</Text>
+
+          {parentSubIconTitle || parentIconTitle ? (
+            <Text style={[styles.subtitle, { color: currentTheme.text }]}>
+              {[parentIconTitle, parentSubIconTitle].filter(Boolean).join(" / ")}
+            </Text>
+          ) : null}
 
           <Text style={[styles.expression, { color: currentTheme.text }]}>
             {expression}
@@ -141,20 +173,15 @@ const SubIconDetail = () => {
             onPress={handleSpeak}
             disabled={speaking}
           >
-            <Text style={styles.speakText}>
-              {speaking ? "..." : "🔊 Speak"}
-            </Text>
+            <Text style={styles.speakText}>{speaking ? "..." : "Speak"}</Text>
           </TouchableOpacity>
 
-          {/* CONTROLS */}
           <View
             style={[styles.controls, { backgroundColor: currentTheme.muted }]}
           >
-            {/* Volume */}
             <View style={styles.sliderBlock}>
               <Text style={{ color: currentTheme.text }}>
-                {lang === "ar" ? "الصوت" : "Volume"} —{" "}
-                {(volume * 100).toFixed(0)}%
+                {lang === "ar" ? "الصوت" : "Volume"} - {(volume * 100).toFixed(0)}%
               </Text>
               <Slider
                 style={{ width: "100%" }}
@@ -166,10 +193,9 @@ const SubIconDetail = () => {
               />
             </View>
 
-            {/* Speed */}
             <View style={styles.sliderBlock}>
               <Text style={{ color: currentTheme.text }}>
-                {lang === "ar" ? "السرعة" : "Speed"} — {speed.toFixed(2)}x
+                {lang === "ar" ? "السرعة" : "Speed"} - {speed.toFixed(2)}x
               </Text>
               <Slider
                 style={{ width: "100%" }}
@@ -187,12 +213,17 @@ const SubIconDetail = () => {
   );
 };
 
-export default SubIconDetail;
+export default SubSubIconDetail;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 6,
+  },
+  emptyState: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   card: {
     padding: 16,
@@ -204,7 +235,13 @@ const styles = StyleSheet.create({
     height: 330,
     borderRadius: 12,
     marginRight: 40,
-    marginBottom: 0,
+  },
+  imageFallback: {
+    width: 280,
+    height: 330,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
   },
   content: {
     width: "100%",
@@ -213,6 +250,12 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "700",
     marginBottom: 6,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 14,
+    marginBottom: 10,
+    opacity: 0.8,
     textAlign: "center",
   },
   expression: {
