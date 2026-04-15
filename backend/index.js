@@ -81,6 +81,26 @@ const nestedIconInclude = {
     },
   },
 };
+const nestedIconIncludeFallback = {
+  subIcons: true,
+};
+
+const isSubSubIconsIncludeError = (error) =>
+  typeof error?.message === "string" &&
+  error.message.includes("Unknown field `subSubIcons`") &&
+  error.message.includes("include statement on model `SubIcon`");
+
+const runWithSubSubIconsFallback = async (queryBuilder) => {
+  try {
+    return await queryBuilder(nestedIconInclude);
+  } catch (error) {
+    if (!isSubSubIconsIncludeError(error)) {
+      throw error;
+    }
+
+    return queryBuilder(nestedIconIncludeFallback);
+  }
+};
 
 // ===== MULTER SETUP =====
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
@@ -144,10 +164,12 @@ app.get("/api/maincategories", async (req, res) => {
 app.get("/api/maincategories/:id/icons", async (req, res) => {
   const mainCategoryId = parseInt(req.params.id);
   try {
-    const icons = await prisma.icon.findMany({
-      where: { mainCategoryId },
-      include: nestedIconInclude,
-    });
+    const icons = await runWithSubSubIconsFallback((include) =>
+      prisma.icon.findMany({
+        where: { mainCategoryId },
+        include,
+      }),
+    );
     res.json(icons);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -171,10 +193,12 @@ app.get("/api/maincategories/:id/timeperiods", async (req, res) => {
 app.get("/api/timeperiods/:id/icons", async (req, res) => {
   const timePeriodId = parseInt(req.params.id);
   try {
-    const icons = await prisma.icon.findMany({
-      where: { timePeriodId },
-      include: nestedIconInclude,
-    });
+    const icons = await runWithSubSubIconsFallback((include) =>
+      prisma.icon.findMany({
+        where: { timePeriodId },
+        include,
+      }),
+    );
     res.json(icons);
   } catch (err) {
     res.status(500).json({ message: err.message });

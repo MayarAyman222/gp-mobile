@@ -11,10 +11,35 @@ const iconInclude = {
     },
   },
 };
+const iconIncludeFallback = {
+  mainCategory: true,
+  timePeriod: true,
+  subIcons: true,
+};
 
 const subIconInclude = {
   icon: true,
   subSubIcons: true,
+};
+const subIconIncludeFallback = {
+  icon: true,
+};
+
+const isSubSubIconsIncludeError = (error) =>
+  typeof error?.message === "string" &&
+  error.message.includes("Unknown field `subSubIcons`") &&
+  error.message.includes("include statement on model `SubIcon`");
+
+const runWithSubSubIconsFallback = async (queryBuilder, fallbackBuilder = queryBuilder) => {
+  try {
+    return await queryBuilder();
+  } catch (error) {
+    if (!isSubSubIconsIncludeError(error)) {
+      throw error;
+    }
+
+    return fallbackBuilder();
+  }
 };
 
 const resolveImagePath = (req) => {
@@ -34,10 +59,18 @@ export const getAllIcons = async (req, res) => {
   try {
     const { category } = req.query;
 
-    const icons = await prisma.icon.findMany({
-      where: category ? { category } : {},
-      include: iconInclude,
-    });
+    const icons = await runWithSubSubIconsFallback(
+      () =>
+        prisma.icon.findMany({
+          where: category ? { category } : {},
+          include: iconInclude,
+        }),
+      () =>
+        prisma.icon.findMany({
+          where: category ? { category } : {},
+          include: iconIncludeFallback,
+        }),
+    );
 
     res.json(icons);
   } catch (error) {
@@ -48,10 +81,18 @@ export const getAllIcons = async (req, res) => {
 
 export const getIconById = async (req, res) => {
   try {
-    const icon = await prisma.icon.findUnique({
-      where: { id: Number(req.params.id) },
-      include: iconInclude,
-    });
+    const icon = await runWithSubSubIconsFallback(
+      () =>
+        prisma.icon.findUnique({
+          where: { id: Number(req.params.id) },
+          include: iconInclude,
+        }),
+      () =>
+        prisma.icon.findUnique({
+          where: { id: Number(req.params.id) },
+          include: iconIncludeFallback,
+        }),
+    );
 
     if (!icon) {
       return res.status(404).json({ message: "Icon not found" });
@@ -86,30 +127,40 @@ export const createIcon = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    const icon = await prisma.icon.create({
-      data: {
-        title_en,
-        title_ar: title_ar || "",
-        title_fr: title_fr || "",
-        title_es: title_es || "",
-        expression_en: expression_en || "",
-        expression_ar: expression_ar || "",
-        expression_fr: expression_fr || "",
-        expression_es: expression_es || "",
-        imgUrl: imgUrl || null,
-        iconName: iconName || null,
-        category,
-        mainCategory: {
-          connect: { id: Number(mainCategoryId) },
-        },
-        timePeriod: timePeriodId
-          ? {
-              connect: { id: Number(timePeriodId) },
-            }
-          : undefined,
+    const iconData = {
+      title_en,
+      title_ar: title_ar || "",
+      title_fr: title_fr || "",
+      title_es: title_es || "",
+      expression_en: expression_en || "",
+      expression_ar: expression_ar || "",
+      expression_fr: expression_fr || "",
+      expression_es: expression_es || "",
+      imgUrl: imgUrl || null,
+      iconName: iconName || null,
+      category,
+      mainCategory: {
+        connect: { id: Number(mainCategoryId) },
       },
-      include: iconInclude,
-    });
+      timePeriod: timePeriodId
+        ? {
+            connect: { id: Number(timePeriodId) },
+          }
+        : undefined,
+    };
+
+    const icon = await runWithSubSubIconsFallback(
+      () =>
+        prisma.icon.create({
+          data: iconData,
+          include: iconInclude,
+        }),
+      () =>
+        prisma.icon.create({
+          data: iconData,
+          include: iconIncludeFallback,
+        }),
+    );
 
     res.status(201).json(icon);
   } catch (error) {
@@ -120,11 +171,21 @@ export const createIcon = async (req, res) => {
 
 export const updateIcon = async (req, res) => {
   try {
-    const icon = await prisma.icon.update({
-      where: { id: Number(req.params.id) },
-      data: req.body,
-      include: iconInclude,
-    });
+    const where = { id: Number(req.params.id) };
+    const icon = await runWithSubSubIconsFallback(
+      () =>
+        prisma.icon.update({
+          where,
+          data: req.body,
+          include: iconInclude,
+        }),
+      () =>
+        prisma.icon.update({
+          where,
+          data: req.body,
+          include: iconIncludeFallback,
+        }),
+    );
 
     res.json(icon);
   } catch (error) {
@@ -158,10 +219,19 @@ export const deleteIcon = async (req, res) => {
 
 export const getSubIconById = async (req, res) => {
   try {
-    const subIcon = await prisma.subIcon.findUnique({
-      where: { id: Number(req.params.subIconId) },
-      include: subIconInclude,
-    });
+    const where = { id: Number(req.params.subIconId) };
+    const subIcon = await runWithSubSubIconsFallback(
+      () =>
+        prisma.subIcon.findUnique({
+          where,
+          include: subIconInclude,
+        }),
+      () =>
+        prisma.subIcon.findUnique({
+          where,
+          include: subIconIncludeFallback,
+        }),
+    );
 
     if (!subIcon) {
       return res.status(404).json({ message: "SubIcon not found" });
@@ -188,24 +258,34 @@ export const createSubIcon = async (req, res) => {
       category,
     } = req.body;
 
-    const subIcon = await prisma.subIcon.create({
-      data: {
-        title_en,
-        title_ar: title_ar || "",
-        title_fr: title_fr || "",
-        title_es: title_es || "",
-        expression_en: expression_en || "",
-        expression_ar: expression_ar || "",
-        expression_fr: expression_fr || "",
-        expression_es: expression_es || "",
-        imgUrl: resolveImagePath(req) || "",
-        category: category || "",
-        icon: {
-          connect: { id: Number(req.params.iconId) },
-        },
+    const subIconData = {
+      title_en,
+      title_ar: title_ar || "",
+      title_fr: title_fr || "",
+      title_es: title_es || "",
+      expression_en: expression_en || "",
+      expression_ar: expression_ar || "",
+      expression_fr: expression_fr || "",
+      expression_es: expression_es || "",
+      imgUrl: resolveImagePath(req) || "",
+      category: category || "",
+      icon: {
+        connect: { id: Number(req.params.iconId) },
       },
-      include: subIconInclude,
-    });
+    };
+
+    const subIcon = await runWithSubSubIconsFallback(
+      () =>
+        prisma.subIcon.create({
+          data: subIconData,
+          include: subIconInclude,
+        }),
+      () =>
+        prisma.subIcon.create({
+          data: subIconData,
+          include: subIconIncludeFallback,
+        }),
+    );
 
     res.status(201).json(subIcon);
   } catch (error) {
@@ -216,14 +296,25 @@ export const createSubIcon = async (req, res) => {
 
 export const updateSubIcon = async (req, res) => {
   try {
-    const subIcon = await prisma.subIcon.update({
-      where: { id: Number(req.params.id) },
-      data: {
-        ...req.body,
-        ...(resolveImagePath(req) ? { imgUrl: resolveImagePath(req) } : {}),
-      },
-      include: subIconInclude,
-    });
+    const where = { id: Number(req.params.id) };
+    const data = {
+      ...req.body,
+      ...(resolveImagePath(req) ? { imgUrl: resolveImagePath(req) } : {}),
+    };
+    const subIcon = await runWithSubSubIconsFallback(
+      () =>
+        prisma.subIcon.update({
+          where,
+          data,
+          include: subIconInclude,
+        }),
+      () =>
+        prisma.subIcon.update({
+          where,
+          data,
+          include: subIconIncludeFallback,
+        }),
+    );
 
     res.json(subIcon);
   } catch (error) {
