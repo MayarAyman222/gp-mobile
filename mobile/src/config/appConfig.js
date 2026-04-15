@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 
 const DEFAULT_API_BASE = "http://168.231.101.20:5550";
-const DEFAULT_LOCAL_API_BASE = "http://localhost:5550";
+const DEFAULT_LOCAL_API_BASE = DEFAULT_API_BASE;
 
 const extra =
   Constants?.expoConfig?.extra ||
@@ -27,9 +27,9 @@ const localApiBaseUrl =
 
 // Legacy/old flows stay on production by default.
 const apiBaseUrl = prodApiBaseUrl || devApiBaseUrl;
-// New content hierarchy flows use localhost in development and production in prod builds.
-const defaultContentApiBaseUrl =
-  appEnv === "development" ? localApiBaseUrl : apiBaseUrl;
+// Content hierarchy flows also use the production API by default.
+// Override with EXPO_PUBLIC_CONTENT_API_BASE_URL if you explicitly want another host.
+const defaultContentApiBaseUrl = apiBaseUrl;
 const contentApiBaseUrl =
   runtimeContentApiBaseUrl ||
   extra.contentApiBaseUrl ||

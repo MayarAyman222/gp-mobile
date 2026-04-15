@@ -69,8 +69,8 @@
       "appEnv": "production",
       "devApiBaseUrl": "http://168.231.101.20:5550",
       "prodApiBaseUrl": "http://168.231.101.20:5550",
-      "localApiBaseUrl": "http://localhost:5550",
-      "contentApiBaseUrl": "",
+      "localApiBaseUrl": "http://168.231.101.20:5550",
+      "contentApiBaseUrl": "http://168.231.101.20:5550",
       "router": {},
       "eas": {
         "projectId": "42f196f5-dea7-4bad-9d29-bcb6b70854b8"
