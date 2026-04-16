@@ -192,7 +192,7 @@ export default function SubIconDashboard() {
     );
   };
 
-  const openSubIcon = async (item) => {
+ /* const openSubIcon = async (item) => {
     const navigateWithItem = (resolvedItem) => {
       blurActiveElementOnWeb();
 
@@ -246,7 +246,45 @@ export default function SubIconDashboard() {
       console.log("Failed to load sub icon details", error);
       navigateWithItem(item);
     }
+  };*/
+  const openSubIcon = async (item) => {
+  const navigateWithItem = (resolvedItem) => {
+    blurActiveElementOnWeb();
+
+    if (resolvedItem?.subSubIcons?.length) {
+      navigation.navigate("SubSubIcon", {
+        parentSubIcon: resolvedItem,
+        parentIcon: mainIcon,
+      });
+    } else {
+      navigation.navigate("SubIconDetail", { subIcon: resolvedItem });
+    }
   };
+
+  try {
+    const detailedSubIcon = await getSubIconById(mainIcon.id, item.id);
+
+    const resolvedItem = detailedSubIcon || item;
+
+    setSubIcons((previous) =>
+      previous.map((subIcon) =>
+        subIcon.id === resolvedItem.id ? resolvedItem : subIcon
+      )
+    );
+
+    setOrderedIcons((previous) =>
+      previous.map((subIcon) =>
+        subIcon.id === resolvedItem.id ? resolvedItem : subIcon
+      )
+    );
+
+    navigateWithItem(resolvedItem);
+
+  } catch (error) {
+    console.log("Failed to load sub icon details", error);
+    navigateWithItem(item);
+  }
+};
 
   const generateSentence = () => {
     const expressions = selectedIds
