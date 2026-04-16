@@ -221,8 +221,13 @@ export default function SubIconDashboard() {
 
     try {
       console.log("Fetching detailed subIcon for item:", item.title_en);
+      console.log("API URL:", `icons/${mainIcon.id}/subicons/${item.id}`);
       const detailedSubIcon = await getSubIconById(mainIcon.id, item.id);
-      console.log("API Response:", JSON.stringify(detailedSubIcon, null, 2));
+      console.log("API Response keys:", Object.keys(detailedSubIcon || {}));
+      console.log("API subSubIcons field:", detailedSubIcon?.subSubIcons);
+      console.log("API subSubIcons type:", typeof detailedSubIcon?.subSubIcons);
+      console.log("API subSubIcons is array?", Array.isArray(detailedSubIcon?.subSubIcons));
+      console.log("API subSubIcons length:", detailedSubIcon?.subSubIcons?.length);
       const resolvedItem = detailedSubIcon || item;
 
       setSubIcons((previous) =>

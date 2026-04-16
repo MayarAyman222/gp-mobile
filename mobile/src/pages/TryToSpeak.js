@@ -152,33 +152,63 @@ const TryToSpeak = () => {
   }, [targetWord]);
 
   useSpeechRecognitionEvent("result", (event) => {
-    const transcriptText = event?.results?.[0]?.transcript || "";
-    if (!transcriptText) return;
+    console.log("🎤 RESULT EVENT:", JSON.stringify(event, null, 2));
+
+    let transcriptText = "";
+    if (typeof event === "string") {
+      transcriptText = event;
+    } else if (event?.transcript) {
+      transcriptText = event.transcript;
+    } else if (event?.results?.[0]?.transcript) {
+      transcriptText = event.results[0].transcript;
+    } else if (Array.isArray(event?.results) && event.results.length > 0) {
+      transcriptText = event.results[0]?.transcript || String(event.results[0]) || "";
+    }
+
+    console.log("📝 Extracted transcript:", transcriptText);
+    if (!transcriptText) {
+      console.warn("❌ No transcript in event");
+      return;
+    }
 
     handleTranscript(transcriptText);
-    if (event.isFinal) {
+    if (event?.isFinal) {
+      console.log("✅ Result is final");
       setListening(false);
     }
   });
 
   useSpeechRecognitionEvent("error", (event) => {
-    setError(`Speech recognition error (${event.error}): ${event.message}`);
+    console.error("❌ ERROR EVENT:", JSON.stringify(event, null, 2));
+    const errorMsg = `خطأ: ${event?.error || "unknown"} - ${event?.message || ""}`;
+    setError(errorMsg);
     setListening(false);
   });
 
   useSpeechRecognitionEvent("start", () => {
+    console.log("🎙️ START EVENT - Listening started");
+    gotResultRef.current = false;
     setListening(true);
     setError("");
   });
 
   useSpeechRecognitionEvent("end", () => {
+    console.log("🛑 END EVENT - Listening stopped");
+    if (!gotResultRef.current) {
+      const noSpeechError = "لم يتم اكتشاف صوت. تأكد من:\n1. الميكروفون قيد التشغيل\n2. التحدث بوضوح";
+      console.warn(noSpeechError);
+      setError(noSpeechError);
+    }
+    gotResultRef.current = false;
     setListening(false);
   });
 
   const handleTranscript = (text) => {
+    console.log("✅ handleTranscript called with:", text);
     gotResultRef.current = true;
     setTranscript(text);
     const newScore = calcScore(targetWord, text);
+    console.log("📊 Score calculated:", newScore);
     setScore(newScore);
     setMessage(newScore >= 70 ? "تم" : "Fail and try again");
 
@@ -198,14 +228,16 @@ const TryToSpeak = () => {
     setAttempts((prev) => {
       const updated = [...prev, { score: newScore, ts: Date.now() }];
       const key = `speech_attempts_${String(targetWord).trim().toLowerCase()}`;
-      AsyncStorage.setItem(key, JSON.stringify(updated)).catch(() => {});
+      AsyncStorage.setItem(key, JSON.stringify(updated)).catch(() => { });
       return updated;
     });
   };
 
   // Start recording
   const startRecording = async () => {
+    console.log("\n🚀 Starting recording...");
     setError("");
+    gotResultRef.current = false;
 
     if (!targetWord.trim()) {
       setError("اكتب الكلمة أولاً.");
@@ -218,36 +250,59 @@ const TryToSpeak = () => {
     setImprovement(null);
 
     try {
-      const permission =
-        await ExpoSpeechRecognitionModule.requestPermissionsAsync();
-      if (!permission.granted) {
-        setError("Microphone permission denied.");
+      // Check if recognition is available first
+      console.log("Checking if speech recognition is available...");
+      const isAvailable = ExpoSpeechRecognitionModule.isRecognitionAvailable();
+      console.log("Is available:", isAvailable);
+
+      if (!isAvailable) {
+        const msg = "Speech recognition not available on this device";
+        console.error(msg);
+        setError(msg);
         return;
       }
 
-      if (!ExpoSpeechRecognitionModule.isRecognitionAvailable()) {
-        setError("Speech recognition is not available on this device.");
+      // Request permissions
+      console.log("Requesting microphone permissions...");
+      let permissionResponse;
+      try {
+        permissionResponse = await ExpoSpeechRecognitionModule.requestPermissionsAsync();
+      } catch (permErr) {
+        console.warn("Permission request error (may be expected on web):", permErr);
+        permissionResponse = { granted: true };
+      }
+
+      console.log("Permission response:", permissionResponse);
+
+      if (!permissionResponse?.granted) {
+        setError("تم رفض إذن الميكروفون.");
         return;
       }
 
+      console.log("Starting ExpoSpeechRecognitionModule with lang:", language);
       setListening(true);
+
       ExpoSpeechRecognitionModule.start({
         lang: language,
         interimResults: false,
         maxAlternatives: 1,
       });
+
+      console.log("✅ Start command sent");
     } catch (err) {
-      console.error("startRecording error", err);
-      setError("Speech recognition failed to start.");
+      console.error("❌ startRecording error:", err);
+      setError(`خطأ: ${err.message || "فشل بدء التسجيل"}`);
       setListening(false);
     }
   };
 
   const stopRecording = async () => {
     try {
+      console.log("⏹️ Stopping speech recognition...");
       ExpoSpeechRecognitionModule.stop();
+      console.log("✅ Stop command sent");
     } catch (err) {
-      console.warn("stopRecording error", err);
+      console.error("❌ stopRecording error:", err);
     }
 
     setListening(false);

@@ -38,6 +38,7 @@ const runWithSubSubIconsFallback = async (queryBuilder, fallbackBuilder = queryB
       throw error;
     }
 
+    console.warn("⚠️ subSubIcons include failed, using fallback. Error:", error.message);
     return fallbackBuilder();
   }
 };
