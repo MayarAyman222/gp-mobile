@@ -516,15 +516,15 @@ const breakfastMilkChoices = createGroup("Breakfast", "/public/breakfast/milk.pn
   { title_en: "Chocolate Milk",   title_ar: "لبن بالشوكولاتة",    expression_en: "I want chocolate milk",   expression_ar: "أريد لبن بالشوكولاتة",    imgUrl: "/public/Food and Drink/chocolate_milk.png" },
 ]);
 const breakfastCoffeeChoices = createGroup("Breakfast", "/public/breakfast/coffee.png", [
-  { title_en: "Black Coffee",      title_ar: "قهوة سادة",   expression_en: "I want black coffee",      expression_ar: "أريد قهوة سادة",   imgUrl: "/public/Food and Drink/coffe.png" },
-  { title_en: "Coffee with Milk",  title_ar: "قهوة بلبن",   expression_en: "I want coffee with milk",  expression_ar: "أريد قهوة بلبن",   imgUrl: "/public/talk/coffee.png" },
-  { title_en: "Nescafe",           title_ar: "نسكافيه",      expression_en: "I want nescafe",           expression_ar: "أريد نسكافيه",     imgUrl: "/public/Food and Drink/coffe.png" },
+  { title_en: "Black Coffee",      title_ar: "قهوة سادة",   expression_en: "I want black coffee",      expression_ar: "أريد قهوة سادة",   imgUrl: "/public/Food and Drink/dark_coffee.png" },
+  { title_en: "Coffee with Milk",  title_ar: "قهوة بلبن",   expression_en: "I want coffee with milk",  expression_ar: "أريد قهوة بلبن",   imgUrl: "/public/Food and Drink/coffee_with_milk.png" },
+  { title_en: "Nescafe",           title_ar: "نسكافيه",      expression_en: "I want nescafe",           expression_ar: "أريد نسكافيه",     imgUrl: "/public/Food and Drink/nescafee.png" },
 ]);
 
 const breakfastTeaChoices = createGroup("Breakfast", "/public/breakfast/tea.png", [
-  { title_en: "Tea with Milk", title_ar: "شاي بلبن",    expression_en: "I want tea with milk", expression_ar: "أريد شاي بلبن",    imgUrl: "/public/talk/tea.png" },
-  { title_en: "Green Tea",     title_ar: "شاي أخضر",   expression_en: "I want green tea",     expression_ar: "أريد شاي أخضر",   imgUrl: "/public/Food and Drink/tea.png" },
-  { title_en: "Red Tea",       title_ar: "شاي أحمر",   expression_en: "I want red tea",       expression_ar: "أريد شاي أحمر",   imgUrl: "/public/Food and Drink/tea.png" },
+  { title_en: "Tea with Milk", title_ar: "شاي بلبن",    expression_en: "I want tea with milk", expression_ar: "أريد شاي بلبن",    imgUrl: "/public/Food and Drink/milk_tea.png" },
+  { title_en: "Green Tea",     title_ar: "شاي أخضر",   expression_en: "I want green tea",     expression_ar: "أريد شاي أخضر",   imgUrl: "/public/Food and Drink/green_tea.png" },
+  { title_en: "Red Tea",       title_ar: "شاي أحمر",   expression_en: "I want red tea",       expression_ar: "أريد شاي أحمر",   imgUrl: "/public/Food and Drink/red_tea.png" },
 ]);
 
 const breakfastJuiceChoices = createGroup("Breakfast", "/public/breakfast/juice.png", [
@@ -534,47 +534,47 @@ const breakfastJuiceChoices = createGroup("Breakfast", "/public/breakfast/juice.
 ]);
 
 const breakfastBeansChoices = createGroup("Breakfast", "/public/breakfast/beans.png", [
-  { title_en: "Plain Beans",        title_ar: "فول سادة",       expression_en: "I want plain beans",        expression_ar: "أريد فول سادة",       imgUrl: "/public/Food and Drink/vegetablesz.png" },
-  { title_en: "Beans with Oil",     title_ar: "فول بالزيت",     expression_en: "I want beans with oil",     expression_ar: "أريد فول بالزيت",     imgUrl: "/public/Food and Drink/vegetablesz.png" },
-  { title_en: "Beans with Tahini",  title_ar: "فول بالطحينة",   expression_en: "I want beans with tahini",  expression_ar: "أريد فول بالطحينة",   imgUrl: "/public/Food and Drink/13.png" },
+  { title_en: "Plain Beans",        title_ar: "فول سادة",       expression_en: "I want plain beans",        expression_ar: "أريد فول سادة",       imgUrl: "/public/Food and Drink/vegetableszz.png" },
+  { title_en: "Beans with Oil",     title_ar: "فول بالزيت",     expression_en: "I want beans with oil",     expression_ar: "أريد فول بالزيت",     imgUrl: "/public/Food and Drink/vegetablessz.png" },
+  { title_en: "Beans with Tahini",  title_ar: "فول بالطحينة",   expression_en: "I want beans with tahini",  expression_ar: "أريد فول بالطحينة",   imgUrl: "/public/Food and Drink/133.png" },
 ]);
 
 const breakfastFruitChoices = createGroup("Breakfast", "/public/breakfast/fruits.png", [
   { title_en: "Apple",  title_ar: "تفاح", expression_en: "I want an apple", expression_ar: "أريد تفاح", imgUrl: "/public/Food and Drink/apple.png" },
-  { title_en: "Banana", title_ar: "موز",  expression_en: "I want a banana", expression_ar: "أريد موز",  imgUrl: "/public/Food and Drink/mozz.png" },
-  { title_en: "Dates",  title_ar: "بلح",  expression_en: "I want dates",    expression_ar: "أريد بلح",  imgUrl: "/public/Food and Drink/1.png" },
+  { title_en: "Banana", title_ar: "موز",  expression_en: "I want a banana", expression_ar: "أريد موز",  imgUrl: "/public/Food and Drink/mozzz.png" },
+  { title_en: "Dates",  title_ar: "بلح",  expression_en: "I want dates",    expression_ar: "أريد بلح",  imgUrl: "/public/Food and Drink/11.png" },
 ]);
 
 const breakfastCerealChoices = createGroup("Breakfast", "/public/breakfast/cereal.png", [
-  { title_en: "Corn Flakes",       title_ar: "كورن فليكس",     expression_en: "I want corn flakes",       expression_ar: "أريد كورن فليكس",     imgUrl: "/public/talk/cereal.png" },
-  { title_en: "Chocolate Cereal",  title_ar: "حبوب شوكولاتة",  expression_en: "I want chocolate cereal",  expression_ar: "أريد حبوب شوكولاتة",  imgUrl: "/public/Food and Drink/chocolate.png" },
-  { title_en: "Oats",              title_ar: "شوفان",           expression_en: "I want oats",              expression_ar: "أريد شوفان",           imgUrl: "/public/Food and Drink/16.png" },
+  { title_en: "Corn Flakes",       title_ar: "كورن فليكس",     expression_en: "I want corn flakes",       expression_ar: "أريد كورن فليكس",     imgUrl: "/public/Food and Drink/cereal.png" },
+  { title_en: "Chocolate Cereal",  title_ar: "حبوب شوكولاتة",  expression_en: "I want chocolate cereal",  expression_ar: "أريد حبوب شوكولاتة",  imgUrl: "/public/Food and Drink/chocolateee.png" },
+  { title_en: "Oats",              title_ar: "شوفان",           expression_en: "I want oats",              expression_ar: "أريد شوفان",           imgUrl: "/public/Food and Drink/oats.png" },
 ]);
 
 const breakfastHoneyChoices = createGroup("Breakfast", "/public/breakfast/honey.png", [
-  { title_en: "White Honey", title_ar: "عسل أبيض", expression_en: "I want white honey", expression_ar: "أريد عسل أبيض", imgUrl: "/public/Food and Drink/asl.png" },
-  { title_en: "Black Honey", title_ar: "عسل أسود", expression_en: "I want black honey", expression_ar: "أريد عسل أسود", imgUrl: "/public/Food and Drink/asl.png" },
+  { title_en: "White Honey", title_ar: "عسل أبيض", expression_en: "I want white honey", expression_ar: "أريد عسل أبيض", imgUrl: "/public/Food and Drink/White Honey.png" },
+  { title_en: "Black Honey", title_ar: "عسل أسود", expression_en: "I want black honey", expression_ar: "أريد عسل أسود", imgUrl: "/public/Food and Drink/Black Honey.png" },
 ]);
 
 // ─────────────────────────────────────────────
 // LUNCH
 // ─────────────────────────────────────────────
 const lunchRiceChoices = createGroup("Lunch", "/public/lunch/rice.png", [
-  { title_en: "White Rice",           title_ar: "أرز أبيض",       expression_en: "I want white rice",           expression_ar: "أريد أرز أبيض",       imgUrl: "/public/Food and Drink/roz.png" },
-  { title_en: "Rice with Vegetables", title_ar: "أرز بالخضار",    expression_en: "I want rice with vegetables", expression_ar: "أريد أرز بالخضار",    imgUrl: "/public/talk/rice.png" },
-  { title_en: "Rice with Chicken",    title_ar: "أرز بالفراخ",    expression_en: "I want rice with chicken",    expression_ar: "أريد أرز بالفراخ",    imgUrl: "/public/Food and Drink/frahk.png" },
+  { title_en: "White Rice",           title_ar: "أرز أبيض",       expression_en: "I want white rice",           expression_ar: "أريد أرز أبيض",       imgUrl: "/public/Food and Drink/White_Rice.png" },
+  { title_en: "Rice with Vegetables", title_ar: "أرز بالخضار",    expression_en: "I want rice with vegetables", expression_ar: "أريد أرز بالخضار",    imgUrl: "/public/Food and Drink/rice.png" },
+  { title_en: "Rice with Chicken",    title_ar: "أرز بالفراخ",    expression_en: "I want rice with chicken",    expression_ar: "أريد أرز بالفراخ",    imgUrl: "/public/Food and Drink/frahkkk.png" },
 ]);
 
 const lunchPastaChoices = createGroup("Lunch", "/public/lunch/pasta.png", [
-  { title_en: "Red Sauce Pasta",   title_ar: "مكرونة بالصلصة",       expression_en: "I want pasta with red sauce",   expression_ar: "أريد مكرونة بالصلصة",       imgUrl: "/public/talk/pasta.png" },
-  { title_en: "Bechamel Pasta",    title_ar: "مكرونة بشاميل",         expression_en: "I want bechamel pasta",         expression_ar: "أريد مكرونة بشاميل",         imgUrl: "/public/Food and Drink/15.png" },
-  { title_en: "White Sauce Pasta", title_ar: "مكرونة وايت صوص",       expression_en: "I want pasta with white sauce", expression_ar: "أريد مكرونة وايت صوص",       imgUrl: "/public/talk/pasta.png" },
+  { title_en: "Red Sauce Pasta",   title_ar: "مكرونة بالصلصة",       expression_en: "I want pasta with red sauce",   expression_ar: "أريد مكرونة بالصلصة",       imgUrl: "/public/Food and Drink/pasta.png" },
+  { title_en: "Bechamel Pasta",    title_ar: "مكرونة بشاميل",         expression_en: "I want bechamel pasta",         expression_ar: "أريد مكرونة بشاميل",         imgUrl: "/public/Food and Drink/155.png" },
+  { title_en: "White Sauce Pasta", title_ar: "مكرونة وايت صوص",       expression_en: "I want pasta with white sauce", expression_ar: "أريد مكرونة وايت صوص",       imgUrl: "/public/Food and Drink/pastas.png" },
 ]);
 
 const lunchChickenChoices = createGroup("Lunch", "/public/lunch/chicken.png", [
-  { title_en: "Grilled Chicken",  title_ar: "فراخ مشوية",    expression_en: "I want grilled chicken",  expression_ar: "أريد فراخ مشوية",    imgUrl: "/public/Food and Drink/frahkk.png" },
+  { title_en: "Grilled Chicken",  title_ar: "فراخ مشوية",    expression_en: "I want grilled chicken",  expression_ar: "أريد فراخ مشوية",    imgUrl: "/public/Food and Drink/frahkkkkk.png" },
   { title_en: "Fried Chicken",    title_ar: "فراخ مقلية",    expression_en: "I want fried chicken",    expression_ar: "أريد فراخ مقلية",    imgUrl: "/public/Food and Drink/chicken.png" },
-  { title_en: "Roasted Chicken",  title_ar: "فراخ في الفرن", expression_en: "I want roasted chicken",  expression_ar: "أريد فراخ في الفرن", imgUrl: "/public/Food and Drink/frahkk.png" },
+  { title_en: "Roasted Chicken",  title_ar: "فراخ في الفرن", expression_en: "I want roasted chicken",  expression_ar: "أريد فراخ في الفرن", imgUrl: "/public/Food and Drink/frahkkkkkkkkkkk.png" },
 ]);
 
 const lunchMeatChoices = createGroup("Lunch", "/public/lunch/meat.png", [
@@ -584,27 +584,29 @@ const lunchMeatChoices = createGroup("Lunch", "/public/lunch/meat.png", [
 ]);
 
 const lunchFishChoices = createGroup("Lunch", "/public/lunch/fish.png", [
-  { title_en: "Grilled Fish", title_ar: "سمك مشوي",   expression_en: "I want grilled fish", expression_ar: "أريد سمك مشوي",   imgUrl: "/public/Food and Drink/fish.png" },
-  { title_en: "Fried Fish",   title_ar: "سمك مقلي",   expression_en: "I want fried fish",   expression_ar: "أريد سمك مقلي",   imgUrl: "/public/talk/fish.png" },
-  { title_en: "Fish Fillet",  title_ar: "فيليه سمك",  expression_en: "I want fish fillet",  expression_ar: "أريد فيليه سمك",  imgUrl: "/public/Food and Drink/fish.png" },
+  { title_en: "Grilled Fish", title_ar: "سمك مشوي",   expression_en: "I want grilled fish", expression_ar: "أريد سمك مشوي",   imgUrl: "/public/Food and Drink/grilled_fish.png" },
+  { title_en: "Fried Fish",   title_ar: "سمك مقلي",   expression_en: "I want fried fish",   expression_ar: "أريد سمك مقلي",   imgUrl: "/public/Food and Drink/fried_fish.png" },
+  { title_en: "Fish Fillet",  title_ar: "فيليه سمك",  expression_en: "I want fish fillet",  expression_ar: "أريد فيليه سمك",  imgUrl: "/public/Food and Drink/fillet_fish.png" },
 ]);
 
 const lunchSaladChoices = createGroup("Lunch", "/public/lunch/salad.png", [
-  { title_en: "Green Salad",   title_ar: "سلطة خضراء",  expression_en: "I want green salad",   expression_ar: "أريد سلطة خضراء",  imgUrl: "/public/talk/salad.png" },
-  { title_en: "Tahini Salad",  title_ar: "سلطة طحينة",  expression_en: "I want tahini salad",  expression_ar: "أريد سلطة طحينة",  imgUrl: "/public/Food and Drink/vegetablesz.png" },
-  { title_en: "Yogurt Salad",  title_ar: "سلطة زبادي",  expression_en: "I want yogurt salad",  expression_ar: "أريد سلطة زبادي",  imgUrl: "/public/Food and Drink/zbady.png" },
+  { title_en: "Green Salad",   title_ar: "سلطة خضراء",  expression_en: "I want green salad",   expression_ar: "أريد سلطة خضراء",  imgUrl: "/public/Food and Drink/green_salad.png" },
+  { title_en: "Tahini Salad",  title_ar: "سلطة طحينة",  expression_en: "I want tahini salad",  expression_ar: "أريد سلطة طحينة",  imgUrl: "/public/Food and Drink/tahini_salad.png" },
+  { title_en: "Yogurt Salad",  title_ar: "سلطة زبادي",  expression_en: "I want yogurt salad",  expression_ar: "أريد سلطة زبادي",  imgUrl: "/public/Food and Drink/yogurt_salad.png" },
 ]);
 
 const lunchSoupChoices = createGroup("Lunch", "/public/lunch/soup.png", [
-  { title_en: "Lentil Soup",     title_ar: "شوربة عدس",    expression_en: "I want lentil soup",     expression_ar: "أريد شوربة عدس",    imgUrl: "/public/Food and Drink/shorba.png" },
-  { title_en: "Chicken Soup",    title_ar: "شوربة فراخ",   expression_en: "I want chicken soup",    expression_ar: "أريد شوربة فراخ",   imgUrl: "/public/talk/soup.png" },
-  { title_en: "Vegetable Soup",  title_ar: "شوربة خضار",   expression_en: "I want vegetable soup",  expression_ar: "أريد شوربة خضار",   imgUrl: "/public/Food and Drink/vegetablesz.png" },
+  { title_en: "Lentil Soup",     title_ar: "شوربة عدس",    expression_en: "I want lentil soup",     expression_ar: "أريد شوربة عدس",    imgUrl: "/public/Food and Drink/lentil_soup.png" },
+  { title_en: "Chicken Soup",    title_ar: "شوربة فراخ",   expression_en: "I want chicken soup",    expression_ar: "أريد شوربة فراخ",   imgUrl: "/public/Food and Drink/chicken_soup.png" },
+  { title_en: "Vegetable Soup",  title_ar: "شوربة خضار",   expression_en: "I want vegetable soup",  expression_ar: "أريد شوربة خضار",   imgUrl: "/public/Food and Drink/vegetable_soup.png" },
 ]);
 
 const lunchBreadChoices = createGroup("Lunch", "/public/lunch/bread.png", [
-  { title_en: "Balady Bread", title_ar: "عيش بلدي",  expression_en: "I want balady bread", expression_ar: "أريد عيش بلدي",  imgUrl: "/public/Food and Drink/esh.png" },
-  { title_en: "Toast",        title_ar: "توست",        expression_en: "I want toast",        expression_ar: "أريد توست",        imgUrl: "/public/Food and Drink/sandwich.png" },
-  { title_en: "Shamy Bread",  title_ar: "عيش شامي",   expression_en: "I want shamy bread",  expression_ar: "أريد عيش شامي",   imgUrl: "/public/Food and Drink/esh.png" },
+  
+  { title_en: "Balady Bread",  title_ar: "عيش بلدي",  expression_en: "I want balady bread",  expression_ar: "أريد عيش بلدي",  imgUrl: "/public/Food and Drink/esh_baladi.png" },
+  { title_en: "Fino Bread",    title_ar: "عيش فينو",   expression_en: "I want fino bread",    expression_ar: "أريد عيش فينو",   imgUrl: "/public/Food and Drink/esh_fino.png" },
+  { title_en: "Shamy Bread",   title_ar: "عيش شامي",   expression_en: "I want shamy bread",   expression_ar: "أريد عيش شامي",   imgUrl: "/public/Food and Drink/esh_shamy.png" },
+  { title_en: "Toast",         title_ar: "توست",        expression_en: "I want toast",         expression_ar: "أريد توست",        imgUrl: "/public/Food and Drink/toast.png" },
 ]);
 
 const lunchJuiceChoices = createGroup("Lunch", "/public/lunch/juice.png", [
@@ -630,21 +632,21 @@ const dinnerJuiceChoices    = cloneGroup("Dinner", "/public/dinner/juice.png",  
 // SNACK
 // ─────────────────────────────────────────────
 const snackChipsChoices = createGroup("Snack", "/public/snack/chips.png", [
-  { title_en: "Cheese Chips", title_ar: "شيبسي جبنة", expression_en: "I want cheese chips", expression_ar: "أريد شيبسي جبنة", imgUrl: "/public/Food and Drink/btats.png" },
-  { title_en: "Chili Chips",  title_ar: "شيبسي حار",  expression_en: "I want chili chips",  expression_ar: "أريد شيبسي حار",  imgUrl: "/public/Food and Drink/btats.png" },
-  { title_en: "Salted Chips", title_ar: "شيبسي ملح",  expression_en: "I want salted chips", expression_ar: "أريد شيبسي ملح",  imgUrl: "/public/Food and Drink/btats.png" },
+  { title_en: "Cheese Chips", title_ar: "شيبسي جبنة", expression_en: "I want cheese chips", expression_ar: "أريد شيبسي جبنة", imgUrl: "/public/Food and Drink/cheese_chips.png" },
+  { title_en: "Chili Chips",  title_ar: "شيبسي حار",  expression_en: "I want chili chips",  expression_ar: "أريد شيبسي حار",  imgUrl: "/public/Food and Drink/chili_chips.png" },
+  { title_en: "Salted Chips", title_ar: "شيبسي ملح",  expression_en: "I want salted chips", expression_ar: "أريد شيبسي ملح",  imgUrl: "/public/Food and Drink/salted_chips.png" },
 ]);
 
 const snackCookieChoices = createGroup("Snack", "/public/snack/cookies.png", [
-  { title_en: "Chocolate Cookies", title_ar: "كوكيز شوكولاتة", expression_en: "I want chocolate cookies", expression_ar: "أريد كوكيز شوكولاتة", imgUrl: "/public/Food and Drink/chocolate.png" },
-  { title_en: "Vanilla Cookies",   title_ar: "كوكيز فانيليا",  expression_en: "I want vanilla cookies",   expression_ar: "أريد كوكيز فانيليا",  imgUrl: "/public/Food and Drink/baskot.png" },
-  { title_en: "Biscuits",          title_ar: "بسكويت",          expression_en: "I want biscuits",          expression_ar: "أريد بسكويت",          imgUrl: "/public/Food and Drink/baskot.png" },
+  { title_en: "Chocolate Cookies", title_ar: "كوكيز شوكولاتة", expression_en: "I want chocolate cookies", expression_ar: "أريد كوكيز شوكولاتة", imgUrl: "/public/Food and Drink/chocolate_cookies.png" },
+  { title_en: "Vanilla Cookies",   title_ar: "كوكيز فانيليا",  expression_en: "I want vanilla cookies",   expression_ar: "أريد كوكيز فانيليا",  imgUrl: "/public/Food and Drink/vanilla_cookies.png" },
+  { title_en: "Biscuits",          title_ar: "بسكويت",          expression_en: "I want biscuits",          expression_ar: "أريد بسكويت",          imgUrl: "/public/Food and Drink/biscuits.png" },
 ]);
 
 const snackChocolateChoices = createGroup("Snack", "/public/snack/chocolate.png", [
-  { title_en: "Dark Chocolate",  title_ar: "شوكولاتة دارك",    expression_en: "I want dark chocolate",  expression_ar: "أريد شوكولاتة دارك",    imgUrl: "/public/Food and Drink/chocolate.png" },
-  { title_en: "Milk Chocolate",  title_ar: "شوكولاتة بالحليب", expression_en: "I want milk chocolate",  expression_ar: "أريد شوكولاتة بالحليب", imgUrl: "/public/Food and Drink/chocolate.png" },
-  { title_en: "Wafer Chocolate", title_ar: "شوكولاتة ويفر",    expression_en: "I want wafer chocolate", expression_ar: "أريد شوكولاتة ويفر",    imgUrl: "/public/Food and Drink/baskot.png" },
+  { title_en: "Dark Chocolate",  title_ar: "شوكولاتة دارك",    expression_en: "I want dark chocolate",  expression_ar: "أريد شوكولاتة دارك",    imgUrl: "/public/Food and Drink/dark_chocolate.png" },
+  { title_en: "Milk Chocolate",  title_ar: "شوكولاتة بالحليب", expression_en: "I want milk chocolate",  expression_ar: "أريد شوكولاتة بالحليب", imgUrl: "/public/Food and Drink/milk_chocolate.png" },
+  { title_en: "Wafer Chocolate", title_ar: "شوكولاتة ويفر",    expression_en: "I want wafer chocolate", expression_ar: "أريد شوكولاتة ويفر",    imgUrl: "/public/Food and Drink/wafer_chocolate.png" },
 ]);
 
 const snackFruitChoices = createGroup("Snack", "/public/snack/fruits.png", [
@@ -654,9 +656,9 @@ const snackFruitChoices = createGroup("Snack", "/public/snack/fruits.png", [
 ]);
 
 const snackNutChoices = createGroup("Snack", "/public/snack/nuts.png", [
-  { title_en: "Peanuts",  title_ar: "فول سوداني", expression_en: "I want peanuts",  expression_ar: "أريد فول سوداني", imgUrl: "/public/Food and Drink/14.png" },
-  { title_en: "Almonds",  title_ar: "لوز",         expression_en: "I want almonds",  expression_ar: "أريد لوز",         imgUrl: "/public/Food and Drink/14.png" },
-  { title_en: "Cashews",  title_ar: "كاجو",         expression_en: "I want cashews",  expression_ar: "أريد كاجو",         imgUrl: "/public/Food and Drink/14.png" },
+  { title_en: "Peanuts",  title_ar: "فول سوداني", expression_en: "I want peanuts",  expression_ar: "أريد فول سوداني", imgUrl: "/public/Food and Drink/peanuts.png" },
+  { title_en: "Almonds",  title_ar: "لوز",         expression_en: "I want almonds",  expression_ar: "أريد لوز",         imgUrl: "/public/Food and Drink/lmonds.png" },
+  { title_en: "Cashews",  title_ar: "كاجو",         expression_en: "I want cashews",  expression_ar: "أريد كاجو",         imgUrl: "/public/Food and Drink/cashews.png" },
 ]);
 
 const snackYogurtChoices = createGroup("Snack", "/public/snack/yogurt.png", [
@@ -678,38 +680,39 @@ const snackJuiceChoices = createGroup("Snack", "/public/snack/juice.png", [
 ]);
 
 const snackTeaChoices = createGroup("Snack", "/public/snack/tea.png", [
-  { title_en: "Mint Tea",      title_ar: "شاي بالنعناع", expression_en: "I want mint tea",      expression_ar: "أريد شاي بالنعناع", imgUrl: "/public/Food and Drink/tea.png" },
-  { title_en: "Green Tea",     title_ar: "شاي أخضر",    expression_en: "I want green tea",     expression_ar: "أريد شاي أخضر",    imgUrl: "/public/Food and Drink/tea.png" },
-  { title_en: "Tea with Milk", title_ar: "شاي بلبن",    expression_en: "I want tea with milk", expression_ar: "أريد شاي بلبن",    imgUrl: "/public/talk/tea.png" },
+   { title_en: "Tea with Milk", title_ar: "شاي بلبن",    expression_en: "I want tea with milk", expression_ar: "أريد شاي بلبن",    imgUrl: "/public/Food and Drink/milk_tea.png" },
+  { title_en: "Green Tea",     title_ar: "شاي أخضر",   expression_en: "I want green tea",     expression_ar: "أريد شاي أخضر",   imgUrl: "/public/Food and Drink/green_tea.png" },
+  { title_en: "Red Tea",       title_ar: "شاي أحمر",   expression_en: "I want red tea",       expression_ar: "أريد شاي أحمر",   imgUrl: "/public/Food and Drink/red_tea.png" },
 ]);
 
 const snackCoffeeChoices = createGroup("Snack", "/public/snack/coffee.png", [
-  { title_en: "Black Coffee",     title_ar: "قهوة سادة",   expression_en: "I want black coffee",     expression_ar: "أريد قهوة سادة",   imgUrl: "/public/Food and Drink/coffe.png" },
-  { title_en: "Coffee with Milk", title_ar: "قهوة بلبن",   expression_en: "I want coffee with milk", expression_ar: "أريد قهوة بلبن",   imgUrl: "/public/talk/coffee.png" },
-  { title_en: "Iced Coffee",      title_ar: "قهوة مثلجة",  expression_en: "I want iced coffee",      expression_ar: "أريد قهوة مثلجة",  imgUrl: "/public/Food and Drink/coffe.png" },
+   { title_en: "Black Coffee",      title_ar: "قهوة سادة",   expression_en: "I want black coffee",      expression_ar: "أريد قهوة سادة",   imgUrl: "/public/Food and Drink/dark_coffee.png" },
+  { title_en: "Coffee with Milk",  title_ar: "قهوة بلبن",   expression_en: "I want coffee with milk",  expression_ar: "أريد قهوة بلبن",   imgUrl: "/public/Food and Drink/coffee_with_milk.png" },
+  { title_en: "Nescafe",           title_ar: "نسكافيه",      expression_en: "I want nescafe",           expression_ar: "أريد نسكافيه",     imgUrl: "/public/Food and Drink/nescafee.png" },
+  { title_en: "Iced Coffee",      title_ar: "قهوة مثلجة",  expression_en: "I want iced coffee",      expression_ar: "أريد قهوة مثلجة",  imgUrl: "/public/Food and Drink/iced_coffee.png" },
 ]);
 
 // ─────────────────────────────────────────────
 // FAMILY
 // ─────────────────────────────────────────────
 const familyMotherChoices = createGroup("Family", "/public/Family/3.png", [
-  { title_en: "Mother's Mother",  title_ar: "جدة من ناحية الأم",  expression_en: "This is my mother's mother",  expression_ar: "هذه جدتي من ناحية الأم",  imgUrl: "/public/Family/10.png" },
-  { title_en: "Mother's Father",  title_ar: "جد من ناحية الأم",   expression_en: "This is my mother's father",  expression_ar: "هذا جدي من ناحية الأم",   imgUrl: "/public/Family/2.png" },
-  { title_en: "Mother's Sister",  title_ar: "خالة",               expression_en: "This is my mother's sister",  expression_ar: "هذه خالتي",               imgUrl: "/public/Family/5.png" },
-  { title_en: "Mother's Brother", title_ar: "خال",                expression_en: "This is my mother's brother", expression_ar: "هذا خالي",                imgUrl: "/public/Family/6.png" },
+  { title_en: "Mother's Mother",  title_ar: "جدة من ناحية الأم",  expression_en: "This is my mother's mother",  expression_ar: "هذه جدتي من ناحية الأم",  imgUrl: "/public/Family/mothers_mother.png" },
+  { title_en: "Mother's Father",  title_ar: "جد من ناحية الأم",   expression_en: "This is my mother's father",  expression_ar: "هذا جدي من ناحية الأم",   imgUrl: "/public/Family/mothers_father.png" },
+  { title_en: "Mother's Sister",  title_ar: "خالة",               expression_en: "This is my mother's sister",  expression_ar: "هذه خالتي",               imgUrl: "/public/Family/mothers_sister.png" },
+  { title_en: "Mother's Brother", title_ar: "خال",                expression_en: "This is my mother's brother", expression_ar: "هذا خالي",                imgUrl: "/public/Family/mothers_brother.png" },
 ]);
 
 const familyFatherChoices = createGroup("Family", "/public/Family/4.png", [
-  { title_en: "Father's Mother",  title_ar: "جدة من ناحية الأب",  expression_en: "This is my father's mother",  expression_ar: "هذه جدتي من ناحية الأب",  imgUrl: "/public/Family/10.png" },
-  { title_en: "Father's Father",  title_ar: "جد من ناحية الأب",   expression_en: "This is my father's father",  expression_ar: "هذا جدي من ناحية الأب",   imgUrl: "/public/Family/2.png" },
-  { title_en: "Father's Sister",  title_ar: "عمة",                expression_en: "This is my father's sister",  expression_ar: "هذه عمتي",                imgUrl: "/public/Family/5.png" },
-  { title_en: "Father's Brother", title_ar: "عم",                 expression_en: "This is my father's brother", expression_ar: "هذا عمي",                 imgUrl: "/public/Family/4.png" },
+  { title_en: "Father's Mother",  title_ar: "جدة من ناحية الأب",  expression_en: "This is my father's mother",  expression_ar: "هذه جدتي من ناحية الأب",  imgUrl: "/public/Family/fathers_mother.png" },
+  { title_en: "Father's Father",  title_ar: "جد من ناحية الأب",   expression_en: "This is my father's father",  expression_ar: "هذا جدي من ناحية الأب",   imgUrl: "/public/Family/fathers_father.png" },
+  { title_en: "Father's Sister",  title_ar: "عمة",                expression_en: "This is my father's sister",  expression_ar: "هذه عمتي",                imgUrl: "/public/Family/fathers_sister.png" },
+  { title_en: "Father's Brother", title_ar: "عم",                 expression_en: "This is my father's brother", expression_ar: "هذا عمي",                 imgUrl: "/public/Family/fathers_brother.png" },
 ]);
 
 const familyBrotherChoices = createGroup("Family", "/public/Family/7.png", [
-  { title_en: "Older Brother",  title_ar: "أخ كبير",  expression_en: "This is my older brother",  expression_ar: "هذا أخي الكبير",  imgUrl: "/public/Family/7.png" },
-  { title_en: "Younger Brother", title_ar: "أخ صغير", expression_en: "This is my younger brother", expression_ar: "هذا أخي الصغير", imgUrl: "/public/Family/9.png" },
-  { title_en: "Twin Brother",   title_ar: "أخ توأم",  expression_en: "This is my twin brother",   expression_ar: "هذا أخي التوأم",  imgUrl: "/public/Family/6.png" },
+  { title_en: "Older Brother",  title_ar: "أخ كبير",  expression_en: "This is my older brother",  expression_ar: "هذا أخي الكبير",  imgUrl: "/public/Family/793.png" },
+  { title_en: "Younger Brother", title_ar: "أخ صغير", expression_en: "This is my younger brother", expression_ar: "هذا أخي الصغير", imgUrl: "/public/Family/993.png" },
+  { title_en: "Twin Brother",   title_ar: "أخ توأم",  expression_en: "This is my twin brother",   expression_ar: "هذا أخي التوأم",  imgUrl: "/public/Family/663.png" },
 ]);
 
 const familySisterChoices = createGroup("Family", "/public/Family/1.png", [
@@ -753,15 +756,15 @@ const familyBabyChoices = createGroup("Family", "/public/Family/8.png", [
 // FEELINGS
 // ─────────────────────────────────────────────
 const feelingsHappyChoices = createGroup("Feelings", "/public/Feelings/1.png", [
-  { title_en: "Happy with Family",       title_ar: "فرحان مع العيلة",        expression_en: "I am happy with my family",       expression_ar: "أنا فرحان مع عيلتي",        imgUrl: "/public/icons/Family.png" },
-  { title_en: "Happy because I Played",  title_ar: "فرحان عشان لعبت",        expression_en: "I am happy because I played",     expression_ar: "أنا فرحان عشان لعبت",        imgUrl: "/public/icons/Play.png" },
+  { title_en: "Happy with Family",       title_ar: "فرحان مع العيلة",        expression_en: "I am happy with my family",       expression_ar: "أنا فرحان مع عيلتي",        imgUrl: "/public/icons/Familyy.png" },
+  { title_en: "Happy because I Played",  title_ar: "فرحان عشان لعبت",        expression_en: "I am happy because I played",     expression_ar: "أنا فرحان عشان لعبت",        imgUrl: "/public/icons/Playy.png" },
   { title_en: "Happy because I Ate",     title_ar: "فرحان عشان أكلت",        expression_en: "I am happy because I ate",        expression_ar: "أنا فرحان عشان أكلت",        imgUrl: "/public/icons/Eating.png" },
 ]);
 
 const feelingsAngryChoices = createGroup("Feelings", "/public/Feelings/3.png", [
-  { title_en: "Angry from Noise",    title_ar: "متضايق من الصوت",      expression_en: "I am angry because of the noise",           expression_ar: "أنا متضايق من الصوت",        imgUrl: "/public/listen/Alert.png" },
-  { title_en: "Angry from Waiting",  title_ar: "متضايق من الانتظار",   expression_en: "I am angry because I waited too long",      expression_ar: "أنا متضايق من الانتظار",     imgUrl: "/public/Questions/time.png" },
-  { title_en: "Angry from Someone",  title_ar: "متضايق من شخص",        expression_en: "I am angry because someone bothered me",    expression_ar: "أنا متضايق لأن حد ضايقني",  imgUrl: "/public/talk/Conversation.png" },
+  { title_en: "Angry from Noise",    title_ar: "متضايق من الصوت",      expression_en: "I am angry because of the noise",           expression_ar: "أنا متضايق من الصوت",        imgUrl: "/public/icons/Alert.png" },
+  { title_en: "Angry from Waiting",  title_ar: "متضايق من الانتظار",   expression_en: "I am angry because I waited too long",      expression_ar: "أنا متضايق من الانتظار",     imgUrl: "/public/icons/time.png" },
+  { title_en: "Angry from Someone",  title_ar: "متضايق من شخص",        expression_en: "I am angry because someone bothered me",    expression_ar: "أنا متضايق لأن حد ضايقني",  imgUrl: "/public/icons/Conversation.png" },
 ]);
 
 const feelingsAfraidChoices = createGroup("Feelings", "/public/Feelings/4.png", [
@@ -772,14 +775,14 @@ const feelingsAfraidChoices = createGroup("Feelings", "/public/Feelings/4.png", 
 ]);
 
 const feelingsTiredChoices = createGroup("Feelings", "/public/Feelings/5.png", [
-  { title_en: "Tired after School",  title_ar: "تعبان بعد المدرسة",  expression_en: "I am tired after school",         expression_ar: "أنا تعبان بعد المدرسة",  imgUrl: "/public/Places/school.png" },
-  { title_en: "Tired from Walking",  title_ar: "تعبان من المشي",     expression_en: "I am tired from walking",         expression_ar: "أنا تعبان من المشي",     imgUrl: "/public/icons/Walk.png" },
+  { title_en: "Tired after School",  title_ar: "تعبان بعد المدرسة",  expression_en: "I am tired after school",         expression_ar: "أنا تعبان بعد المدرسة",  imgUrl: "/public/icons/school.png" },
+  { title_en: "Tired from Walking",  title_ar: "تعبان من المشي",     expression_en: "I am tired from walking",         expression_ar: "أنا تعبان من المشي",     imgUrl: "/public/icons/Walkk.png" },
   { title_en: "Need to Sleep",       title_ar: "عايز أنام",           expression_en: "I am tired and need to sleep",    expression_ar: "أنا تعبان وعايز أنام",   imgUrl: "/public/sleeping/bed.png" },
 ]);
 
 const feelingsExcitedChoices = createGroup("Feelings", "/public/Feelings/6.png", [
-  { title_en: "Excited to Go Out",   title_ar: "متحمس للخروج",         expression_en: "I am excited to go out",       expression_ar: "أنا متحمس للخروج",         imgUrl: "/public/Relations/outside.png" },
-  { title_en: "Excited to Play",     title_ar: "متحمس للعب",           expression_en: "I am excited to play",         expression_ar: "أنا متحمس للعب",           imgUrl: "/public/icons/Play.png" },
+  { title_en: "Excited to Go Out",   title_ar: "متحمس للخروج",         expression_en: "I am excited to go out",       expression_ar: "أنا متحمس للخروج",         imgUrl: "/public/icons/outside.png" },
+  { title_en: "Excited to Play",     title_ar: "متحمس للعب",           expression_en: "I am excited to play",         expression_ar: "أنا متحمس للعب",           imgUrl: "/public/icons/Playy.png" },
   { title_en: "Excited for Birthday",title_ar: "متحمس لعيد الميلاد",   expression_en: "I am excited for the birthday",expression_ar: "أنا متحمس لعيد الميلاد",   imgUrl: "/public/icons/Excited.png" },
 ]);
 
@@ -791,20 +794,20 @@ const feelingsRelaxedChoices = createGroup("Feelings", "/public/Feelings/8.png",
 
 const feelingsAnxiousChoices = createGroup("Feelings", "/public/Feelings/9.png", [
   { title_en: "Anxious in a New Place", title_ar: "قلقان من مكان جديد",  expression_en: "I am anxious in a new place",        expression_ar: "أنا قلقان من مكان جديد",  imgUrl: "/public/icons/Places.png" },
-  { title_en: "Anxious from Crowds",    title_ar: "قلقان من الزحمة",     expression_en: "I am anxious because of crowds",     expression_ar: "أنا قلقان من الزحمة",     imgUrl: "/public/talk/GroupChat.png" },
-  { title_en: "Anxious from an Exam",   title_ar: "قلقان من الامتحان",   expression_en: "I am anxious about the exam",        expression_ar: "أنا قلقان من الامتحان",   imgUrl: "/public/icons/Book.png" },
+  { title_en: "Anxious from Crowds",    title_ar: "قلقان من الزحمة",     expression_en: "I am anxious because of crowds",     expression_ar: "أنا قلقان من الزحمة",     imgUrl: "/public/icons/crowded.png" },
+  { title_en: "Anxious from an Exam",   title_ar: "قلقان من الامتحان",   expression_en: "I am anxious about the exam",        expression_ar: "أنا قلقان من الامتحان",   imgUrl: "/public/icons/exam.png" },
 ]);
 
 const feelingsConfusedChoices = createGroup("Feelings", "/public/Feelings/10.png", [
-  { title_en: "I Do Not Understand", title_ar: "أنا مش فاهم",    expression_en: "I am confused because I do not understand",        expression_ar: "أنا محتار لأني مش فاهم",           imgUrl: "/public/talk/MessageBubble.png" },
-  { title_en: "Too Many Choices",    title_ar: "اختيارات كتير",  expression_en: "I am confused because there are too many choices",  expression_ar: "أنا محتار لأن في اختيارات كتير",  imgUrl: "/public/Questions/whichone.png" },
-  { title_en: "Need Help",           title_ar: "محتاج مساعدة",   expression_en: "I am confused and need help",                      expression_ar: "أنا محتار ومحتاج مساعدة",          imgUrl: "/public/call/CallCenter.png" },
+  { title_en: "I Do Not Understand", title_ar: "أنا مش فاهم",    expression_en: "I am confused because I do not understand",        expression_ar: "أنا محتار لأني مش فاهم",           imgUrl: "/public/icons/not_understanding.png" },
+  { title_en: "Too Many Choices",    title_ar: "اختيارات كتير",  expression_en: "I am confused because there are too many choices",  expression_ar: "أنا محتار لأن في اختيارات كتير",  imgUrl: "/public/icons/many_choices.png" },
+  { title_en: "Need Help",           title_ar: "محتاج مساعدة",   expression_en: "I am confused and need help",                      expression_ar: "أنا محتار ومحتاج مساعدة",          imgUrl: "/public/icons/need_help.png" },
 ]);
 
 const feelingsFrustratedChoices = createGroup("Feelings", "/public/Feelings/11.png", [
-  { title_en: "Cannot Explain",       title_ar: "مش عارف أشرح",    expression_en: "I am frustrated because I cannot explain",       expression_ar: "أنا محبط لأني مش عارف أشرح",    imgUrl: "/public/talk/MessageBubble.png" },
+  { title_en: "Cannot Explain",       title_ar: "مش عارف أشرح",    expression_en: "I am frustrated because I cannot explain",       expression_ar: "أنا محبط لأني مش عارف أشرح",    imgUrl: "/public/icons/canno_explain.png" },
   { title_en: "Device Is Not Working",title_ar: "الجهاز مش شغال",  expression_en: "I am frustrated because the device is not working",expression_ar: "أنا محبط لأن الجهاز مش شغال",  imgUrl: "/public/icons/Computer.png" },
-  { title_en: "Task Is Hard",         title_ar: "المهمة صعبة",      expression_en: "I am frustrated because the task is hard",        expression_ar: "أنا محبط لأن المهمة صعبة",       imgUrl: "/public/icons/Book.png" },
+  { title_en: "Task Is Hard",         title_ar: "المهمة صعبة",      expression_en: "I am frustrated because the task is hard",        expression_ar: "أنا محبط لأن المهمة صعبة",       imgUrl: "/public/icons/task.png" },
 ]);
 
 const feelingsProudChoices = createGroup("Feelings", "/public/Feelings/12.png", [
@@ -817,14 +820,14 @@ const feelingsProudChoices = createGroup("Feelings", "/public/Feelings/12.png", 
 // PLACES
 // ─────────────────────────────────────────────
 const schoolReasonChoices = createGroup("places", "/public/Places/school.png", [
-  { title_en: "To Learn",           title_ar: "عشان أتعلم",          expression_en: "I want to go to school to learn",          expression_ar: "أريد الذهاب إلى المدرسة عشان أتعلم",          imgUrl: "/public/icons/Book.png" },
+  { title_en: "To Learn",           title_ar: "عشان أتعلم",          expression_en: "I want to go to school to learn",          expression_ar: "أريد الذهاب إلى المدرسة عشان أتعلم",          imgUrl: "/public/icons/learn.png" },
   { title_en: "To Meet My Friends", title_ar: "عشان أشوف صحابي",    expression_en: "I want to go to school to meet my friends",expression_ar: "أريد الذهاب إلى المدرسة عشان أشوف صحابي",    imgUrl: "/public/icons/Friend.png" },
-  { title_en: "To Attend Class",    title_ar: "عشان أحضر الحصة",    expression_en: "I want to go to school to attend class",   expression_ar: "أريد الذهاب إلى المدرسة عشان أحضر الحصة",    imgUrl: "/public/icons/Read.png" },
-  { title_en: "To Play",            title_ar: "عشان ألعب",           expression_en: "I want to go to school to play",           expression_ar: "أريد الذهاب إلى المدرسة عشان ألعب",           imgUrl: "/public/icons/Play.png" },
+  { title_en: "To Attend Class",    title_ar: "عشان أحضر الحصة",    expression_en: "I want to go to school to attend class",   expression_ar: "أريد الذهاب إلى المدرسة عشان أحضر الحصة",    imgUrl: "/public/icons/attend_class.png" },
+  { title_en: "To Play",            title_ar: "عشان ألعب",           expression_en: "I want to go to school to play",           expression_ar: "أريد الذهاب إلى المدرسة عشان ألعب",           imgUrl: "/public/icons/Playy.png" },
 ]);
 
 const parkReasonChoices = createGroup("places", "/public/Places/park.png", [
-  { title_en: "To Play",         title_ar: "عشان ألعب",        expression_en: "I want to go to the park to play",        expression_ar: "أريد الذهاب إلى الحديقة عشان ألعب",        imgUrl: "/public/icons/Play.png" },
+  { title_en: "To Play",         title_ar: "عشان ألعب",        expression_en: "I want to go to the park to play",        expression_ar: "أريد الذهاب إلى الحديقة عشان ألعب",        imgUrl: "/public/icons/Playy.png" },
   { title_en: "To Walk",         title_ar: "عشان أمشي",        expression_en: "I want to go to the park to walk",        expression_ar: "أريد الذهاب إلى الحديقة عشان أمشي",        imgUrl: "/public/icons/Walk.png" },
   { title_en: "To Meet Friends", title_ar: "عشان أقابل صحابي", expression_en: "I want to go to the park to meet friends", expression_ar: "أريد الذهاب إلى الحديقة عشان أقابل صحابي", imgUrl: "/public/icons/Friend.png" },
 ]);
@@ -842,26 +845,26 @@ const hospitalReasonChoices = createGroup("places", "/public/Places/hospital.png
 ]);
 
 const supermarketReasonChoices = createGroup("places", "/public/Places/supermarket.png", [
-  { title_en: "To Buy Food",   title_ar: "عشان أشتري أكل",   expression_en: "I want to go to the supermarket to buy food",   expression_ar: "أريد الذهاب إلى السوبرماركت عشان أشتري أكل",   imgUrl: "/public/Food and Drink/apple.png" },
-  { title_en: "To Buy Bread",  title_ar: "عشان أشتري عيش",   expression_en: "I want to go to the supermarket to buy bread",  expression_ar: "أريد الذهاب إلى السوبرماركت عشان أشتري عيش",   imgUrl: "/public/Food and Drink/esh.png" },
-  { title_en: "To Buy Snacks", title_ar: "عشان أشتري سناكس", expression_en: "I want to go to the supermarket to buy snacks", expression_ar: "أريد الذهاب إلى السوبرماركت عشان أشتري سناكس", imgUrl: "/public/Food and Drink/btats.png" },
+  { title_en: "To Buy Food",   title_ar: "عشان أشتري أكل",   expression_en: "I want to go to the supermarket to buy food",   expression_ar: "أريد الذهاب إلى السوبرماركت عشان أشتري أكل",   imgUrl: "/public/icons/food.png" },
+  { title_en: "To Buy Bread",  title_ar: "عشان أشتري عيش",   expression_en: "I want to go to the supermarket to buy bread",  expression_ar: "أريد الذهاب إلى السوبرماركت عشان أشتري عيش",   imgUrl: "/public/icons/bread.png" },
+  { title_en: "To Buy Snacks", title_ar: "عشان أشتري سناكس", expression_en: "I want to go to the supermarket to buy snacks", expression_ar: "أريد الذهاب إلى السوبرماركت عشان أشتري سناكس", imgUrl: "/public/icons/snacks.png" },
 ]);
 
 const universityReasonChoices = createGroup("places", "/public/Places/university.png", [
-  { title_en: "To Study",      title_ar: "عشان أذاكر",       expression_en: "I want to go to the university to study",      expression_ar: "أريد الذهاب إلى الجامعة عشان أذاكر",       imgUrl: "/public/icons/Book.png" },
-  { title_en: "For a Lecture", title_ar: "عشان المحاضرة",    expression_en: "I want to go to the university for a lecture", expression_ar: "أريد الذهاب إلى الجامعة عشان المحاضرة",    imgUrl: "/public/icons/Read.png" },
-  { title_en: "For an Exam",   title_ar: "عشان الامتحان",    expression_en: "I want to go to the university for an exam",   expression_ar: "أريد الذهاب إلى الجامعة عشان الامتحان",    imgUrl: "/public/Questions/whichone.png" },
+  { title_en: "To Study",      title_ar: "عشان أذاكر",       expression_en: "I want to go to the university to study",      expression_ar: "أريد الذهاب إلى الجامعة عشان أذاكر",       imgUrl: "/public/icons/study.png" },
+  { title_en: "For a Lecture", title_ar: "عشان المحاضرة",    expression_en: "I want to go to the university for a lecture", expression_ar: "أريد الذهاب إلى الجامعة عشان المحاضرة",    imgUrl: "/public/icons/lecture.png" },
+  { title_en: "For an Exam",   title_ar: "عشان الامتحان",    expression_en: "I want to go to the university for an exam",   expression_ar: "أريد الذهاب إلى الجامعة عشان الامتحان",    imgUrl: "/public/icons/examm.png" },
 ]);
 
 const workReasonChoices = createGroup("places", "/public/Places/work.png", [
-  { title_en: "To Work",             title_ar: "عشان أشتغل",        expression_en: "I want to go to work",                         expression_ar: "أريد الذهاب إلى العمل عشان أشتغل",          imgUrl: "/public/icons/Computer.png" },
+  { title_en: "To Work",             title_ar: "عشان أشتغل",        expression_en: "I want to go to work",                         expression_ar: "أريد الذهاب إلى العمل عشان أشتغل",          imgUrl: "/public/icons/work.png" },
   { title_en: "To Meet Colleagues",  title_ar: "عشان أقابل زمايلي", expression_en: "I want to go to work to meet my colleagues",    expression_ar: "أريد الذهاب إلى العمل عشان أقابل زمايلي",   imgUrl: "/public/icons/Friend.png" },
-  { title_en: "To Finish My Task",   title_ar: "عشان أخلص شغلي",   expression_en: "I want to go to work to finish my task",        expression_ar: "أريد الذهاب إلى العمل عشان أخلص شغلي",      imgUrl: "/public/icons/Yes.png" },
+  { title_en: "To Finish My Task",   title_ar: "عشان أخلص شغلي",   expression_en: "I want to go to work to finish my task",        expression_ar: "أريد الذهاب إلى العمل عشان أخلص شغلي",      imgUrl: "/public/icons/finishworking.png" },
 ]);
 
 const busStationReasonChoices = createGroup("places", "/public/Places/busstation.png", [
-  { title_en: "To Travel",      title_ar: "عشان أسافر",        expression_en: "I want to go to the bus station to travel",   expression_ar: "أريد الذهاب إلى محطة الأتوبيس عشان أسافر",       imgUrl: "/public/Transport/4.png" },
-  { title_en: "To Ride the Bus",title_ar: "عشان أركب الباص",   expression_en: "I want to go to the bus station to ride the bus",expression_ar: "أريد الذهاب إلى محطة الأتوبيس عشان أركب الباص", imgUrl: "/public/Transport/5.png" },
+  { title_en: "To Travel",      title_ar: "عشان أسافر",        expression_en: "I want to go to the bus station to travel",   expression_ar: "أريد الذهاب إلى محطة الأتوبيس عشان أسافر",       imgUrl: "/public/icons/travel.png" },
+  { title_en: "To Ride the Bus",title_ar: "عشان أركب الباص",   expression_en: "I want to go to the bus station to ride the bus",expression_ar: "أريد الذهاب إلى محطة الأتوبيس عشان أركب الباص", imgUrl: "/public/icons/bus.png" },
   { title_en: "To Go Home",     title_ar: "عشان أروح البيت",   expression_en: "I want to go to the bus station to go home",  expression_ar: "أريد الذهاب إلى محطة الأتوبيس عشان أروح البيت",  imgUrl: "/public/Places/home.png" },
 ]);
 
@@ -908,6 +911,30 @@ const transportAirplaneChoices = createGroup("Transport", "/public/Transport/4.p
   { title_en: "Airplane for Vacation",       title_ar: "طيارة للإجازة",        expression_en: "I want an airplane for vacation",       expression_ar: "أريد طيارة للإجازة",        imgUrl: "/public/Transport/4.png" },
   { title_en: "Airplane to Visit Relatives", title_ar: "طيارة لزيارة الأقارب", expression_en: "I want an airplane to visit relatives", expression_ar: "أريد طيارة لزيارة الأقارب", imgUrl: "/public/icons/Family.png" },
 ]);
+export const plantAnatomyChoices = createGroup("Plant", "/public/plants/anatomy.png", [
+  { title_en: "Root",   title_ar: "جذر",   expression_en: "Plant root",   expression_ar: "جذر النبات",   imgUrl: "/public/plants/root.png" },
+  { title_en: "Stem",   title_ar: "ساق",   expression_en: "Plant stem",   expression_ar: "ساق النبات",   imgUrl: "/public/plants/stem.png" },
+  { title_en: "Leaf",   title_ar: "ورقة",  expression_en: "Plant leaf",   expression_ar: "ورقة النبات",  imgUrl: "/public/plants/leaf.png" },
+  { title_en: "Flower", title_ar: "زهرة",  expression_en: "Plant flower", expression_ar: "زهرة النبات",  imgUrl: "/public/plants/flower.png" },
+  { title_en: "Fruit",  title_ar: "ثمرة",  expression_en: "Plant fruit",  expression_ar: "ثمرة النبات",  imgUrl: "/public/plants/fruit.png" },
+]);
+export const plantPhysiologyChoices = createGroup("Plant", "/public/plants/physiology.png", [
+  { title_en: "Photosynthesis", title_ar: "تمثيل ضوئي", expression_en: "Plant makes food", expression_ar: "النبات يصنع الغذاء", imgUrl: "/public/plants/photosynthesis.png" },
+  { title_en: "Water", title_ar: "ماء", expression_en: "Plant needs water", expression_ar: "النبات يحتاج ماء", imgUrl: "/public/plants/water.png" },
+  { title_en: "Growth", title_ar: "نمو", expression_en: "Plant grows", expression_ar: "النبات ينمو", imgUrl: "/public/plants/growth.png" },
+  { title_en: "Sunlight", title_ar: "شمس", expression_en: "Plant needs sunlight", expression_ar: "النبات يحتاج الشمس", imgUrl: "/public/plants/sun.png" },
+]);
+export const plantClassificationChoices = createGroup("Plant", "/public/plants/classification.png", [
+  { title_en: "Tree",   title_ar: "شجرة",   expression_en: "This is a tree",   expression_ar: "هذه شجرة",   imgUrl: "/public/plants/tree.png" },
+  { title_en: "Bush",   title_ar: "شجيرة",  expression_en: "This is a bush",   expression_ar: "هذه شجيرة",  imgUrl: "/public/plants/bush.png" },
+  { title_en: "Cactus", title_ar: "صبار",   expression_en: "This is a cactus", expression_ar: "هذا صبار",   imgUrl: "/public/plants/cactus.png" },
+  { title_en: "Fungus", title_ar: "فطر",    expression_en: "This is a fungus", expression_ar: "هذا فطر",    imgUrl: "/public/plants/fungus.png" },
+]);
+export const plantTypesChoices = createGroup("Plant", "/public/plants/types.png", [
+  { title_en: "Flower",           title_ar: "زهرة",      expression_en: "This is a flower",           expression_ar: "هذه زهرة",      imgUrl: "/public/plants/flower.png" },
+  { title_en: "Aromatic plant",   title_ar: "نبات عطري", expression_en: "This is an aromatic plant",  expression_ar: "هذا نبات عطري", imgUrl: "/public/plants/aromatic.png" },
+  { title_en: "Herbaceous plant", title_ar: "نبات عشبي", expression_en: "This is a herb plant",       expression_ar: "هذا نبات عشبي", imgUrl: "/public/plants/herb.png" },
+]);
 
 const transportTramChoices = createGroup("Transport", "/public/Transport/7.png", [
   { title_en: "Tram to School", title_ar: "ترام للمدرسة", expression_en: "I want a tram to school",     expression_ar: "أريد ترام للمدرسة", imgUrl: "/public/Places/school.png" },
@@ -950,7 +977,62 @@ const callLandlineChoices = createGroup("Call", "/public/call/Landline.png", [
   { title_en: "Call Grandfather", title_ar: "أكلم جدي",    expression_en: "I want to call my grandfather", expression_ar: "أريد أكلم جدي",    imgUrl: "/public/Family/2.png" },
   { title_en: "Call Grandmother", title_ar: "أكلم جدتي",   expression_en: "I want to call my grandmother", expression_ar: "أريد أكلم جدتي",   imgUrl: "/public/Family/10.png" },
 ]);
-
+export const educationActivityChoices = createGroup("Teaching activity", "/public/education/activity.png", [
+  { title_en: "Explain lesson", title_ar: "شرح الدرس", expression_en: "Explain the lesson", expression_ar: "اشرح الدرس", imgUrl: "/public/education/explain.png" },
+  { title_en: "Ask question", title_ar: "طرح سؤال", expression_en: "Ask a question", expression_ar: "اطرح سؤال", imgUrl: "/public/education/question.png" },
+  { title_en: "Answer", title_ar: "إجابة", expression_en: "Answer the question", expression_ar: "أجب على السؤال", imgUrl: "/public/education/answer.png" },
+  { title_en: "Discuss", title_ar: "مناقشة", expression_en: "Discuss together", expression_ar: "ناقش مع الآخرين", imgUrl: "/public/education/discuss.png" },
+]);
+export const educationSubjectChoices = createGroup("Subject", "/public/education/subject.png", [
+  { title_en: "Math", title_ar: "رياضيات", expression_en: "Study math", expression_ar: "ادرس الرياضيات", imgUrl: "/public/education/math.png" },
+  { title_en: "Science", title_ar: "علوم", expression_en: "Study science", expression_ar: "ادرس العلوم", imgUrl: "/public/education/science.png" },
+  { title_en: "English", title_ar: "إنجليزي", expression_en: "Study English", expression_ar: "ادرس الإنجليزية", imgUrl: "/public/education/english.png" },
+  { title_en: "History", title_ar: "تاريخ", expression_en: "Study history", expression_ar: "ادرس التاريخ", imgUrl: "/public/education/history.png" },
+]);
+export const educationInstitutionChoices = createGroup("Institution", "/public/education/institution.png", [
+  { title_en: "School", title_ar: "مدرسة", expression_en: "Go to school", expression_ar: "اذهب إلى المدرسة", imgUrl: "/public/education/school.png" },
+  { title_en: "University", title_ar: "جامعة", expression_en: "Go to university", expression_ar: "اذهب إلى الجامعة", imgUrl: "/public/education/university.png" },
+  { title_en: "Training center", title_ar: "مركز تدريب", expression_en: "Go to training center", expression_ar: "اذهب إلى مركز التدريب", imgUrl: "/public/education/training.png" },
+]);
+export const educationTaskChoices = createGroup("Task", "/public/education/task.png", [
+  { title_en: "Homework", title_ar: "واجب", expression_en: "Do homework", expression_ar: "اعمل الواجب", imgUrl: "/public/education/homework.png" },
+  { title_en: "Exam", title_ar: "امتحان", expression_en: "Take exam", expression_ar: "أدخل الامتحان", imgUrl: "/public/education/exam.png" },
+  { title_en: "Assignment", title_ar: "تكليف", expression_en: "Complete assignment", expression_ar: "أنهِ التكليف", imgUrl: "/public/education/assignment.png" },
+]);
+export const educationMaterialChoices = createGroup("Material", "/public/education/material.png", [
+  { title_en: "Book", title_ar: "كتاب", expression_en: "Use book", expression_ar: "استخدم الكتاب", imgUrl: "/public/education/book.png" },
+  { title_en: "Notebook", title_ar: "كراسة", expression_en: "Write in notebook", expression_ar: "اكتب في الكراسة", imgUrl: "/public/education/notebook.png" },
+  { title_en: "Worksheet", title_ar: "ورقة عمل", expression_en: "Solve worksheet", expression_ar: "حل ورقة العمل", imgUrl: "/public/education/worksheet.png" },
+]);
+export const educationEquipmentChoices = createGroup("Equipment", "/public/education/equipment.png", [
+  { title_en: "Pen", title_ar: "قلم", expression_en: "Use pen", expression_ar: "استخدم القلم", imgUrl: "/public/education/pen.png" },
+  { title_en: "Laptop", title_ar: "لاب توب", expression_en: "Use laptop", expression_ar: "استخدم اللاب توب", imgUrl: "/public/education/laptop.png" },
+  { title_en: "Projector", title_ar: "بروجكتور", expression_en: "Use projector", expression_ar: "استخدم البروجكتور", imgUrl: "/public/education/projector.png" },
+]);
+export const educationSpaceChoices = createGroup("Space", "/public/education/space.png", [
+  { title_en: "Classroom", title_ar: "فصل", expression_en: "Go to classroom", expression_ar: "اذهب إلى الفصل", imgUrl: "/public/education/classroom.png" },
+  { title_en: "Library", title_ar: "مكتبة", expression_en: "Go to library", expression_ar: "اذهب إلى المكتبة", imgUrl: "/public/education/library.png" },
+  { title_en: "Lab", title_ar: "معمل", expression_en: "Go to lab", expression_ar: "اذهب إلى المعمل", imgUrl: "/public/education/lab.png" },
+]);
+export const educationStaffChoices = createGroup("Staff", "/public/education/staff.png", [
+  { title_en: "Teacher", title_ar: "مدرس", expression_en: "Talk to teacher", expression_ar: "تحدث مع المدرس", imgUrl: "/public/education/teacher.png" },
+  { title_en: "Assistant", title_ar: "مساعد", expression_en: "Ask assistant", expression_ar: "اسأل المساعد", imgUrl: "/public/education/assistant.png" },
+  { title_en: "Principal", title_ar: "مدير", expression_en: "Meet principal", expression_ar: "قابل المدير", imgUrl: "/public/education/principal.png" },
+]);
+export const educationStudentsChoices = createGroup("Students", "/public/education/students.png", [
+  { title_en: "Classmate", title_ar: "زميل", expression_en: "Talk to classmate", expression_ar: "تحدث مع زميل", imgUrl: "/public/education/classmate.png" },
+  { title_en: "Group work", title_ar: "عمل جماعي", expression_en: "Work in group", expression_ar: "اعمل في مجموعة", imgUrl: "/public/education/group.png" },
+]);
+export const educationMethodChoices = createGroup("Methodology", "/public/education/method.png", [
+  { title_en: "Explain", title_ar: "شرح", expression_en: "Explain clearly", expression_ar: "اشرح بوضوح", imgUrl: "/public/education/explain.png" },
+  { title_en: "Practice", title_ar: "تدريب", expression_en: "Practice more", expression_ar: "تدرب أكثر", imgUrl: "/public/education/practice.png" },
+  { title_en: "Review", title_ar: "مراجعة", expression_en: "Review lesson", expression_ar: "راجع الدرس", imgUrl: "/public/education/review.png" },
+]);
+export const educationVocabChoices = createGroup("Core vocabulary", "/public/education/vocab.png", [
+  { title_en: "Read", title_ar: "اقرأ", expression_en: "Read the text", expression_ar: "اقرأ النص", imgUrl: "/public/education/read.png" },
+  { title_en: "Write", title_ar: "اكتب", expression_en: "Write the answer", expression_ar: "اكتب الإجابة", imgUrl: "/public/education/write.png" },
+  { title_en: "Listen", title_ar: "استمع", expression_en: "Listen carefully", expression_ar: "استمع جيدًا", imgUrl: "/public/education/listen.png" },
+]);
 const callMessengerChoices = createGroup("Call", "/public/call/Messenger.png", [
   { title_en: "Message Mother",   title_ar: "أبعت لماما",   expression_en: "I want to message my mother",    expression_ar: "أريد أبعت لماما",   imgUrl: "/public/Family/3.png" },
   { title_en: "Message Father",   title_ar: "أبعت لبابا",   expression_en: "I want to message my father",    expression_ar: "أريد أبعت لبابا",   imgUrl: "/public/Family/4.png" },
@@ -969,7 +1051,503 @@ const emergencyCallChoices = createGroup("Call", "/public/call/EmergencyCall.png
   { title_en: "Call Fire Department", title_ar: "أكلم المطافي",  expression_en: "I want to call the fire department", expression_ar: "أريد أكلم المطافي",  imgUrl: "/public/listen/Alert.png" },
   { title_en: "Call Doctor",          title_ar: "أكلم الدكتور",  expression_en: "I want to call the doctor",          expression_ar: "أريد أكلم الدكتور",  imgUrl: "/public/icons/Doctor.png" },
 ]);
+const showerChoices = createGroup("Shower", "/public/icons/Shower.png", [
+  {
+    title_en: "Turn on water",
+    title_ar: "فتح الماء",
+    expression_en: "Turn on the water",
+    expression_ar: "افتح الماء",
+    imgUrl: "/public/icons/TurnOnWater.png"
+  },
+  {
+    title_en: "Use soap",
+    title_ar: "استخدم الصابون",
+    expression_en: "Use soap",
+    expression_ar: "استخدم الصابون",
+    imgUrl: "/public/icons/Soap.png"
+  },
+  {
+    title_en: "Wash body",
+    title_ar: "غسل الجسم",
+    expression_en: "Wash your body",
+    expression_ar: "اغسل جسمك",
+    imgUrl: "/public/icons/WashBody.png"
+  },
+  {
+    title_en: "Use towel",
+    title_ar: "استخدام المنشفة",
+    expression_en: "Dry with towel",
+    expression_ar: "جفف بالمنشفة",
+    imgUrl: "/public/icons/Towel.png"
+  }
+]);
+const toiletChoices = createGroup("Toilet", "/public/icons/Toilet.png", [
+  {
+    title_en: "Sit",
+    title_ar: "اجلس",
+    expression_en: "Sit on the toilet",
+    expression_ar: "اجلس على المرحاض",
+    imgUrl: "/public/icons/Sit.png"
+  },
+  {
+    title_en: "Flush",
+    title_ar: "سحب السيفون",
+    expression_en: "Flush the toilet",
+    expression_ar: "اسحب السيفون",
+    imgUrl: "/public/icons/Flush.png"
+  },
+  {
+    title_en: "Use toilet paper",
+    title_ar: "استخدام ورق التواليت",
+    expression_en: "Use toilet paper",
+    expression_ar: "استخدم ورق التواليت",
+    imgUrl: "/public/icons/ToiletPaper.png"
+  },
+  {
+    title_en: "Clean",
+    title_ar: "تنظيف",
+    expression_en: "Clean yourself",
+    expression_ar: "نظف نفسك",
+    imgUrl: "/public/icons/Clean.png"
+  }
+]);
+const brushTeethChoices = createGroup("Brush Teeth", "/public/icons/BrushTeeth.png", [
+  {
+    title_en: "Toothbrush",
+    title_ar: "فرشاة أسنان",
+    expression_en: "Use toothbrush",
+    expression_ar: "استخدم الفرشاة",
+    imgUrl: "/public/icons/Toothbrush.png"
+  },
+  {
+    title_en: "Toothpaste",
+    title_ar: "معجون أسنان",
+    expression_en: "Put toothpaste",
+    expression_ar: "ضع المعجون",
+    imgUrl: "/public/icons/Toothpaste.png"
+  },
+  {
+    title_en: "Brush teeth",
+    title_ar: "تنظيف الأسنان",
+    expression_en: "Brush your teeth",
+    expression_ar: "نظف أسنانك",
+    imgUrl: "/public/icons/BrushTeeth.png"
+  },
+  {
+    title_en: "Rinse",
+    title_ar: "مضمضة",
+    expression_en: "Rinse your mouth",
+    expression_ar: "تمضمض",
+    imgUrl: "/public/icons/Rinse.png"
+  }
+]);
+const washHandsChoices = createGroup("Wash Hands", "/public/icons/WashHands.png", [
+  {
+    title_en: "Turn on water",
+    title_ar: "فتح الماء",
+    expression_en: "Turn on the water",
+    expression_ar: "افتح الماء",
+    imgUrl: "/public/icons/TurnOnWater.png"
+  },
+  {
+    title_en: "Use soap",
+    title_ar: "استخدم الصابون",
+    expression_en: "Use soap",
+    expression_ar: "استخدم الصابون",
+    imgUrl: "/public/icons/Soap.png"
+  },
+  {
+    title_en: "Wash hands",
+    title_ar: "غسل اليدين",
+    expression_en: "Wash your hands",
+    expression_ar: "اغسل يديك",
+    imgUrl: "/public/icons/WashHands.png"
+  },
+  {
+    title_en: "Dry hands",
+    title_ar: "تجفيف اليدين",
+    expression_en: "Dry your hands",
+    expression_ar: "جفف يديك",
+    imgUrl: "/public/icons/Towel.png"
+  }
+]);
+const leisureSportsChoices = createGroup("Sports", "/public/leisure/sport.png", [
+  { title_en: "Football", title_ar: "كرة القدم", expression_en: "I want to play football", expression_ar: "أريد لعب كرة القدم", imgUrl: "/public/leisure/sports/football.png" },
+  { title_en: "Basketball", title_ar: "كرة السلة", expression_en: "I want to play basketball", expression_ar: "أريد لعب كرة السلة", imgUrl: "/public/leisure/sports/basketball.png" },
+  { title_en: "Swimming", title_ar: "السباحة", expression_en: "I want to swim", expression_ar: "أريد السباحة", imgUrl: "/public/leisure/sports/swimming.png" },
+  { title_en: "Running", title_ar: "الجري", expression_en: "I want to run", expression_ar: "أريد الجري", imgUrl: "/public/leisure/sports/running.png" },
+  { title_en: "Cycling", title_ar: "ركوب الدراجة", expression_en: "I want to ride a bicycle", expression_ar: "أريد ركوب الدراجة", imgUrl: "/public/leisure/sports/cycling.png" },
 
+  { title_en: "Tennis", title_ar: "تنس", expression_en: "I want to play tennis", expression_ar: "أريد لعب التنس", imgUrl: "/public/leisure/sports/tennis.png" },
+  { title_en: "Volleyball", title_ar: "الكرة الطائرة", expression_en: "I want to play volleyball", expression_ar: "أريد لعب الكرة الطائرة", imgUrl: "/public/leisure/sports/volleyball.png" },
+  { title_en: "Gym", title_ar: "الجيم", expression_en: "I want to go to the gym", expression_ar: "أريد الذهاب إلى الجيم", imgUrl: "/public/leisure/sports/gym.png" },
+  { title_en: "Yoga", title_ar: "يوغا", expression_en: "I want to do yoga", expression_ar: "أريد ممارسة اليوغا", imgUrl: "/public/leisure/sports/yoga.png" },
+  { title_en: "Boxing", title_ar: "الملاكمة", expression_en: "I want to box", expression_ar: "أريد ممارسة الملاكمة", imgUrl: "/public/leisure/sports/boxing.png" },
+
+  { title_en: "Karate", title_ar: "كاراتيه", expression_en: "I want to do karate", expression_ar: "أريد ممارسة الكاراتيه", imgUrl: "/public/leisure/sports/karate.png" },
+  { title_en: "Skating", title_ar: "التزلج", expression_en: "I want to skate", expression_ar: "أريد التزلج", imgUrl: "/public/leisure/sports/skating.png" },
+  { title_en: "Dancing", title_ar: "الرقص", expression_en: "I want to dance", expression_ar: "أريد الرقص", imgUrl: "/public/leisure/sports/dancing.png" },
+  { title_en: "Hiking", title_ar: "المشي في الطبيعة", expression_en: "I want to go hiking", expression_ar: "أريد المشي في الطبيعة", imgUrl: "/public/leisure/sports/hiking.png" },
+  { title_en: "Horse Riding", title_ar: "ركوب الخيل", expression_en: "I want to ride a horse", expression_ar: "أريد ركوب الخيل", imgUrl: "/public/leisure/sports/horseriding.png" },
+
+  { title_en: "Table Tennis", title_ar: "بينج بونج", expression_en: "I want to play table tennis", expression_ar: "أريد لعب بينج بونج", imgUrl: "/public/leisure/sports/tabletennis.png" },
+  { title_en: "Badminton", title_ar: "بادمينتون", expression_en: "I want to play badminton", expression_ar: "أريد لعب البادمينتون", imgUrl: "/public/leisure/sports/badminton.png" },
+  { title_en: "Surfing", title_ar: "التزلج على الماء", expression_en: "I want to surf", expression_ar: "أريد التزلج على الماء", imgUrl: "/public/leisure/sports/surfing.png" },
+  { title_en: "Archery", title_ar: "الرماية", expression_en: "I want to do archery", expression_ar: "أريد ممارسة الرماية", imgUrl: "/public/leisure/sports/archery.png" },
+  { title_en: "Gymnastics", title_ar: "الجمباز", expression_en: "I want to do gymnastics", expression_ar: "أريد ممارسة الجمباز", imgUrl: "/public/leisure/sports/gymnastics.png" },
+]);
+const leisureGamesChoices = createGroup("Games", "/public/leisure/games.png", [
+  {
+    title_en: "Board Games",
+    title_ar: "ألعاب لوحية",
+    expression_en: "I want to play board games",
+    expression_ar: "أريد لعب ألعاب لوحية",
+    imgUrl: "/public/leisure/games/boardgames.png"
+  },
+  {
+    title_en: "Card Games",
+    title_ar: "ألعاب ورق",
+    expression_en: "I want to play card games",
+    expression_ar: "أريد لعب ألعاب الورق",
+    imgUrl: "/public/leisure/games/cards.png"
+  },
+  {
+    title_en: "Puzzle",
+    title_ar: "ألغاز",
+    expression_en: "I want to do a puzzle",
+    expression_ar: "أريد حل لغز",
+    imgUrl: "/public/leisure/games/puzzle.png"
+  },
+  {
+    title_en: "Chess",
+    title_ar: "شطرنج",
+    expression_en: "I want to play chess",
+    expression_ar: "أريد لعب الشطرنج",
+    imgUrl: "/public/leisure/games/chess.png"
+  },
+  {
+    title_en: "Domino",
+    title_ar: "دومينو",
+    expression_en: "I want to play domino",
+    expression_ar: "أريد لعب الدومينو",
+    imgUrl: "/public/leisure/games/domino.png"
+  },
+  {
+    title_en: "Ludo",
+    title_ar: "لعبة لودو",
+    expression_en: "I want to play Ludo",
+    expression_ar: "أريد لعب لودو",
+    imgUrl: "/public/leisure/games/ludo.png"
+  },
+  {
+    title_en: "Tic Tac Toe",
+    title_ar: "إكس أو",
+    expression_en: "I want to play tic tac toe",
+    expression_ar: "أريد لعب إكس أو",
+    imgUrl: "/public/leisure/games/tictactoe.png"
+  },
+  {
+    title_en: "Memory Game",
+    title_ar: "لعبة الذاكرة",
+    expression_en: "I want to play memory game",
+    expression_ar: "أريد لعب لعبة الذاكرة",
+    imgUrl: "/public/leisure/games/memory.png"
+  },
+  {
+    title_en: "Video Games",
+    title_ar: "ألعاب فيديو",
+    expression_en: "I want to play video games",
+    expression_ar: "أريد لعب ألعاب فيديو",
+    imgUrl: "/public/leisure/videogame.png"
+  }
+]);
+const leisureVideoGamesChoices = createGroup("Video Games", "/public/leisure/videogame.png", [
+  {
+    title_en: "Car Racing",
+    title_ar: "سباق سيارات",
+    expression_en: "I want to play car racing",
+    expression_ar: "أريد لعب سباق سيارات",
+    imgUrl: "/public/leisure/videogames/racing.png"
+  },
+  {
+    title_en: "Football Game",
+    title_ar: "لعبة كرة قدم",
+    expression_en: "I want to play football game",
+    expression_ar: "أريد لعب لعبة كرة قدم",
+    imgUrl: "/public/leisure/videogames/football.png"
+  },
+  {
+    title_en: "Adventure Game",
+    title_ar: "لعبة مغامرات",
+    expression_en: "I want to play adventure games",
+    expression_ar: "أريد لعب ألعاب مغامرات",
+    imgUrl: "/public/leisure/videogames/adventure.png"
+  },
+  {
+    title_en: "Action Game",
+    title_ar: "لعبة أكشن",
+    expression_en: "I want to play action games",
+    expression_ar: "أريد لعب ألعاب أكشن",
+    imgUrl: "/public/leisure/videogames/action.png"
+  },
+  {
+    title_en: "Puzzle Game",
+    title_ar: "لعبة ألغاز",
+    expression_en: "I want to play puzzle games",
+    expression_ar: "أريد لعب ألعاب ألغاز",
+    imgUrl: "/public/leisure/videogames/puzzle.png"
+  }
+]);
+const leisureBeachChoices = createGroup("Beach", "/public/leisure/beach.png", [
+  {
+    title_en: "Swimming",
+    title_ar: "سباحة",
+    expression_en: "I want to swim",
+    expression_ar: "أريد السباحة",
+    imgUrl: "/public/leisure/beach/swimming.png"
+  },
+  {
+    title_en: "Sunbathing",
+    title_ar: "التشمس",
+    expression_en: "I want to sunbathe",
+    expression_ar: "أريد التشمس",
+    imgUrl: "/public/leisure/beach/sunbathing.png"
+  },
+  {
+    title_en: "Play in sand",
+    title_ar: "اللعب في الرمل",
+    expression_en: "I want to play in the sand",
+    expression_ar: "أريد اللعب في الرمل",
+    imgUrl: "/public/leisure/beach/sand.png"
+  },
+  {
+    title_en: "Build sandcastle",
+    title_ar: "بناء قلعة رملية",
+    expression_en: "I want to build a sandcastle",
+    expression_ar: "أريد بناء قلعة رملية",
+    imgUrl: "/public/leisure/beach/sandcastle.png"
+  },
+  {
+    title_en: "Collect shells",
+    title_ar: "جمع الأصداف",
+    expression_en: "I want to collect shells",
+    expression_ar: "أريد جمع الأصداف",
+    imgUrl: "/public/leisure/beach/shells.png"
+  },
+  {
+    title_en: "Walk on beach",
+    title_ar: "المشي على الشاطئ",
+    expression_en: "I want to walk on the beach",
+    expression_ar: "أريد المشي على الشاطئ",
+    imgUrl: "/public/leisure/beach/walk.png"
+  },
+  {
+    title_en: "Play beach ball",
+    title_ar: "لعب الكرة الشاطئية",
+    expression_en: "I want to play beach ball",
+    expression_ar: "أريد لعب الكرة الشاطئية",
+    imgUrl: "/public/leisure/beach/ball.png"
+  }
+]);
+const leisureHobbyChoices = createGroup("Hobby", "/public/leisure/hobby.png", [
+  {
+    title_en: "Drawing",
+    title_ar: "الرسم",
+    expression_en: "I want to draw",
+    expression_ar: "أريد الرسم",
+    imgUrl: "/public/leisure/hobby/drawing.png"
+  },
+  {
+    title_en: "Reading",
+    title_ar: "القراءة",
+    expression_en: "I want to read",
+    expression_ar: "أريد القراءة",
+    imgUrl: "/public/leisure/hobby/reading.png"
+  },
+  {
+    title_en: "Writing",
+    title_ar: "الكتابة",
+    expression_en: "I want to write",
+    expression_ar: "أريد الكتابة",
+    imgUrl: "/public/leisure/hobby/writing.png"
+  },
+  {
+    title_en: "Painting",
+    title_ar: "التلوين",
+    expression_en: "I want to paint",
+    expression_ar: "أريد التلوين",
+    imgUrl: "/public/leisure/hobby/painting.png"
+  },
+  {
+    title_en: "Music",
+    title_ar: "موسيقى",
+    expression_en: "I want to play music",
+    expression_ar: "أريد عزف الموسيقى",
+    imgUrl: "/public/leisure/hobby/music.png"
+  }
+]);
+export const animalAnatomyChoices = createGroup("Animal anatomy", "/public/animals/anatomy.png", [
+  { title_en: "Head", title_ar: "رأس", expression_en: "Animal head", expression_ar: "رأس الحيوان", imgUrl: "/public/animals/head.png" },
+  { title_en: "Body", title_ar: "جسم", expression_en: "Animal body", expression_ar: "جسم الحيوان", imgUrl: "/public/animals/body.png" },
+  { title_en: "Legs", title_ar: "أرجل", expression_en: "Animal legs", expression_ar: "أرجل الحيوان", imgUrl: "/public/animals/legs.png" },
+  { title_en: "Tail", title_ar: "ذيل", expression_en: "Animal tail", expression_ar: "ذيل الحيوان", imgUrl: "/public/animals/tail.png" },
+  { title_en: "Wings", title_ar: "أجنحة", expression_en: "Animal wings", expression_ar: "أجنحة الحيوان", imgUrl: "/public/animals/wings.png" },
+]);
+export const animalNutritionChoices = createGroup("Animal nutrition", "/public/animals/nutrition.png", [
+  { title_en: "Grass", title_ar: "عشب", expression_en: "Animal eats grass", expression_ar: "الحيوان يأكل عشب", imgUrl: "/public/animals/grass.png" },
+  { title_en: "Meat", title_ar: "لحم", expression_en: "Animal eats meat", expression_ar: "الحيوان يأكل لحم", imgUrl: "/public/animals/meat.png" },
+  { title_en: "Fish", title_ar: "سمك", expression_en: "Animal eats fish", expression_ar: "الحيوان يأكل سمك", imgUrl: "/public/animals/fish.png" },
+  { title_en: "Seeds", title_ar: "بذور", expression_en: "Animal eats seeds", expression_ar: "الحيوان يأكل بذور", imgUrl: "/public/animals/seeds.png" },
+  { title_en: "Water", title_ar: "ماء", expression_en: "Animal drinks water", expression_ar: "الحيوان يشرب ماء", imgUrl: "/public/animals/water.png" },
+]);
+export const animalTypesChoices = createGroup("Animal types", "/public/animals/types.png", [
+  { title_en: "Mammal", title_ar: "ثدييات", expression_en: "Mammal animal", expression_ar: "حيوان ثديي", imgUrl: "/public/animals/mammal.png" },
+  { title_en: "Bird", title_ar: "طائر", expression_en: "Bird animal", expression_ar: "طائر", imgUrl: "/public/animals/bird.png" },
+  { title_en: "Fish", title_ar: "سمك", expression_en: "Fish animal", expression_ar: "سمك", imgUrl: "/public/animals/fish.png" },
+  { title_en: "Reptile", title_ar: "زواحف", expression_en: "Reptile animal", expression_ar: "زواحف", imgUrl: "/public/animals/reptile.png" },
+  { title_en: "Insect", title_ar: "حشرات", expression_en: "Insect", expression_ar: "حشرة", imgUrl: "/public/animals/insect.png" },
+]);
+export const animalReproductionChoices = createGroup("Animal reproduction", "/public/animals/reproduction.png", [
+  { title_en: "Egg", title_ar: "بيضة", expression_en: "Animal lays eggs", expression_ar: "الحيوان يبيض", imgUrl: "/public/animals/egg.png" },
+  { title_en: "Birth", title_ar: "ولادة", expression_en: "Animal gives birth", expression_ar: "الحيوان يلد", imgUrl: "/public/animals/birth.png" },
+  { title_en: "Baby animal", title_ar: "صغير الحيوان", expression_en: "Baby animal", expression_ar: "صغير الحيوان", imgUrl: "/public/animals/baby.png" },
+  { title_en: "Growth", title_ar: "نمو", expression_en: "Animal growth", expression_ar: "نمو الحيوان", imgUrl: "/public/animals/growth.png" },
+]);
+export const animalPhysiologyChoices = createGroup("Animal physiology", "/public/animals/physiology.png", [
+  { title_en: "Breathing", title_ar: "تنفس", expression_en: "Animal breathes", expression_ar: "الحيوان يتنفس", imgUrl: "/public/animals/breath.png" },
+  { title_en: "Heart", title_ar: "قلب", expression_en: "Animal heart", expression_ar: "قلب الحيوان", imgUrl: "/public/animals/heart.png" },
+  { title_en: "Blood", title_ar: "دم", expression_en: "Animal blood", expression_ar: "دم الحيوان", imgUrl: "/public/animals/blood.png" },
+  { title_en: "Sleep", title_ar: "نوم", expression_en: "Animal sleeps", expression_ar: "الحيوان ينام", imgUrl: "/public/animals/sleep.png" },
+]);
+export const animalEnvironmentChoices = createGroup("Animal environment", "/public/animals/environment.png", [
+  { title_en: "Forest", title_ar: "غابة", expression_en: "Forest animal", expression_ar: "حيوان الغابة", imgUrl: "/public/animals/forest.png" },
+  { title_en: "Desert", title_ar: "صحراء", expression_en: "Desert animal", expression_ar: "حيوان الصحراء", imgUrl: "/public/animals/desert.png" },
+  { title_en: "Ocean", title_ar: "محيط", expression_en: "Ocean animal", expression_ar: "حيوان المحيط", imgUrl: "/public/animals/ocean.png" },
+  { title_en: "Farm", title_ar: "مزرعة", expression_en: "Farm animal", expression_ar: "حيوان المزرعة", imgUrl: "/public/animals/farm.png" },
+]);
+export const animalBehaviorChoices = createGroup("Animal behaviour", "/public/animals/behavior.png", [
+  { title_en: "Run", title_ar: "يجري", expression_en: "Animal runs", expression_ar: "الحيوان يجري", imgUrl: "/public/animals/run.png" },
+  { title_en: "Eat", title_ar: "يأكل", expression_en: "Animal eats", expression_ar: "الحيوان يأكل", imgUrl: "/public/animals/eat.png" },
+  { title_en: "Sleep", title_ar: "ينام", expression_en: "Animal sleeps", expression_ar: "الحيوان ينام", imgUrl: "/public/animals/sleep.png" },
+  { title_en: "Hunt", title_ar: "يصطاد", expression_en: "Animal hunts", expression_ar: "الحيوان يصطاد", imgUrl: "/public/animals/hunt.png" },
+]);
+export const animalHousingChoices = createGroup("Animal housing", "/public/animals/housing.png", [
+  { title_en: "Nest", title_ar: "عش", expression_en: "Bird nest", expression_ar: "عش طائر", imgUrl: "/public/animals/nest.png" },
+  { title_en: "Farm", title_ar: "مزرعة", expression_en: "Animal farm", expression_ar: "مزرعة حيوانات", imgUrl: "/public/animals/farm.png" },
+  { title_en: "Cage", title_ar: "قفص", expression_en: "Animal cage", expression_ar: "قفص حيوان", imgUrl: "/public/animals/cage.png" },
+  { title_en: "Home", title_ar: "موطن", expression_en: "Animal home", expression_ar: "موطن الحيوان", imgUrl: "/public/animals/home.png" },
+]);
+export const animalTherapyChoices = createGroup("Animal-assisted therapy", "/public/animals/therapy.png", [
+  { title_en: "Dog therapy", title_ar: "علاج بالكلاب", expression_en: "Dog therapy", expression_ar: "علاج بالكلاب", imgUrl: "/public/animals/dogtherapy.png" },
+  { title_en: "Horse therapy", title_ar: "علاج بالخيول", expression_en: "Horse therapy", expression_ar: "علاج بالخيول", imgUrl: "/public/animals/horse.png" },
+  { title_en: "Calm animals", title_ar: "حيوانات هادئة", expression_en: "Calm animals help", expression_ar: "حيوانات هادئة تساعد", imgUrl: "/public/animals/calm.png" },
+]);
+export const animalPetsWildChoices = createGroup("Pet & Wild", "/public/animals/pets.png", [
+  { title_en: "Dog", title_ar: "كلب", expression_en: "Pet dog", expression_ar: "كلب أليف", imgUrl: "/public/animals/dog.png" },
+  { title_en: "Cat", title_ar: "قطة", expression_en: "Pet cat", expression_ar: "قطة أليفة", imgUrl: "/public/animals/cat.png" },
+  { title_en: "Lion", title_ar: "أسد", expression_en: "Wild lion", expression_ar: "أسد بري", imgUrl: "/public/animals/lion.png" },
+  { title_en: "Elephant", title_ar: "فيل", expression_en: "Wild elephant", expression_ar: "فيل بري", imgUrl: "/public/animals/elephant.png" },
+]);
+const leisureEntertainmentChoices = createGroup("Entertainment", "/public/leisure/entertainment.png", [
+  {
+    title_en: "Watch TV",
+    title_ar: "مشاهدة التلفاز",
+    expression_en: "I want to watch TV",
+    expression_ar: "أريد مشاهدة التلفاز",
+    imgUrl: "/public/leisure/entertainment/tv.png"
+  },
+  {
+    title_en: "Watch Movie",
+    title_ar: "مشاهدة فيلم",
+    expression_en: "I want to watch a movie",
+    expression_ar: "أريد مشاهدة فيلم",
+    imgUrl: "/public/leisure/entertainment/movie.png"
+  },
+  {
+    title_en: "Listen to Music",
+    title_ar: "الاستماع للموسيقى",
+    expression_en: "I want to listen to music",
+    expression_ar: "أريد الاستماع للموسيقى",
+    imgUrl: "/public/leisure/entertainment/music.png"
+  },
+  {
+    title_en: "Go Out",
+    title_ar: "الخروج",
+    expression_en: "I want to go out",
+    expression_ar: "أريد الخروج",
+    imgUrl: "/public/leisure/entertainment/out.png"
+  }
+]);
+const leisureShowChoices = createGroup("Show", "/public/leisure/show.png", [
+  {
+    title_en: "Magic Show",
+    title_ar: "عرض سحري",
+    expression_en: "I want to watch a magic show",
+    expression_ar: "أريد مشاهدة عرض سحري",
+    imgUrl: "/public/leisure/show/magic.png"
+  },
+  {
+    title_en: "Circus",
+    title_ar: "سيرك",
+    expression_en: "I want to watch a circus",
+    expression_ar: "أريد مشاهدة سيرك",
+    imgUrl: "/public/leisure/show/circus.png"
+  },
+  {
+    title_en: "Theater",
+    title_ar: "مسرح",
+    expression_en: "I want to watch theater",
+    expression_ar: "أريد مشاهدة مسرح",
+    imgUrl: "/public/leisure/show/theater.png"
+  },
+  {
+    title_en: "Dance Show",
+    title_ar: "عرض رقص",
+    expression_en: "I want to watch a dance show",
+    expression_ar: "أريد مشاهدة عرض رقص",
+    imgUrl: "/public/leisure/show/dance.png"
+  }
+  
+]);
+export const agricultureChoices = createGroup("Agriculture", "/public/economic/agriculture.png", [
+  { title_en: "Farmer", title_ar: "مزارع", expression_en: "I am a farmer", expression_ar: "أنا مزارع", imgUrl: "/public/economic/farmer.png" },
+  { title_en: "Wheat", title_ar: "قمح", expression_en: "Wheat farming", expression_ar: "زراعة القمح", imgUrl: "/public/economic/wheat.png" },
+  { title_en: "Vegetables", title_ar: "خضروات", expression_en: "Vegetable farming", expression_ar: "زراعة الخضروات", imgUrl: "/public/economic/vegetables.png" },
+  { title_en: "Rice", title_ar: "أرز", expression_en: "Rice farming", expression_ar: "زراعة الأرز", imgUrl: "/public/economic/rice.png" },
+  { title_en: "Fruit farming", title_ar: "زراعة الفواكه", expression_en: "Fruit farming", expression_ar: "زراعة الفواكه", imgUrl: "/public/economic/fruit.png" },
+]);
+export const fishingChoices = createGroup("Fishing", "/public/economic/fishing.png", [
+  { title_en: "Fisherman", title_ar: "صياد", expression_en: "I am a fisherman", expression_ar: "أنا صياد", imgUrl: "/public/economic/fisherman.png" },
+  { title_en: "Fish", title_ar: "سمك", expression_en: "Catching fish", expression_ar: "اصطياد السمك", imgUrl: "/public/economic/fish.png" },
+   { title_en: "River fishing", title_ar: "صيد النهر", expression_en: "River fishing", expression_ar: "صيد في النهر", imgUrl: "/public/economic/river.png" },
+  { title_en: "Fishing net", title_ar: "شبكة صيد", expression_en: "Fishing net", expression_ar: "شبكة صيد", imgUrl: "/public/economic/net.png" },
+  { title_en: "Fish market", title_ar: "سوق السمك", expression_en: "Fish market", expression_ar: "سوق السمك", imgUrl: "/public/economic/market.png" },
+]);
+export const forestryChoices = createGroup("Forestry", "/public/economic/forestry.png", [
+  { title_en: "Tree cutting", title_ar: "قطع الأشجار", expression_en: "Cut trees", expression_ar: "قطع الأشجار", imgUrl: "/public/economic/cutting.png" },
+  { title_en: "Wood", title_ar: "خشب", expression_en: "Wood production", expression_ar: "إنتاج الخشب", imgUrl: "/public/economic/wood.png" },
+  { title_en: "Forest worker", title_ar: "عامل غابات", expression_en: "Forest worker", expression_ar: "عامل في الغابات", imgUrl: "/public/economic/worker.png" },
+  { title_en: "Plant trees", title_ar: "زراعة أشجار", expression_en: "Plant trees", expression_ar: "زراعة أشجار", imgUrl: "/public/economic/plant.png" },
+  { title_en: "Nature protection", title_ar: "حماية الطبيعة", expression_en: "Protect nature", expression_ar: "حماية الطبيعة", imgUrl: "/public/economic/protect.png" },
+]);
+export const industryChoices = createGroup("Industry", "/public/economic/industry.png", [
+  { title_en: "Factory", title_ar: "مصنع", expression_en: "I work in a factory", expression_ar: "أعمل في مصنع", imgUrl: "/public/economic/factory.png" },
+  { title_en: "Production", title_ar: "إنتاج", expression_en: "Production work", expression_ar: "عمل إنتاج", imgUrl: "/public/economic/production.png" },
+
+]);
+export const constructionChoices = createGroup("Construction", "/public/economic/construction.png", [
+  { title_en: "Builder", title_ar: "عامل بناء", expression_en: "I am a builder", expression_ar: "أنا عامل بناء", imgUrl: "/public/economic/builder.png" },
+  { title_en: "House", title_ar: "بيت", expression_en: "Building houses", expression_ar: "بناء البيوت", imgUrl: "/public/economic/house.png" },
+
+]);
+export const tradeChoices = createGroup("Trade", "/public/economic/trade.png", [
+  { title_en: "Shop", title_ar: "محل", expression_en: "I work in a shop", expression_ar: "أعمل في محل", imgUrl: "/public/economic/shop.png" },
+  { title_en: "Sell", title_ar: "بيع", expression_en: "I sell products", expression_ar: "أبيع منتجات", imgUrl: "/public/economic/sell.png" },
+]);
+export const transportServicesChoices = createGroup("Transport services", "/public/economic/transport.png", [
+  { title_en: "Driver", title_ar: "سائق", expression_en: "I am a driver", expression_ar: "أنا سائق", imgUrl: "/public/economic/driver.png" },
+  { title_en: "Bus", title_ar: "أتوبيس", expression_en: "Transport people", expression_ar: "نقل الناس", imgUrl: "/public/economic/bus.png" },
+]);
 // ─────────────────────────────────────────────
 // EXPORT MAP
 // ─────────────────────────────────────────────
@@ -1059,4 +1637,53 @@ export const subSubIconsMap = {
   "Call::Messenger":       callMessengerChoices,
   "Call::Conference":      callConferenceChoices,
   "Call::Emergency Call":  emergencyCallChoices,
+  // ====== BATHROOM ======
+ "Bathroom::Shower":       showerChoices,
+"Bathroom::Toilet":       toiletChoices,
+"Bathroom::Brush Teeth":  brushTeethChoices,
+"Bathroom::Wash Hands":   washHandsChoices,
+// ====== LEISURE ======
+"Leisure::Games":        leisureGamesChoices,
+"Leisure::Video Games":  leisureVideoGamesChoices,
+"Leisure::Beach":        leisureBeachChoices,
+"Leisure::Hobby":        leisureHobbyChoices,
+"Leisure::Entertainment": leisureEntertainmentChoices,
+"Leisure::Show":         leisureShowChoices,
+// ====== ANIMALS ======
+"Animal anatomy::Anatomy":             animalAnatomyChoices,
+"Animal nutrition::Nutrition":         animalNutritionChoices,
+"Animal types::Types":                 animalTypesChoices,
+"Animal reproduction::Reproduction":   animalReproductionChoices,
+"Animal physiology::Physiology":       animalPhysiologyChoices,
+"Animal environment::Environment":     animalEnvironmentChoices,
+"Animal behaviour::Behavior":          animalBehaviorChoices,
+"Animal housing::Housing":             animalHousingChoices,
+"Animal-assisted therapy::Therapy":    animalTherapyChoices,
+"Pet & Wild::Pets & Wild":             animalPetsWildChoices,
+// ====== PLANTS ======
+"Plant::Anatomy":        plantAnatomyChoices,
+"Plant::Physiology":     plantPhysiologyChoices,
+"Plant::Classification": plantClassificationChoices,
+"Plant::Types":          plantTypesChoices,
+ // ─────────────────────────────
+  // EDUCATION
+  // ─────────────────────────────
+
+  "Education::Teaching activity": educationActivityChoices,
+  "Education::Subject": educationSubjectChoices,
+  "Education::Institution": educationInstitutionChoices,
+  "Education::Task": educationTaskChoices,
+  "Education::Material": educationMaterialChoices,
+  "Education::Equipment": educationEquipmentChoices,
+  "Education::Space": educationSpaceChoices,
+  "Education::Staff": educationStaffChoices,
+  "Education::Students": educationStudentsChoices,
+  "Education::Methodology": educationMethodChoices,
+  "Education::Core vocabulary": educationVocabChoices,
+  "Primary Sector::Agriculture": agricultureChoices,
+"Primary Sector::Fishing": fishingChoices,
+"Secondary Sector::Industry": industryChoices,
+"Secondary Sector::Construction": constructionChoices,
+"Tertiary Sector::Trade": tradeChoices,
+"Tertiary Sector::Transport services": transportServicesChoices,
 };

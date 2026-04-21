@@ -1,927 +1,3 @@
-/*export const icons = [
-    // ====== REAL LIFE ======
-    {
-    title_en: "Eating",
-    title_ar: "أكل",
-    title_fr: "Manger",
-    title_es: "Comer",
-    expression_en: "I want to eat",
-    expression_ar: "أريد أن آكل",
-    expression_fr: "Je veux manger",
-    expression_es: "Quiero comer",
-    imgUrl: "/public/icons/Eating.png",
-    category: "Real Life"
-  },
-  {
-    title_en: "Drinking",
-    title_ar: "شرب",
-    title_fr: "Boire",
-    title_es: "Beber",
-    
-    expression_en: "I want to drink",
-    expression_ar: "أريد أن أشرب",
-    expression_fr: "Je veux boire",
-    expression_es: "Quiero beber",
-    imgUrl: "/public/icons/Drinking.png",
-
-    category: "Real Life"
-  },
-  {
-    title_en: "Sleeping",
-    title_ar: "نوم",
-    title_fr: "Dormir",
-    title_es: "Dormir",
-    expression_en: "I want to sleep",
-    expression_ar: "أريد أن أنام",
-    expression_fr: "Je veux dormir",
-    expression_es: "Quiero dormir",
-    imgUrl: "/public/icons/Sleeping.png",
-    category: "Real Life"
-  },
-  {
-    title_en: "Transport",
-    title_ar: "مواصلات",
-    title_fr: "Transport",
-    title_es: "Transporte",
-    expression_en: "I need to ride transportation",
-    expression_ar: "أحتاج لركوب المواصلات",
-    expression_fr: "J'ai besoin de prendre les transports",
-    expression_es: "Necesito usar transporte",
-    imgUrl: "/public/icons/Transport.png",
-    category: "Real Life"
-  },
-  {
-    title_en: "Toilet",
-    title_ar: "حمام",
-    title_fr: "Toilette",
-    title_es: "Baño",
-    expression_en: "I need to go to the toilet",
-    expression_ar: "أحتاج للذهاب إلى الحمام",
-    expression_fr: "J'ai besoin d'aller aux toilettes",
-    expression_es: "Necesito ir al baño",
-    imgUrl: "/public/icons/Toilet.png",
-    category: "Real Life"
-  },
-  {
-    title_en: "Shower",
-    title_ar: "استحمام",
-    title_fr: "Douche",
-    title_es: "Ducha",
-    expression_en: "I want to take a shower",
-    expression_ar: "أريد أن أستحم",
-    expression_fr: "Je veux prendre une douche",
-    expression_es: "Quiero ducharme",
-    imgUrl: "/public/icons/Shower.png",
-    category: "Real Life"
-  },
-  {
-    title_en: "Brush Teeth",
-    title_ar: "تنظيف الأسنان",
-    title_fr: "Se brosser les dents",
-    title_es: "Cepillarse los dientes",
-    expression_en: "I need to brush my teeth",
-    expression_ar: "أحتاج لتنظيف أسناني",
-    expression_fr: "J'ai besoin de me brosser les dents",
-    expression_es: "Necesito cepillarme los dientes",
-    imgUrl: "/public/icons/BrushTeeth.png",
-    category: "Real Life"
-  },
-  {
-    title_en: "Get Dressed",
-    title_ar: "ارتداء الملابس",
-    title_fr: "S'habiller",
-    title_es: "Vestirse",
-    expression_en: "I want to get dressed",
-    expression_ar: "أريد أن أرتدي ملابسي",
-    expression_fr: "Je veux m'habiller",
-    expression_es: "Quiero vestirme",
-    imgUrl: "/public/icons/GetDressed.png",
-    category: "Real Life"
-  },
-  {
-    title_en: "Wash Hands",
-    title_ar: "غسل اليدين",
-    title_fr: "Se laver les mains",
-    title_es: "Lavarse las manos",
-    expression_en: "I need to wash my hands",
-    expression_ar: "أحتاج لغسل يديّ",
-    expression_fr: "J'ai besoin de me laver les mains",
-    expression_es: "Necesito lavarme las manos",
-    imgUrl: "/public/icons/WashHands.png",
-    category: "Real Life"
-  },
-  {
-    title_en: "Medicine",
-    title_ar: "دواء",
-    title_fr: "Médicament",
-    title_es: "Medicina",
-    expression_en: "I need my medicine",
-    expression_ar: "أحتاج دوائي",
-    expression_fr: "J'ai besoin de mon médicament",
-    expression_es: "Necesito mi medicina",
-    imgUrl: "/public/icons/Medicine.png",
-    category: "Real Life"
-  },
-  {
-    title_en: "Doctor",
-    title_ar: "طبيب",
-    title_fr: "Médecin",
-    title_es: "Doctor",
-    expression_en: "I need to see a doctor",
-    expression_ar: "أحتاج لرؤية الطبيب",
-    expression_fr: "J'ai besoin de voir un médecin",
-    expression_es: "Necesito ver a un doctor",
-    imgUrl: "/public/icons/Doctor.png",
-    category: "Real Life"
-  },
-
-    // ====== FEELINGS ======
-  {
-    title_en: "Happy",
-    title_ar: "مبسوط جدا",
-    title_fr: "Très heureux",
-    title_es: "Muy feliz",
-    expression_en: "I feel very happy",
-    expression_ar: "أشعر بسعادة كبيرة",
-    expression_fr: "Je me sens très heureux",
-    expression_es: "Me siento muy feliz",
-    imgUrl: "/public/Feelings/7.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Sad",
-    title_ar: "زعلان",
-    title_fr: "Triste",
-    title_es: "Triste",
-    expression_en: "I feel sad",
-    expression_ar: "أشعر بالحزن",
-    expression_fr: "Je me sens triste",
-    expression_es: "Me siento triste",
-    imgUrl: "/public/Feelings/3.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Angry",
-    title_ar: "متعصب",
-    title_fr: "Fâché",
-    title_es: "Enojado",
-    expression_en: "I feel angry",
-    expression_ar: "أشعر بالغضب",
-    expression_fr: "Je me sens fâché",
-    expression_es: "Me siento enojado",
-    imgUrl: "/public/Feelings/6.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Crying",
-    title_ar: "بيعيط",
-    title_fr: "En pleurs",
-    title_es: "Llorando",
-    expression_en: "I am crying",
-    expression_ar: "أبكي",
-    expression_fr: "Je pleure",
-    expression_es: "Estoy llorando",
-    imgUrl: "/public/Feelings/4.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Thinking",
-    title_ar: "بيفكر",
-    title_fr: "Pensif",
-    title_es: "Pensando",
-    expression_en: "I am thinking",
-    expression_ar: "أفكر",
-    expression_fr: "Je réfléchis",
-    expression_es: "Estoy pensando",
-    imgUrl: "/public/Feelings/5.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Angry2",
-    title_ar: "متعصب",
-    title_fr: "Fâché",
-    title_es: "Enojado",
-    expression_en: "I am very angry",
-    expression_ar: "أنا غاضب جدا",
-    expression_fr: "Je suis très fâché",
-    expression_es: "Estoy muy enojado",
-    imgUrl: "/public/Feelings/6.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "In Love",
-    title_ar: "مبسوط ويرقص فيها",
-    title_fr: "Amoureux",
-    title_es: "Enamorando",
-    expression_en: "I feel in love",
-    expression_ar: "أشعر بالحب",
-    expression_fr: "Je suis amoureux",
-    expression_es: "Estoy enamorado",
-    imgUrl: "/public/Feelings/7.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Crying2",
-    title_ar: "بيعيط بسبب انه منهار",
-    title_fr: "En pleurs",
-    title_es: "Llorando",
-    expression_en: "I am crying badly",
-    expression_ar: "أبكي بسبب انهياري",
-    expression_fr: "Je pleure gravement",
-    expression_es: "Estoy llorando mucho",
-    imgUrl: "/public/Feelings/2.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Afraid",
-    title_ar: "خائف",
-    title_fr: "Effrayé",
-    title_es: "Asustado",
-    expression_en: "I feel afraid",
-    expression_ar: "أشعر بالخوف",
-    expression_fr: "J'ai peur",
-    expression_es: "Me siento asustado",
-    imgUrl: "/public/Feelings/3.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Eating",
-    title_ar: "بيستمتع بأكل الطعام",
-    title_fr: "En train de manger",
-    title_es: "Comiendo",
-    expression_en: "I enjoy eating",
-    expression_ar: "أستمتع بتناول الطعام",
-    expression_fr: "Je profite de manger",
-    expression_es: "Disfruto comiendo",
-    imgUrl: "/public/Feelings/10.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Broken",
-    title_ar: "مكسوف",
-    title_fr: "Brisé",
-    title_es: "Roto",
-    expression_en: "I feel broken",
-    expression_ar: "أشعر بالكسوف",
-    expression_fr: "Je me sens brisé",
-    expression_es: "Me siento roto",
-    imgUrl: "/public/Feelings/11.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Annoyed",
-    title_ar: "مضايق ومنزعج من الضوضاء",
-    title_fr: "Agacé",
-    title_es: "Molesto",
-    expression_en: "I feel annoyed",
-    expression_ar: "أشعر بالضيق والانزعاج من الضوضاء",
-    expression_fr: "Je me sens agacé",
-    expression_es: "Me siento molesto",
-    imgUrl: "/public/Feelings/12.png",
-    category: "Feelings"
-  },
-  {
-    title_en: "Distressed",
-    title_ar: "مدايق",
-    title_fr: "Stressé",
-    title_es: "Afligido",
-    expression_en: "I feel distressed",
-    expression_ar: "أشعر بالضيق",
-    expression_fr: "Je me sens stressé",
-    expression_es: "Me siento afligido",
-    imgUrl: "/public/Feelings/13.png",
-    category: "Feelings"
-  },
-
-
-    // ====== COMMUNICATION ======
-    {
-    title_en: "Yes",
-    title_ar: "نعم",
-    title_fr: "Oui",
-    title_es: "Sí",
-    expression_en: "Yes, please",
-    expression_ar: "نعم من فضلك",
-    expression_fr: "Oui, s'il vous plaît",
-    expression_es: "Sí, por favor",
-    imgUrl: "/public/icons/Yes.png",
-    category: "Communication"
-  },
-  {
-    title_en: "No",
-    title_ar: "لا",
-    title_fr: "Non",
-    title_es: "No",
-    expression_en: "No, thank you",
-    expression_ar: "لا، شكراً",
-    expression_fr: "Non, merci",
-    expression_es: "No, gracias",
-    imgUrl: "/public/icons/No.png",
-    category: "Communication"
-  },
-  {
-    title_en: "Call",
-    title_ar: "اتصال",
-    title_fr: "Appeler",
-    title_es: "Llamar",
-    expression_en: "I want to make a phone call",
-    expression_ar: "أريد إجراء مكالمة هاتفية",
-    expression_fr: "Je veux passer un appel téléphonique",
-    expression_es: "Quiero hacer una llamada telefónica",
-    imgUrl: "/public/icons/Call.png",
-    category: "Communication"
-  },
-  {
-    title_en: "Talk",
-    title_ar: "تحدث",
-    title_fr: "Parler",
-    title_es: "Hablar",
-    expression_en: "I want to talk",
-    expression_ar: "أريد أن أتحدث",
-    expression_fr: "Je veux parler",
-    expression_es: "Quiero hablar",
-    imgUrl: "/public/icons/Talk.png",
-    category: "Communication"
-  },
-  {
-    title_en: "Listen",
-    title_ar: "استمع",
-    title_fr: "Écouter",
-    title_es: "Escuchar",
-    expression_en: "I want to listen",
-    expression_ar: "أريد الاستماع",
-    expression_fr: "Je veux écouter",
-    expression_es: "Quiero escuchar",
-    imgUrl: "/public/icons/Listen.png",
-    category: "Communication"
-  },
-    // ====== ADDITIONAL ======
-   {
-    title_en: "Breakfast",
-    title_ar: "الإفطار",
-    title_fr: "Petit-déjeuner",
-    title_es: "Desayuno",
-    expression_en: "I want breakfast",
-    expression_ar: "أريد الإفطار",
-    expression_fr: "Je veux le petit-déjeuner",
-    expression_es: "Quiero desayuno",
-    imgUrl: "/public/icons/Breakfast.png",
-    category: "Additional"
-  },
-  {
-    title_en: "Lunch",
-    title_ar: "الغداء",
-    title_fr: "Déjeuner",
-    title_es: "Almuerzo",
-    expression_en: "I want lunch",
-    expression_ar: "أريد الغداء",
-    expression_fr: "Je veux déjeuner",
-    expression_es: "Quiero almuerzo",
-    imgUrl: "/public/icons/Lunch.png",
-    category: "Additional"
-  },
-  {
-    title_en: "Dinner",
-    title_ar: "العشاء",
-    title_fr: "Dîner",
-    title_es: "Cena",
-    expression_en: "I want dinner",
-    expression_ar: "أريد العشاء",
-    expression_fr: "Je veux dîner",
-    expression_es: "Quiero cena",
-    imgUrl: "/public/icons/Dinner.png",
-    category: "Additional"
-  },
-  {
-    title_en: "Snack",
-    title_ar: "وجبة خفيفة",
-    title_fr: "Collation",
-    title_es: "Merienda",
-    expression_en: "I want a snack",
-    expression_ar: "أريد وجبة خفيفة",
-    expression_fr: "Je veux une collation",
-    expression_es: "Quiero una merienda",
-    imgUrl: "/public/icons/Snack.png",
-    category: "Additional"
-  },
-  {
-    title_en: "TV",
-    title_ar: "التلفاز",
-    title_fr: "Télévision",
-    title_es: "Televisión",
-    expression_en: "I want to watch TV",
-    expression_ar: "أريد مشاهدة التلفاز",
-    expression_fr: "Je veux regarder la télévision",
-    expression_es: "Quiero ver la televisión",
-    imgUrl: "/public/icons/TV.png",
-    category: "Additional"
-  },
-  {
-    title_en: "Play",
-    title_ar: "اللعب",
-    title_fr: "Jouer",
-    title_es: "Jugar",
-    expression_en: "I want to play",
-    expression_ar: "أريد اللعب",
-    expression_fr: "Je veux jouer",
-    expression_es: "Quiero jugar",
-    imgUrl: "/public/icons/Play.png",
-    category: "Additional"
-  },
-  {
-    title_en: "Music",
-    title_ar: "الموسيقى",
-    title_fr: "Musique",
-    title_es: "Música",
-    expression_en: "I want to listen to music",
-    expression_ar: "أريد الاستماع للموسيقى",
-    expression_fr: "Je veux écouter de la musique",
-    expression_es: "Quiero escuchar música",
-    imgUrl: "/public/icons/Music.png",
-    category: "Additional"
-  },
-  {
-    title_en: "Read",
-    title_ar: "القراءة",
-    title_fr: "Lire",
-    title_es: "Leer",
-    expression_en: "I want to read a book",
-    expression_ar: "أريد قراءة كتاب",
-    expression_fr: "Je veux lire un livre",
-    expression_es: "Quiero leer un libro",
-    imgUrl: "/public/icons/Read.png",
-    category: "Additional"
-  },
-  {
-    title_en: "Phone",
-    title_ar: "الهاتف",
-    title_fr: "Téléphone",
-    title_es: "Teléfono",
-    expression_en: "I want to use the phone",
-    expression_ar: "أريد استخدام الهاتف",
-    expression_fr: "Je veux utiliser le téléphone",
-    expression_es: "Quiero usar el teléfono",
-    imgUrl: "/public/icons/Phone.png",
-    category: "Additional"
-  },
-  {
-    title_en: "Home",
-    title_ar: "المنزل",
-    title_fr: "Maison",
-    title_es: "Casa",
-    expression_en: "I want to go to",
-    expression_ar: "أريد الذهاب إلى ",
-    expression_fr: "Je veux rentrer à ",
-    expression_es: "Quiero ir a ",
-    imgUrl: "/public/icons/Home.png",
-    category: "Real Life"
-  },
-   {
-    title_en: "places",
-     title_ar: "أماكن",
-  title_fr: "Lieux",
-  title_es: "Lugares",
-    expression_en: "..",
-    expression_ar:".." ,
-    expression_fr: ".. ",
-    expression_es: ".. ",
-    imgUrl: "/public/icons/Places.png",
-    category: "Real Life"
-  },
-      // ====== OTHER ADDITIONAL ICONS ======
-    { title_en: "Walk", title_ar: "المشي", title_fr: "Marcher", title_es: "Caminar", 
-    expression_en: "I want to go for a walk", expression_ar: "أريد الذهاب للمشي", 
-    expression_fr: "Je veux aller me promener", expression_es: "Quiero salir a caminar",
-     imgUrl: "/public/icons/Walk.png",category: "Additional" },
-  { title_en: "Run", title_ar: "الجري", title_fr: "Courir", title_es: "Correr",
-    expression_en: "I want to go for a run", expression_ar: "أريد الذهاب للجري",
-    expression_fr: "Je veux aller courir", expression_es: "Quiero salir a correr",
-    imgUrl: "/public/icons/Run.png", category: "Additional" },
-  { title_en: "Shopping", title_ar: "التسوق", title_fr: "Shopping", title_es: "Compras",
-    expression_en: "I want to go shopping", expression_ar: "أريد الذهاب للتسوق",
-    expression_fr: "Je veux aller faire du shopping", expression_es: "Quiero ir de compras",
-    imgUrl: "/public/icons/Shopping.png", category: "Additional" },
-  { title_en: "Coffee", title_ar: "القهوة", title_fr: "Café", title_es: "Café",
-    expression_en: "I want coffee", expression_ar: "أريد قهوة",
-    expression_fr: "Je veux du café", expression_es: "Quiero café",
-    imgUrl: "/public/icons/Coffee.png", category: "Additional" },
-  { title_en: "Tea", title_ar: "الشاي", title_fr: "Thé", title_es: "Té",
-    expression_en: "I want tea", expression_ar: "أريد شاي",
-    expression_fr: "Je veux du thé", expression_es: "Quiero té",
-    imgUrl: "/public/icons/Tea.png", category: "Additional" },
-  { title_en: "Book", title_ar: "كتاب", title_fr: "Livre", title_es: "Libro",
-    expression_en: "I want to read a book", expression_ar: "أريد قراءة كتاب",
-    expression_fr: "Je veux lire un livre", expression_es: "Quiero leer un libro",
-    imgUrl: "/public/icons/Book.png", category: "Additional" },
-  { title_en: "Phone Call", title_ar: "مكالمة هاتفية", title_fr: "Appel téléphonique", title_es: "Llamada telefónica",
-    expression_en: "I want to make a phone call", expression_ar: "أريد إجراء مكالمة هاتفية",
-    expression_fr: "Je veux passer un appel téléphonique", expression_es: "Quiero hacer una llamada telefónica",
-    imgUrl: "/public/icons/Phonee.png", category: "Additional" },
-  { title_en: "Internet", title_ar: "الإنترنت", title_fr: "Internet", title_es: "Internet",
-    expression_en: "I want to use the internet", expression_ar: "أريد استخدام الإنترنت",
-    expression_fr: "Je veux utiliser Internet", expression_es: "Quiero usar internet",
-    imgUrl: "/public/icons/Internet.png", category: "Additional" },
-  { title_en: "Sleepy", title_ar: "نعسان", title_fr: "Endormi", title_es: "Somnoliento",
-    expression_en: "I feel sleepy", expression_ar: "أشعر بالنعاس",
-    expression_fr: "Je me sens endormi", expression_es: "Me siento somnoliento",
-    imgUrl: "/public/icons/Sleepy.png", category: "Additional" },
-  { title_en: "Excited", title_ar: "متحمس", title_fr: "Excité", title_es: "Emocionado",
-    expression_en: "I feel excited", expression_ar: "أشعر بالحماس",
-    expression_fr: "Je me sens excité", expression_es: "Me siento emocionado",
-    imgUrl: "/public/icons/Excited.png", category: "Additional" },
-  { title_en: "Bored", title_ar: "ملل", title_fr: "Ennuyé", title_es: "Aburrido",
-    expression_en: "I feel bored", expression_ar: "أشعر بالملل",
-    expression_fr: "Je m'ennuie", expression_es: "Me aburro",
-    imgUrl: "/public/icons/Bored.png", category: "Additional" },
-  { title_en: "Cold", title_ar: "بردان", title_fr: "Froid", title_es: "Frío",
-    expression_en: "I feel cold", expression_ar: "أشعر بالبرد",
-    expression_fr: "J'ai froid", expression_es: "Tengo frío",
-    imgUrl: "/public/icons/Cold.png", category: "Additional" },
-  { title_en: "Hot", title_ar: "حار", title_fr: "Chaud", title_es: "Caliente",
-    expression_en: "I feel hot", expression_ar: "أشعر بالحر",
-    expression_fr: "J'ai chaud", expression_es: "Tengo calor",
-    imgUrl: "/public/icons/Hot.png", category: "Additional" },
-  { title_en: "Hungry", title_ar: "جائع", title_fr: "Affamé", title_es: "Hambriento",
-    expression_en: "I feel hungry", expression_ar: "أشعر بالجوع",
-    expression_fr: "J'ai faim", expression_es: "Tengo hambre",
-    imgUrl: "/public/icons/Hungry.png", category: "Additional" },
-  { title_en: "Thirsty", title_ar: "عطشان", title_fr: "Assoiffé", title_es: "Sediento",
-    expression_en: "I feel thirsty", expression_ar: "أشعر بالعطش",
-    expression_fr: "J'ai soif", expression_es: "Tengo sed",
-    imgUrl: "/public/icons/Thirsty.png", category: "Additional" },
-  { title_en: "Computer", title_ar: "حاسوب", title_fr: "Ordinateur", title_es: "Computadora",
-    expression_en: "I want to use a computer", expression_ar: "أريد استخدام الحاسوب",
-    expression_fr: "Je veux utiliser un ordinateur", expression_es: "Quiero usar una computadora",
-    imgUrl: "/public/icons/Computer.png", category: "Additional" },
-  { title_en: "Music Player", title_ar: "مشغل موسيقى", title_fr: "Lecteur de musique", title_es: "Reproductor de música",
-    expression_en: "I want to listen to music", expression_ar: "أريد الاستماع للموسيقى",
-    expression_fr: "Je veux écouter de la musique", expression_es: "Quiero escuchar música",
-    imgUrl: "/public/icons/Musicc.png", category: "Additional" },
-  { title_en: "Camera", title_ar: "كاميرا", title_fr: "Caméra", title_es: "Cámara",
-    expression_en: "I want to take a photo", expression_ar: "أريد التقاط صورة",
-    expression_fr: "Je veux prendre une photo", expression_es: "Quiero tomar una foto",
-    imgUrl: "/public/icons/Camera.png", category: "Additional" },
-  { title_en: "Video", title_ar: "فيديو", title_fr: "Vidéo", title_es: "Vídeo",
-    expression_en: "I want to watch a video", expression_ar: "أريد مشاهدة فيديو",
-    expression_fr: "Je veux regarder une vidéo", expression_es: "Quiero ver un vídeo",
-    imgUrl: "/public/icons/Video.png", category: "Additional" },
-  { title_en: "Game", title_ar: "لعبة", title_fr: "Jeu", title_es: "Juego",
-    expression_en: "I want to play a game", expression_ar: "أريد لعب لعبة",
-    expression_fr: "Je veux jouer à un jeu", expression_es: "Quiero jugar un juego",
-    imgUrl: "/public/icons/Game.png", category: "Additional" },
-  { title_en: "Friend", title_ar: "صديق", title_fr: "Ami", title_es: "Amigo",
-    expression_en: "I want to see my friend", expression_ar: "أريد رؤية صديقي",
-    expression_fr: "Je veux voir mon ami", expression_es: "Quiero ver a mi amigo",
-    imgUrl: "/public/icons/Friend.png", category: "Additional" },
-  { title_en: "Family", title_ar: "العائلة", title_fr: "Famille", title_es: "Familia",
-    expression_en: "I want to see my family", expression_ar: "أريد رؤية عائلتي",
-    expression_fr: "Je veux voir ma famille", expression_es: "Quiero ver a mi familia",
-    imgUrl: "/public/icons/Family.png", category: "Additional" },
-  { title_en: "Pet", title_ar: "حيوان أليف", title_fr: "Animal de compagnie", title_es: "Mascota",
-    expression_en: "I want to play with my pet", expression_ar: "أريد اللعب مع حيواني الأليف",
-    expression_fr: "Je veux jouer avec mon animal de compagnie", expression_es: "Quiero jugar con mi mascota",
-    imgUrl: "/public/icons/Pet.png", category: "Additional" },
-  { title_en: "Relax", title_ar: "الاسترخاء", title_fr: "Détente", title_es: "Relajarse",
-    expression_en: "I want to relax", expression_ar: "أريد الاسترخاء",
-    expression_fr: "Je veux me détendre", expression_es: "Quiero relajarme",
-    imgUrl: "/public/icons/Relax.png", category: "Additional" }
-  ];
-
-  export const subIconsData = {
-  Eating: [
-    { title_en: "Apple", title_ar: "تفاح", title_fr: "Pomme", title_es: "Manzana", img: "/public/Food and Drink/apple.png" },
-    { title_en: "Biscuit", title_ar: "بسكوت", title_fr: "Biscuit", title_es: "Galleta", img: "/public/Food and Drink/baskot.png" },
-    { title_en: "Batek", title_ar: "باتيك", title_fr: "Batek", title_es: "Batek", img: "/public/Food and Drink/batek.png" },
-    { title_en: "Potato", title_ar: "بطاطس", title_fr: "Pomme de terre", title_es: "Patata", img: "/public/Food and Drink/btats.png" },
-    { title_en: "Chocolate", title_ar: "شيكولاتة", title_fr: "Chocolat", title_es: "Chocolate", img: "/public/Food and Drink/chocolate.png" },
-    { title_en: "Egg", title_ar: "بيض", title_fr: "Œuf", title_es: "Huevo", img: "/public/Food and Drink/egg.png" },
-    { title_en: "Grapes", title_ar: "عنب", title_fr: "Raisin", title_es: "Uvas", img: "/public/Food and Drink/enab.png" },
-    { title_en: "Bread", title_ar: "عِش", title_fr: "Pain", title_es: "Pan", img: "/public/Food and Drink/esh.png" },
-    { title_en: "Fish", title_ar: "سمك", title_fr: "Poisson", title_es: "Pescado", img: "/public/Food and Drink/fish.png" },
-    { title_en: "Chicken", title_ar: "فراخ", title_fr: "Poulet", title_es: "Pollo", img: "/public/Food and Drink/frahk.png" },
-    { title_en: "Strawberry", title_ar: "فراولة", title_fr: "Fraise", title_es: "Fresa", img: "/public/Food and Drink/frawla.png" },
-    { title_en: "Popcorn", title_ar: "فشار", title_fr: "Pop-corn", title_es: "Palomitas", img: "/public/Food and Drink/fshaar.png" },
-    { title_en: "Carrot", title_ar: "جزر", title_fr: "Carotte", title_es: "Zanahoria", img: "/public/Food and Drink/gazr.png" },
-    { title_en: "Cheese", title_ar: "جبنة", title_fr: "Fromage", title_es: "Queso", img: "/public/Food and Drink/gebna.png" },
-    { title_en: "Guava", title_ar: "جوافة", title_fr: "Goyave", title_es: "Guayaba", img: "/public/Food and Drink/gwafa.png" },
-    { title_en: "Ice Cream", title_ar: "آيس كريم", title_fr: "Glace", title_es: "Helado", img: "/public/Food and Drink/icecream.png" },
-    { title_en: "Milk Drink", title_ar: "كس", title_fr: "Boisson au lait", title_es: "Bebida láctea", img: "/public/Food and Drink/kas.png" },
-    { title_en: "Coke", title_ar: "كوك", title_fr: "Coca", title_es: "Coca", img: "/public/Food and Drink/kok.png" },
-    { title_en: "Pear", title_ar: "كمثرى", title_fr: "Poire", title_es: "Pera", img: "/public/Food and Drink/komtra.png" },
-    { title_en: "Cucumber", title_ar: "خيار", title_fr: "Concombre", title_es: "Pepino", img: "/public/Food and Drink/kyar.png" },
-    { title_en: "Yogurt", title_ar: "لبن", title_fr: "Lait", title_es: "Leche", img: "/public/Food and Drink/labn.png" },
-    { title_en: "Mango", title_ar: "مانجو", title_fr: "Mangue", title_es: "Mango", img: "/public/Food and Drink/mango.png" },
-    { title_en: "Jam", title_ar: "مربى", title_fr: "Confiture", title_es: "Mermelada", img: "/public/Food and Drink/marba.png" },
-    { title_en: "Meat", title_ar: "لحم", title_fr: "Viande", title_es: "Carne", img: "/public/Food and Drink/meat.png" },
-    { title_en: "Mozzarella", title_ar: "موزاريلا", title_fr: "Mozzarella", title_es: "Mozzarella", img: "/public/Food and Drink/mozz.png" },
-    { title_en: "Orange", title_ar: "برتقال", title_fr: "Orange", title_es: "Naranja", img: "/public/Food and Drink/orange.png" },
-    { title_en: "Pizza", title_ar: "بيتزا", title_fr: "Pizza", title_es: "Pizza", img: "/public/Food and Drink/pizza.png" },
-    { title_en: "Rice", title_ar: "أرز", title_fr: "Riz", title_es: "Arroz", img: "/public/Food and Drink/roz.png" },
-    { title_en: "Sandwich", title_ar: "ساندوتش", title_fr: "Sandwich", title_es: "Sándwich", img: "/public/Food and Drink/sandwich.png" },
-    { title_en: "Soup", title_ar: "شوربة", title_fr: "Soupe", title_es: "Sopa", img: "/public/Food and Drink/shorba.png" },
-    { title_en: "Tomato", title_ar: "طماطم", title_fr: "Tomate", title_es: "Tomate", img: "/public/Food and Drink/tomato.png" },
-    { title_en: "Vegetables", title_ar: "خضروات", title_fr: "Légumes", title_es: "Verduras", img: "/public/Food and Drink/vegetablesz.png" },
-    { title_en: "Water", title_ar: "مياه", title_fr: "Eau", title_es: "Agua", img: "/public/Food and Drink/water.png" },
-    { title_en: "Yogurt", title_ar: "زبادي", title_fr: "Yaourt", title_es: "Yogur", img: "/public/Food and Drink/zbady.png" },
-
-  ],
-    Drinking: [
-         { title_en: "Water", title_ar: "ماء", title_fr: "Eau", title_es: "Agua", img:"/public/Food and Drink/water.png" },
-    { title_en: "Mango Juice", title_ar: "عصير مانجو", title_fr: "Jus de mangue", title_es: "Jugo de mango", img: "/public/Food and Drink/mango.png" },
-    { title_en: "Apple Juice", title_ar: "عصير تفاح", title_fr: "Jus de pomme", title_es: "Jugo de manzana", img: "/public/Food and Drink/apple.png" },
-        { title_en: "Guava", title_ar: "جوافة", title_fr: "Goyave", title_es: "Guayaba", img: "/public/Food and Drink/gwafa.png" },
-                { title_en: "Banana", title_ar: "موز", title_fr: "Banane", title_es: "Plátano", img: "/public/Food and Drink/mozz.png" },
-        { title_en: "Strawberry", title_ar: "فراولة", title_fr: "Fraise", title_es: "Fresa", img: "/public/Food and Drink/frawla.png" },
-        { title_en: "Chocolate", title_ar: "شوكولاتة", title_fr: "Chocolat", title_es: "Chocolate", img: "/public/Food and Drink/chocolate.png" },
-        { title_en: "Juice", title_ar: "عصير", title_fr: "Jus", title_es: "Jugo de guayaba", img: "/public/Food and Drink/aser.png" },
-
-          { title_en: "milk", title_ar: "لبن", title_fr: "Lait", title_es: "Leche", img: "/public/Food and Drink/labn.png" },
-    { title_en: "Fayrouz", title_ar: "فيروز", title_fr: "Fayrouz", title_es: "Fayrouz", img: "/public/Food and Drink/fayrouz.jpg" },
-    { title_en: "Schweppes", title_ar: "شويبس", title_fr: "Schweppes", title_es: "Schweppes", img: "/public/Food and Drink/schweppes.jpg" },
-    { title_en: "Pomegranate Juice", title_ar: "عصير رمان", title_fr: "Jus de grenade", title_es: "Jugo de granada", img: "/public/Food and Drink/roman.jpg" },
-    { title_en: "Mint Juice", title_ar: "عصير نعناع", title_fr: "Jus de menthe", title_es: "Jugo de menta", img: "/public/Food and Drink/mint.jpg" },
-    { title_en: "Sobia", title_ar: "سوبيا", title_fr: "Sobia", title_es: "Sobia", img: "/public/Food and Drink/sobia.png" },
-    { title_en: "Tea", title_ar: "شاي", title_fr: "Thé", title_es: "Té", img: "/public/Food and Drink/tea.png" },
-    { title_en: "Coffee", title_ar: "قهوة", title_fr: "Café", title_es: "Café", img: "/public/Food and Drink/coffe.png" },
-    { title_en: "Nescafe", title_ar: "نسكافيه", title_fr: "Nescafé", title_es: "Nescafé", img: "/public/Food and Drink/nescafe.png" },
-    { title_en: "Strawberry Juice", title_ar: "عصير فراولة", title_fr: "Jus de fraise", title_es: "Jugo de fresa", img: "/public/Food and Drink/frawla.png" },
-    { title_en: "Orange Juice", title_ar: "عصير برتقال", title_fr: "Jus d'orange", title_es: "Jugo de naranja", img: "/public/Food and Drink/orange.png" },
-    { title_en: "Lemon Juice", title_ar: "عصير ليمون", title_fr: "Jus de citron", title_es: "Jugo de limón", img: "/public/Food and Drink/lemon.png" },
-    { title_en: "Pepsi", title_ar: "بيبسي", title_fr: "Pepsi", title_es: "Pepsi", img: "/public/Food and Drink/pepsi.png" },
-    { title_en: "CocaCola", title_ar: "كوكاكولا", title_fr: "Coca-Cola", title_es: "Coca-Cola", img: "/public/Food and Drink/cocacola.png" },
-    { title_en: "7up", title_ar: "سبعة أب", title_fr: "7up", title_es: "7up", img: "/public/Food and Drink/7up.png" },
-    { title_en: "Energy Drink", title_ar: "مشروب طاقة", title_fr: "Boisson énergisante", title_es: "Bebida energética", img: "/public/Food and Drink/energy-drink.png" },
-    { title_en: "Hot Chocolate", title_ar: "شوكولاتة ساخنة", title_fr: "Chocolat chaud", title_es: "Chocolate caliente", img: "/public/Food and Drink/chocolate.png" },
-      // ... add the rest of the drinks here
-    ],
-    Sleeping: [
-          { title_en: "6 hours", title_ar: "٦ ساعات", title_fr: "6 heures", title_es: "6 horas", img: "/public/sleeping/6.png" },
-    { title_en: "7 hours", title_ar: "٧ ساعات", title_fr: "7 heures", title_es: "7 horas", img: "/public/sleeping/7.png" },
-    { title_en: "8 hours", title_ar: "٨ ساعات", title_fr: "8 heures", title_es: "8 horas", img: "/public/Sleeping/8.png" },
-    { title_en: "Take Nap Only", title_ar: "خذ قيلولة فقط", title_fr: "Faire seulement une sieste", title_es: "Tomar siesta solamente", img: "/public/sleeping/siesta.png" },
-    { title_en: "Take me to the Bed", title_ar: "خذني إلى السرير", title_fr: "Emmène-moi au lit", title_es: "Llévame a la cama", img: "/public/sleeping/bed.png" },
-    { title_en: "Pillow", title_ar: "وسادة", title_fr: "Oreiller", title_es: "Almohada", img: "/public/sleeping/pillow.png" },
-    { title_en: "Cover me by Blanket", title_ar: "غطي بالبطانية", title_fr: "Couvre-moi avec une couverture", title_es: "Cúbreme con una manta", img: "/public/sleeping/blanket.png" },
-    { title_en: "Turn off Night Lamp", title_ar: "أطفئ مصباح الليل", title_fr: "Éteindre la lampe de nuit", title_es: "Apaga la lámpara de noche", img: "/public/sleeping/night-lamp.png" },
-    { title_en: "For Relax", title_ar: "للاسترخاء", title_fr: "Pour se détendre", title_es: "Para relajarse", img: "/public/sleeping/relax.png" },
-    { title_en: "I feel Tired", title_ar: "أشعر بالتعب", title_fr: "Je me sens fatigué", title_es: "Me siento cansado", img: "/public/sleeping/tired.png" },
-    { title_en: "To Wake Up Early", title_ar: "للاستيقاظ مبكرًا", title_fr: "Pour se réveiller tôt", title_es: "Para despertarse temprano", img: "/public/sleeping/wake-up.png" },
-      // ... add the rest of the sleeping items here
-    ],
-     "Get Dressed": [
-  { title_en: "Shirt", title_ar: "قميص داخلي", title_fr: "Chemise", title_es: "Camisa interior", img: "/public/Clothes/2amis.png" },
-  { title_en: "Suit", title_ar: "بدلة", title_fr: "Costume", title_es: "Traje", img: "/public/Clothes/Badla.png" },
-  { title_en: "Blouse", title_ar: "بلوزة", title_fr: "Blouse", title_es: "Blusa", img: "/public/Clothes/blouse.png" },
-  { title_en: "Pants", title_ar: "بنطلون", title_fr: "Pantalon", title_es: "Pantalón", img: "/public/Clothes/Bntlon.png" },
-  { title_en: "Dress", title_ar: "فستان", title_fr: "Robe", title_es: "Vestido", img: "/public/Clothes/Dress.png" },
-  { title_en: "Jacket", title_ar: "سترة", title_fr: "Veste", title_es: "Chaqueta", img: "/public/Clothes/Jacket.png" },
-  { title_en: "Pajamas", title_ar: "بيجامة", title_fr: "Pyjama", title_es: "Pijama", img: "/public/Clothes/Pijama.png" },
-  { title_en: "Shoes", title_ar: "أحذية", title_fr: "Chaussures", title_es: "Zapatos", img: "/public/Clothes/Shoes.png" },
-  { title_en: "Socks", title_ar: "جوارب", title_fr: "Chaussettes", title_es: "Calcetines", img: "/public/Clothes/Shrab.png" },
-  { title_en: "Skirt", title_ar: "تنورة", title_fr: "Jupe", title_es: "Falda", img: "/public/Clothes/Skirt.png" }
-],
- Transport: [
-    { title_en: "Bicycle", title_ar: "دراجة", title_fr: "Vélo", title_es: "Bicicleta", img: "/public/Transport/1.png" },
-    { title_en: "Taxi", title_ar: "تاكسي", title_fr: "Taxi", title_es: "Taxi", img: "/public/Transport/2.png" },
-    { title_en: "Motorcycle", title_ar: "دراجة نارية", title_fr: "Moto", title_es: "Motocicleta", img: "/public/Transport/3.png" },
-    { title_en: "Airplane", title_ar: "طائرة", title_fr: "Avion", title_es: "Avión", img: "/public/Transport/4.png" },
-    { title_en: "Bus", title_ar: "حافلة", title_fr: "Bus", title_es: "Autobús", img: "/public/Transport/5.png" },
-    { title_en: "Car", title_ar: "سيارة", title_fr: "Voiture", title_es: "Coche", img: "/public/Transport/6.png" },
-    { title_en: "Tram", title_ar: "ترام", title_fr: "Tramway", title_es: "Tranvía", img: "/public/Transport/7.png" },
-    { title_en: "Elevator", title_ar: "مصعد", title_fr: "Ascenseur", title_es: "Ascensor", img: "/public/Transport/8.png" },
-    { title_en: "Ship", title_ar: "سفينة", title_fr: "Navire", title_es: "Barco", img: "/public/Transport/9.png" },
-    { title_en: "Train", title_ar: "قطار", title_fr: "Train", title_es: "Tren", img: "/public/Transport/10.png" }
-  ],
-      Medicine: [
-      { title_en: "Profen", title_ar: "بروفين", title_fr: "Profén", title_es: "Profen", img: "/public/medicine/Profen.png" },
-    { title_en: "Panadol", title_ar: "بانادول", title_fr: "Panadol", title_es: "Panadol", img: "/public/medicine/Panadol.png" },
-    { title_en: "Augmentin", title_ar: "أوجمنتين", title_fr: "Augmentin", title_es: "Augmentin", img: "/public/medicine/Augmentin.png" },
-    { title_en: "Phenadone", title_ar: "فينادون", title_fr: "Phénadone", title_es: "Fenadona", img: "/public/medicine/Phenadone.png" },
-    { title_en: "Vitamin C", title_ar: "فيتامين سي", title_fr: "Vitamine C", title_es: "Vitamina C", img: "/public/medicine/VitaminC.png" },
-    { title_en: "Vitamin D", title_ar: "فيتامين د", title_fr: "Vitamine D", title_es: "Vitamina D", img: "/public/medicine/VitaminD.png" },
-    { title_en: "Aspirin", title_ar: "أسبرين", title_fr: "Aspirine", title_es: "Aspirina", img: "/public/medicine/Aspirin.png" },
-    { title_en: "Ibuprofen", title_ar: "إيبوبروفين", title_fr: "Ibuprofène", title_es: "Ibuprofeno", img: "/public/medicine/Ibuprofen.png" },
-    { title_en: "Zyrtec", title_ar: "زيرتك", title_fr: "Zyrtec", title_es: "Zyrtec", img: "/public/medicine/Zyrtec.png" },
-    { title_en: "Clarinase", title_ar: "كلاريناس", title_fr: "Clarinase", title_es: "Clarinase", img: "/public/medicine/Clarinase.png" },
-    { title_en: "Paracetamol", title_ar: "باراسيتامول", title_fr: "Paracétamol", title_es: "Paracetamol", img: "/public/medicine/Paracetamol.png" },
-    { title_en: "Flagyl", title_ar: "فلاجيل", title_fr: "Flagyl", title_es: "Flagyl", img: "/public/medicine/Flagyl.png" },
-    { title_en: "Cetirizine", title_ar: "سيتيريزين", title_fr: "Cétirizine", title_es: "Cetirizina", img: "/public/medicine/Cetirizine.png" },
-    { title_en: "Bisolvon", title_ar: "بيسولفون", title_fr: "Bisolvon", title_es: "Bisolvon", img: "/public/medicine/Bisolvon.png" },
-    { title_en: "Ventolin", title_ar: "فينتولين", title_fr: "Ventoline", title_es: "Ventolin", img: "/public/medicine/Ventolin.png" },
-    { title_en: "Cataflam", title_ar:"كاتافلام ",title_fr:"Cataflam ",title_es:"Cataflam ",img:"/public/medicine/Cataflam.png"},
-    { title_en: "Brufen", title_ar: "بروفين", title_fr: "Brufen", title_es: "Brufen", img: "/public/medicine/Brufen.png" },
-    { title_en: "Omeprazole", title_ar: "أوميبرازول", title_fr: "Oméprazole", title_es: "Omeprazol", img: "/public/medicine/Omeprazole.png" },
-    { title_en: "Antinal", title_ar: "أنتينال", title_fr: "Antinal", title_es: "Antinal", img: "/public/medicine/Antinal.png" },
-    { title_en: "Strepsils", title_ar: "ستربسيلز", title_fr: "Strepsils", title_es: "Strepsils", img: "/public/medicine/Strepsils.png" },
-      // ... add the rest of the medicines here
-    ],
-     Afraid : [
-  { title_en: "Insect", title_ar: "حشرة", title_fr: "Insecte", title_es: "Insecto", img: "/public/Animals/7shraat.png" },
-  { title_en: "Bird", title_ar: "طائر", title_fr: "Oiseau", title_es: "Pájaro", img: "/public/Animals/Bird.png" },
-  { title_en: "Cat", title_ar: "قط", title_fr: "Chat", title_es: "Gato", img: "/public/Animals/Cat.png" },
-  { title_en: "Dog", title_ar: "كلب", title_fr: "Chien", title_es: "Perro", img: "/public/Animals/Dog.png" },
-  { title_en: "Fish", title_ar: "سمك", title_fr: "Poisson", title_es: "Pescado", img: "/public/Animals/Fish.png" },
-],
-    Call: [
-       { title_en: "Mobile", title_ar: "موبايل", title_fr: "Mobile", title_es: "Móvil", img: "/public/call/moble.png"},
-    { title_en: "Headset", title_ar: "سماعة رأس", title_fr: "Casque", title_es: "Auricular", img: "/public/call/Headset.png" },
-    { title_en: "Dial Pad", title_ar: "لوحة الاتصال", title_fr: "Clavier téléphonique", title_es: "Teclado de marcación", img: "/public/call/DialPad.png" },
-    { title_en: "Video Call", title_ar: "مكالمة فيديو", title_fr: "Appel vidéo", title_es: "Videollamada", img: "/public/call/Videocall.png" },
-    { title_en: "Landline", title_ar: "هاتف أرضي", title_fr: "Téléphone fixe", title_es: "Teléfono fijo", img: "/public/call/Landline.png" },
-    { title_en: "Messenger", title_ar: "رسائل", title_fr: "Messager", title_es: "Mensajero", img: "/public/call/Messenger.png" },
-    { title_en: "Conference", title_ar: "مؤتمر", title_fr: "Conférence", title_es: "Conferencia", img: "/public/call/Conference.png" },
-    { title_en: "Call Center", title_ar: "مركز اتصال", title_fr: "Centre d'appel", title_es: "Centro de llamadas", img: "/public/call/CallCenter.png" },
-    { title_en: "Emergency Call", title_ar: "مكالمة طوارئ", title_fr: "Appel d'urgence", title_es: "Llamada de emergencia", img: "/public/call/EmergencyCall.png" },
-      // ... add the rest of the call subicons here
-    ],
-    Talk: [
-       { title_en: "Discussion", title_ar: "مناقشة", title_fr: "Discussion", title_es: "Discusión", img: "/public/talk/Discussion.png" },
-    { title_en: "Group Chat", title_ar: "دردشة جماعية", title_fr: "Chat de groupe", title_es: "Chat grupal", img: "/public/talk/GroupChat.png" },
-    { title_en: "Message Bubble", title_ar: "فقاعة رسالة", title_fr: "Bulle de message", title_es: "Burbuja de mensaje", img: "/public/talk/MessageBubble.png" },
-    { title_en: "Speech Bubble", title_ar: "فقاعة كلام", title_fr: "Bulle de parole", title_es: "Burbuja de discurso", img: "/public/talk/SpeechBubble.png" },
-    { title_en: "Microphone", title_ar: "ميكروفون", title_fr: "Microphone", title_es: "Micrófono", img: "/public/talk/Microphone.png" },
-    { title_en: "Conversation", title_ar: "محادثة", title_fr: "Conversation", title_es: "Conversación", img: "/public/talk/Conversation.png" },
-    { title_en: "Voice Chat", title_ar: "دردشة صوتية", title_fr: "Chat vocal", title_es: "Chat de voz", img: "/public/talk/VoiceChat.png" },
-    { title_en: "Broadcast", title_ar: "إرسال مباشر", title_fr: "Diffusion", title_es: "Transmisión", img: "/public/talk/Broadcast.png" },
-    { title_en: "Announcement", title_ar: "إعلان", title_fr: "Annonce", title_es: "Anuncio", img: "/public/talk/Announcement.png" },
-    { title_en: "Dialog", title_ar: "حوار", title_fr: "Dialogue", title_es: "Diálogo", img: "/public/talk/Dialog.png" },
-  
-      // ... add the rest of the talk subicons here
-    ],
-    Listen: [
-    { title_en: "Earphones", title_ar: "سماعات أذن", title_fr: "Écouteurs", title_es: "Auriculares", img: "/public/listen/Earphones.png" },
-    { title_en: "Music", title_ar: "موسيقى", title_fr: "Musique", title_es: "Música", img: "/public/listen/Music.png" },
-    { title_en: "Podcast", title_ar: "بودكاست", title_fr: "Podcast", title_es: "Podcast", img: "/public/listen/Podcast.png" },
-    { title_en: "Lecture", title_ar: "محاضرة", title_fr: "Conférence", title_es: "Conferencia", img: "/public/listen/Lecture.png" },
-    { title_en: "Audiobook", title_ar: "كتاب صوتي", title_fr: "Livre audio", title_es: "Audiolibro", img: "/public/listen/Audiobook.png" },
-    { title_en: "Radio", title_ar: "راديو", title_fr: "Radio", title_es: "Radio", img: "/public/listen/Radio.png" },
-    { title_en: "Voice Note", title_ar: "ملاحظة صوتية", title_fr: "Note vocale", title_es: "Nota de voz", img: "/public/listen/VoiceNote.png" },
-    { title_en: "Announcement", title_ar: "إعلان", title_fr: "Annonce", title_es: "Anuncio", img: "/public/listen/Announcementt.png" },
-    { title_en: "Alert", title_ar: "تنبيه", title_fr: "Alerte", title_es: "Alerta", img: "/public/listen/Alert.png" },
-    { title_en: "Conversation", title_ar: "محادثة", title_fr: "Conversation", title_es: "Conversación", img: "/public/listen/Conversationn.png" },
-  //add the rest of the listen subicons here
-    ],
-   Home: [
-   { title_en: "Bedroom", title_ar: "غرفة النوم", title_fr: "Chambre", title_es: "Dormitorio", img: "/public/Places/bedroom.png" },
-  { title_en: "Kitchen", title_ar: "المطبخ", title_fr: "Cuisine", title_es: "Cocina", img: "/public/Places/kitchen.png" },
-  { title_en: "Living Room", title_ar: "غرفة المعيشة", title_fr: "Salon", title_es: "Sala de estar", img: "/public/Places/livingroom.png" },
-  { title_en: "Toilet", title_ar: "مرحاض", title_fr: "Toilettes", title_es: "Baño", img: "/public/Places/toilet.png" },
-],
-places:[
- { title_en: "By Motorcycle", title_ar: "دراجة نارية", title_fr: "Moto", title_es: "Motocicleta", img: "/public/Places/3.png" },
-    { title_en: "By Airplane", title_ar: "طائرة", title_fr: "Avion", title_es: "Avión", img: "/public/Places/4.png" },
-    { title_en: "By Bus", title_ar: "حافلة", title_fr: "Bus", title_es: "Autobús", img: "/public/Places/5.png" },
-    { title_en: "By Car", title_ar: "سيارة", title_fr: "Voiture", title_es: "Coche", img: "/public/Places/6.png" },
-    { title_en: "By Tram", title_ar: "ترام", title_fr: "Tramway", title_es: "Tranvía", img: "/public/Places/7.png" },
-    { title_en: "By Elevator", title_ar: "مصعد", title_fr: "Ascenseur", title_es: "Ascensor", img: "/public/Places/8.png" },
-    { title_en: "By Ship", title_ar: "سفينة", title_fr: "Navire", title_es: "Barco", img: "/public/Places/9.png" },
-    { title_en: "By Train", title_ar: "قطار", title_fr: "Train", title_es: "Tren", img: "/public/Places/10.png" },
-     { title_en: "I Want to go to Bus Station", title_ar: "اريد الذهاب الي محطة أتوبيس", title_fr: "Je veux aller à la gare routière", title_es: "Quiero ir a la estación de autobús", img: "/public/Places/busstation.png" },
-          { title_en: "I Want to go to Hospital", title_ar: "اريد الذهاب الي المستشفى", title_fr: "Je veux aller à l'hôpital", title_es: "Quiero ir al hospital", img: "/public/Places/hospital.png" },
-     { title_en: "I Want to go to home", title_ar: "اريد الذهاب الي المنزل", title_fr: "Je veux aller à la maison", title_es: "Quiero ir a casa", img: "/public/Places/home.png" },
-  { title_en: "I Want to go to Park", title_ar: "اريد الذهاب الي الحديقة", title_fr: "Je veux aller au parc", title_es: "Quiero ir al parque", img: "/public/Places/park.png" },
-  { title_en: "I Want to go to School", title_ar: "اريد الذهاب الي المدرسة", title_fr: "Je veux aller à l'école", title_es: "Quiero ir a la escuela", img: "/public/Places/school.png" },
-  { title_en: "I Want to go to Supermarket", title_ar: "اريد الذهاب الي السوبر ماركت", title_fr: "Je veux aller au supermarché", title_es: "Quiero ir al supermercado", img: "/public/Places/supermarket.png" },
-    { title_en: "I Want to go to University", title_ar: "اريد الذهاب الي الجامعة", title_fr: "Je veux aller à l'université", title_es: "Quiero ir a la universidad", img: "/public/Places/university.png" },
-  { title_en: "I Want to go to Work", title_ar: "اريد الذهاب الي العمل", title_fr: "Je veux aller au travail", title_es: "Quiero ir al trabajo", img: "/public/Places/work.png" },
-],
-    Breakfast:[
-      { title_en: "Bread", title_ar: "خبز", title_fr: "Pain", title_es: "Pan", img: "/public/breakfast/breadd.png" },
-    { title_en: "Eggs", title_ar: "بيض", title_fr: "Œufs", title_es: "Huevos", img: "/public/breakfast/eggs.png" },
-    { title_en: "Cheese", title_ar: "جبن", title_fr: "Fromage", title_es: "Queso", img: "/public/breakfast/cheese.png" },
-    { title_en: "Milk", title_ar: "حليب", title_fr: "Lait", title_es: "Leche", img: "/public/breakfast/milk.png" },
-    { title_en: "Juice", title_ar: "عصير", title_fr: "Jus", title_es: "Jugo", img: "/public/breakfast/juice.png" },
-    { title_en: "Cereal", title_ar: "حبوب إفطار", title_fr: "Céréales", title_es: "Cereal", img: "/public/breakfast/cereal.png" },
-    { title_en: "Pancakes", title_ar: "فطائر", title_fr: "Crêpes", title_es: "Panqueques", img: "/public/breakfast/pancakes.png" },
-    { title_en: "Fruits", title_ar: "فواكه", title_fr: "Fruits", title_es: "Frutas", img: "/public/breakfast/fruits.png" },
-    { title_en: "Coffee", title_ar: "قهوة", title_fr: "Café", title_es: "Café", img: "/public/breakfast/coffee.png" },  
-    { title_en: "Tea", title_ar: "شاي", title_fr: "Thé", title_es: "Té", img: "/public/breakfast/tea.png" },  
-    { title_en: "Coffee", title_ar: "قهوة", title_fr: "Café", title_es: "Café", img: "/public/breakfast/coffee.png" },  
-    { title_en: "Beans", title_ar: "فول", title_fr: "Haricots", title_es: "Frijoles", img: "/public/breakfast/beans.png" },  
-    { title_en: "Tomato", title_ar: "طماطم", title_fr: "Tomate", title_es: "Tomate", img: "/public/breakfast/tomato.png" },  
-    { title_en: "fetera", title_ar: "فتيرة", title_fr: "Période", title_es: "Período", img: "/public/breakfast/fetera.png" },  
-   { title_en: "yougurt", title_ar: "زبادي", title_fr: "Yaourt", title_es: "Yogur", img: "/public/breakfast/yogurt.png" },    
-     { title_en: "honey", title_ar: "عسل", title_fr: "Miel", title_es: "Miel", img: "/public/breakfast/honey.png" },  
-     { title_en: "taameya", title_ar: "طعميا", title_fr: "Taameya", title_es: "Taameya", img: "/public/breakfast/taameya.png" },         ],
-
-    
-    
-
-       Lunch:[
-         { title_en: "Rice", title_ar: "أرز", title_fr: "Riz", title_es: "Arroz", img: "/public/lunch/rice.png" },
-    { title_en: "Pasta", title_ar: "مكرونة", title_fr: "Pâtes", title_es: "Pasta", img: "/public/lunch/pasta.png" },
-    { title_en: "Chicken", title_ar: "دجاج", title_fr: "Poulet", title_es: "Pollo", img: "/public/lunch/chicken.png" },
-    { title_en: "Meat", title_ar: "لحم", title_fr: "Viande", title_es: "Carne", img: "/public/lunch/meat.png" },
-    { title_en: "Fish", title_ar: "سمك", title_fr: "Poisson", title_es: "Pescado", img: "/public/lunch/fish.png" },
-    { title_en: "Salad", title_ar: "سلطة", title_fr: "Salade", title_es: "Ensalada", img: "/public/lunch/salad.png" },
-    { title_en: "Soup", title_ar: "حساء", title_fr: "Soupe", title_es: "Sopa", img: "/public/lunch/soup.png" },
-    { title_en: "Bread", title_ar: "خبز", title_fr: "Pain", title_es: "Pan", img: "/public/lunch/bread.png" },
-    { title_en: "Juice", title_ar: "عصير", title_fr: "Jus", title_es: "Jugo", img: "/public/lunch/juice.png" },
-    { title_en: "Dessert", title_ar: "تحلية", title_fr: "Dessert", title_es: "Postre", img: "/public/lunch/dessert.png" }
-  
-       ],
-       Dinner:[
-          { title_en: "Rice", title_ar: "أرز", title_fr: "Riz", title_es: "Arroz", img: "/public/dinner/rice.png" },
-    { title_en: "Pasta", title_ar: "مكرونة", title_fr: "Pâtes", title_es: "Pasta", img: "/public/dinner/pasta.png" },
-    { title_en: "Chicken", title_ar: "دجاج", title_fr: "Poulet", title_es: "Pollo", img: "/public/dinner/chicken.png" },
-    { title_en: "Meat", title_ar: "لحم", title_fr: "Viande", title_es: "Carne", img: "/public/dinner/meat.png" },
-    { title_en: "Fish", title_ar: "سمك", title_fr: "Poisson", title_es: "Pescado", img: "/public/dinner/fish.png" },
-    { title_en: "Salad", title_ar: "سلطة", title_fr: "Salade", title_es: "Ensalada", img: "/public/dinner/salad.png" },
-    { title_en: "Soup", title_ar: "حساء", title_fr: "Soupe", title_es: "Sopa", img: "/public/dinner/soup.png" },
-    { title_en: "Bread", title_ar: "خبز", title_fr: "Pain", title_es: "Pan", img: "/public/dinner/bread.png" },
-    { title_en: "Juice", title_ar: "عصير", title_fr: "Jus", title_es: "Jugo", img: "/public/dinner/juice.png" },
-    { title_en: "Dessert", title_ar: "تحلية", title_fr: "Dessert", title_es: "Postre", img: "/public/dinner/dessert.png" }
-  
-       ],
-       Snack:[
-         { title_en: "Chips", title_ar: "رقائق", title_fr: "Chips", title_es: "Papas fritas", img: "/public/snack/chips.png" },
-    { title_en: "Cookies", title_ar: "كوكيز", title_fr: "Biscuits", title_es: "Galletas", img: "/public/snack/cookies.png" },
-    { title_en: "Chocolate", title_ar: "شوكولاتة", title_fr: "Chocolat", title_es: "Chocolate", img: "/public/snack/chocolate.png" },
-    { title_en: "Fruits", title_ar: "فواكه", title_fr: "Fruits", title_es: "Frutas", img: "/public/snack/fruits.png" },
-    { title_en: "Nuts", title_ar: "مكسرات", title_fr: "Noix", title_es: "Frutos secos", img: "/public/snack/nuts.png" },
-    { title_en: "Yogurt", title_ar: "زبادي", title_fr: "Yaourt", title_es: "Yogur", img: "/public/snack/yogurt.png" },
-    { title_en: "Sandwich", title_ar: "ساندوتش", title_fr: "Sandwich", title_es: "Sándwich", img: "/public/snack/sandwich.png" },
-    { title_en: "Juice", title_ar: "عصير", title_fr: "Jus", title_es: "Jugo", img: "/public/snack/juice.png" },
-    { title_en: "Tea", title_ar: "شاي", title_fr: "Thé", title_es: "Té", img: "/public/snack/tea.png" },
-    { title_en: "Coffee", title_ar: "قهوة", title_fr: "Café", title_es: "Café", img: "/public/snack/coffee.png" }
-  
-       ],
-       Family : [
-  { title_en: "Father", title_ar: "أب", title_fr: "Père", title_es: "Padre", img: "/public/Family/4.png" },
-  { title_en: "Mother", title_ar: "أم", title_fr: "Mère", title_es: "Madre", img: "/public/Family/3.png" },
-  { title_en: "Brother", title_ar: "أخ", title_fr: "Frère", title_es: "Hermano", img: "/public/Family/7.png" },
-  { title_en: "Sister", title_ar: "أخت", title_fr: "Sœur", title_es: "Hermana", img: "/public/Family/1.png" },
-  { title_en: "Grandfather", title_ar: "جد", title_fr: "Grand-père", title_es: "Abuelo", img: "/public/Family/2.png" },
-  { title_en: "Grandmother", title_ar: "جدة", title_fr: "Grand-mère", title_es: "Abuela", img: "/public/Family/10.png" },
-  { title_en: "Uncle", title_ar: "عم / خال", title_fr: "Oncle", title_es: "Tío", img: "/public/Family/6.png" },
-  { title_en: "Aunt", title_ar: "عمة / خالة", title_fr: "Tante", title_es: "Tía", img: "/public/Family/5.png" },
-  { title_en: "Cousin", title_ar: "ابن/ابنة عم أو خال", title_fr: "Cousin(e)", title_es: "Primo/a", img: "/public/Family/9.png" },
-  { title_en: "Baby", title_ar: "طفل", title_fr: "Bébé", title_es: "Bebé", img: "/public/Family/8.png" }
-],
-   TV:[
-    { title_en: "News", title_ar: "أخبار", title_fr: "Nouvelles", title_es: "Noticias", img: "/public/TV/news.png" },
-    { title_en: "Series", title_ar: "مسلسلات", title_fr: "Séries", title_es: "Series", img: "/public/TV/series.png" },
-    { title_en: "Movie", title_ar: "أفلام", title_fr: "Film", title_es: "Película", img: "/public/TV/movie.png" },
-    { title_en: "Cartoon", title_ar: "رسوم متحركة", title_fr: "Dessins animés", title_es: "Dibujos animados", img: "/public/TV/cartoon.png" },
-    { title_en: "Documentary", title_ar: "وثائقي", title_fr: "Documentaire", title_es: "Documental", img: "/public/TV/documentary.png" },
-    { title_en: "Sports", title_ar: "رياضة", title_fr: "Sports", title_es: "Deportes", img: "/public/TV/sports.png" },
-    { title_en: "Music", title_ar: "موسيقى", title_fr: "Musique", title_es: "Música", img: "/public/TV/music.png" },
-    { title_en: "Kids", title_ar: "أطفال", title_fr: "Enfants", title_es: "Niños", img: "/public/TV/kids.png" },
-    { title_en: "Comedy", title_ar: "كوميديا", title_fr: "Comédie", title_es: "Comedia", img: "/public/TV/comedy.png" },
-    { title_en: "Drama", title_ar: "دراما", title_fr: "Drame", title_es: "Drama", img: "/public/TV/drama.png" }
-      ],
-      Play:[
-        { title_en: "Football", title_ar: "كرة قدم", title_fr: "Football", title_es: "Fútbol", img: "/public/Play/football.png" },
-    { title_en: "Basketball", title_ar: "كرة سلة", title_fr: "Basket-ball", title_es: "Baloncesto", img: "/public/Play/basketball.png" },
-    { title_en: "Tennis", title_ar: "تنس", title_fr: "Tennis", title_es: "Tenis", img: "/public/Play/tennis.png" },
-    { title_en: "Chess", title_ar: "شطرنج", title_fr: "Échecs", title_es: "Ajedrez", img: "/public/Play/chess.png" },
-    { title_en: "Video Games", title_ar: "ألعاب فيديو", title_fr: "Jeux vidéo", title_es: "Videojuegos", img: "/public/Play/video-games.png" },
-    { title_en: "Board Games", title_ar: "ألعاب لوحية", title_fr: "Jeux de société", title_es: "Juegos de mesa", img: "/public/Play/board-games.png" },
-    { title_en: "Swimming", title_ar: "سباحة", title_fr: "Natation", title_es: "Natación", img: "/public/Play/swimming.png" },
-    { title_en: "Running", title_ar: "جري", title_fr: "Course", title_es: "Correr", img: "/public/Play/running.png" },
-    { title_en: "Cycling", title_ar: "ركوب الدراجات", title_fr: "Cyclisme", title_es: "Ciclismo", img: "/public/Play/cycling.png" },
-    { title_en: "Gym", title_ar: "صالة رياضية", title_fr: "Salle de sport", title_es: "Gimnasio", img: "/public/Play/gym.png" }
-  
-      ],
-      Music:[
-        { title_en: "Guitar", title_ar: "غيتار", title_fr: "Guitare", title_es: "Guitarra", img: "/public/Music/guitar.png" },
-    { title_en: "Piano", title_ar: "بيانو", title_fr: "Piano", title_es: "Piano", img: "/public/Music/piano.png" },
-    { title_en: "Drums", title_ar: "طبول", title_fr: "Batterie", title_es: "Batería", img: "/public/Music/drums.png" },
-    { title_en: "Violin", title_ar: "كمان", title_fr: "Violon", title_es: "Violín", img: "/public/Music/violin.png" },
-    { title_en: "Saxophone", title_ar: "ساكسفون", title_fr: "Saxophone", title_es: "Saxofón", img: "/public/Music/saxophone.png" },
-    { title_en: "Microphone", title_ar: "ميكروفون", title_fr: "Microphone", title_es: "Micrófono", img: "/public/Music/microphone.png" },
-    { title_en: "Headphones", title_ar: "سماعات", title_fr: "Casque", title_es: "Auriculares", img: "/public/Music/headphones.png" },
-    { title_en: "Speaker", title_ar: "مكبر صوت", title_fr: "Haut-parleur", title_es: "Altavoz", img: "/public/Music/speaker.png" },
-    { title_en: "DJ", title_ar: "دي جي", title_fr: "DJ", title_es: "DJ", img: "/public/Music/dj.png" },
-    { title_en: "Music Notes", title_ar: "نوتات موسيقية", title_fr: "Notes de musique", title_es: "Notas musicales", img: "/public/Music/music-notes.png" }
-  ],
-  Doctor:[
-  {  title_en: "I have a headache",title_ar: "أعاني من صداع",title_fr: "J'ai mal à la tête",title_es: "Tengo dolor de cabeza",img: "/public/Health/headache.png" },
-  { title_en: "I have a fever",title_ar: "لدي حمى",title_fr: "J'ai de la fièvre",title_es: "Tengo fiebre",img: "/public/Health/fever.png" },
-  {  title_en: "I have a cough", title_ar: "لدي سعال", title_fr: "J'ai une toux", title_es: "Tengo tos", img: "/public/Health/cough.png"},
-  {  title_en: "I have a cold", title_ar: "أعاني من نزلة برد", title_fr: "J'ai un rhume", title_es: "Tengo un resfriado", img: "/public/Health/cold.png"},
-  { title_en: "I have a sore throat",title_ar: "أعاني من التهاب الحلق",title_fr: "J'ai mal à la gorge",title_es: "Tengo dolor de garganta",img: "/public/Health/sore-throat.png"},
-  { title_en: "I have a stomachache",title_ar: "أعاني من ألم في المعدة",title_fr: "J'ai mal au ventre",title_es: "Tengo dolor de estómago",img: "/public/Health/stomachache.png" },
-  {  title_en: "I have a toothache", title_ar: "أعاني من ألم في الأسنان", title_fr: "J'ai mal aux dents", title_es: "Tengo dolor de muelas",img: "/public/Health/toothache.png"},
-  {  title_en: "I have an earache", title_ar: "أعاني من ألم في الأذن", title_fr: "J'ai mal à l'oreille", title_es: "Tengo dolor de oído", img: "/public/Health/earache.png"},
-  {  title_en: "I have back pain",title_ar: "أعاني من ألم في الظهر", title_fr: "J'ai mal au dos",title_es: "Tengo dolor de espalda",img: "/public/Health/back-pain.png"},
-  {  title_en: "I feel dizzy", title_ar: "أشعر بالدوار",title_fr: "J'ai des vertiges",title_es: "Tengo mareos",img: "/public/Health/dizzy.png"},
-  { title_en: "I feel tired",title_ar: "أشعر بالتعب",title_fr: "Je me sens fatigué(e)",title_es: "Me siento cansado(a)",img: "/public/Health/tired.png"},
-  { title_en: "I have allergies",title_ar: "لدي حساسية",title_fr: "J'ai des allergies",title_es: "Tengo alergia",img: "/public/Health/allergies.png"},
-  {title_en: "I have diarrhea",title_ar: "أعاني من إسهال",title_fr: "J'ai la diarrhée",title_es: "Tengo diarrea",img: "/public/Health/diarrhea.png"},
-  { title_en: "I have nausea",title_ar: "أشعر بالغثيان",title_fr: "J'ai des nausées",title_es: "Tengo náuseas",img: "/public/Health/nausea.png"},
-  {  title_en: "I have a rash", title_ar: "لدي طفح جلدي", title_fr: "J'ai une éruption cutanée", title_es: "Tengo una erupción cutánea", img: "/public/Health/rash.png" }
-  ],
-  };*/
-  // ─────────────────────────────────────────────
-//  MAIN CATEGORIES
-// ─────────────────────────────────────────────
-/*export const mainCategories = [
-  { name: "Real Life Activities" },
-  { name: "Reminder Me" },
-  { name: "Emergency" },
-  { name: "Try and Train to Speak" }
-];*/
 export const mainCategories = [
   {
     name:     "Real Life Activities",
@@ -958,7 +34,7 @@ export const mainCategories = [
   {
     name:     "expressyourfeelingsbydrawing",
     title_en: "Express By Drawing",
-    title_ar: "Ø¹Ø¨Ù‘Ø± Ø¨Ø§Ù„Ø±Ø³Ù…",
+    title_ar: "عبّر بالرسم",
     title_fr: "Exprime-toi par le dessin",
     title_es: "ExprÃ©sate dibujando",
     imgUrl:   "/public/categories/train.png"
@@ -1012,14 +88,6 @@ export const emergencyNumbers = [
   { number: "01063930981", label_ar: "رقم طوارئ 1", label_en: "Emergency Number 1", label_fr: "Numéro d'urgence 1", label_es: "Número de emergencia 1" },
   { number: "01062021589", label_ar: "رقم طوارئ 2", label_en: "Emergency Number 2", label_fr: "Numéro d'urgence 2", label_es: "Número de emergencia 2" }
 ];
-
-/*export const timePeriods = [
-  { name: "Morning", mainCategory: "Real Life Activities", order: 1 },
-  { name: "Noon",    mainCategory: "Real Life Activities", order: 2 },
-  { name: "Afternoon", mainCategory: "Real Life Activities", order: 3 },
-  { name: "Evening", mainCategory: "Real Life Activities", order: 4 }
-];*/
-
 // ─────────────────────────────────────────────
 //  MAIN ICONS
 // ─────────────────────────────────────────────
@@ -1152,12 +220,18 @@ export const icons = [
     imgUrl: "/public/icons/Music.png",
     category: "Music", timePeriod: "Afternoon", mainCategory: "Real Life Activities"
   },
-  {
+  /*{
     title_en: "Shower", title_ar: "استحمام", title_fr: "Douche", title_es: "Ducha",
     expression_en: "I want to take a shower", expression_ar: "أريد الاستحمام", expression_fr: "Je veux prendre une douche", expression_es: "Quiero ducharme",
     imgUrl: "/public/icons/Shower.png",
     category: "Shower", timePeriod: "Morning", mainCategory: "Real Life Activities"
-  },
+  },*/
+  {
+  title_en: "Bathroom", title_ar: "الحمام", title_fr: "Salle de bain", title_es: "Baño",
+  expression_en: "I want to go to the bathroom", expression_ar: "أريد الذهاب إلى الحمام", expression_fr: "Je veux aller à la salle de bain", expression_es: "Quiero ir al baño",
+  imgUrl: "/public/icons/Bathroom.png",
+  category: "Bathroom", timePeriod: "Morning", mainCategory: "Real Life Activities"
+},
   {
     title_en: "Afraid", title_ar: "خائف", title_fr: "Effrayé", title_es: "Asustado",
     expression_en: "I feel afraid", expression_ar: "أشعر بالخوف", expression_fr: "J'ai peur", expression_es: "Tengo miedo",
@@ -1168,33 +242,168 @@ export const icons = [
     title_en: "Call", title_ar: "اتصال", title_fr: "Appeler", title_es: "Llamar",
     expression_en: "I want to make a call", expression_ar: "أريد إجراء مكالمة", expression_fr: "Je veux passer un appel", expression_es: "Quiero hacer una llamada",
     imgUrl: "/public/icons/Call.png",
-    category: "Call", mainCategory: "Real Life Activities"
+    category: "Call", mainCategory: "Real Life Activities",  timePeriod: "Evening"
   },
   {
     title_en: "Talk", title_ar: "تحدث", title_fr: "Parler", title_es: "Hablar",
     expression_en: "I want to talk", expression_ar: "أريد أن أتحدث", expression_fr: "Je veux parler", expression_es: "Quiero hablar",
     imgUrl: "/public/icons/Talk.png",
-    category: "Talk", mainCategory: "Real Life Activities"
+    category: "Talk", mainCategory: "Real Life Activities" , timePeriod: "Afternoon"
+
   },
   {
     title_en: "Listen", title_ar: "استمع", title_fr: "Écouter", title_es: "Escuchar",
     expression_en: "I want to listen", expression_ar: "أريد الاستماع", expression_fr: "Je veux écouter", expression_es: "Quiero escuchar",
     imgUrl: "/public/icons/Listen.png",
-    category: "Listen", mainCategory: "Real Life Activities"
+    category: "Listen", mainCategory: "Real Life Activities", timePeriod: "Afternoon"
   },
   {
     title_en: "Home", title_ar: "المنزل", title_fr: "Maison", title_es: "Casa",
     expression_en: "I want to go home", expression_ar: "أريد الذهاب إلى المنزل", expression_fr: "Je veux rentrer à la maison", expression_es: "Quiero ir a casa",
     imgUrl: "/public/icons/Home.png",
-    category: "Home", mainCategory: "Real Life Activities"
+    category: "Home", mainCategory: "Real Life Activities"  , timePeriod: "Evening"
+
   },
   {
     title_en: "Places", title_ar: "أماكن", title_fr: "Lieux", title_es: "Lugares",
     expression_en: "I want to go to a place", expression_ar: "أريد الذهاب إلى مكان", expression_fr: "Je veux aller à un endroit", expression_es: "Quiero ir a un lugar",
     imgUrl: "/public/icons/Places.png",
-    category: "places", mainCategory: "Real Life Activities"
-  },
+    category: "places", mainCategory: "Real Life Activities"  , timePeriod: "Noon"
 
+  },
+// ====== EXTRA CATEGORIES ======
+
+{
+  title_en: "Communication", title_ar: "تواصل", title_fr: "Communication", title_es: "Comunicación",
+  expression_en: "I want to communicate", expression_ar: "أريد التواصل", expression_fr: "Je veux communiquer", expression_es: "Quiero comunicarme",
+  imgUrl: "/public/icons/Communication.png",
+  category: "Communication",
+  timePeriod: "Evening",
+  mainCategory: "Real Life Activities"
+},
+{
+  title_en: "Leisure", title_ar: "ترفيه", title_fr: "Loisir", title_es: "Ocio",
+  expression_en: "I want to relax", expression_ar: "أريد الاسترخاء", expression_fr: "Je veux me détendre", expression_es: "Quiero relajarme",
+  imgUrl: "/public/icons/Leisure.png",
+  category: "Leisure",
+  timePeriod: "Afternoon",
+  mainCategory: "Real Life Activities"
+},
+{
+  title_en: "Document", title_ar: "مستند", title_fr: "Document", title_es: "Documento",
+  expression_en: "I need a document", expression_ar: "أحتاج مستند", expression_fr: "J'ai besoin d'un document", expression_es: "Necesito un documento",
+  imgUrl: "/public/icons/Document.png",
+  category: "Document",
+  timePeriod: "Morning",
+  mainCategory: "Real Life Activities"
+},
+{
+  title_en: "Living Being", title_ar: "كائن حي", title_fr: "Être vivant", title_es: "Ser vivo",
+  expression_en: "This is a living being", expression_ar: "هذا كائن حي", expression_fr: "C'est un être vivant", expression_es: "Este es un ser vivo",
+  imgUrl: "/public/icons/LivingBeing.png",
+  category: "Living Being",
+  timePeriod: "Afternoon",
+  mainCategory: "Real Life Activities"
+},
+{
+  title_en: "Knowledge", title_ar: "معرفة", title_fr: "Connaissance", title_es: "Conocimiento",
+  expression_en: "I want to learn", expression_ar: "أريد التعلم", expression_fr: "Je veux apprendre", expression_es: "Quiero aprender",
+  imgUrl: "/public/icons/Knowledge.png",
+  category: "Knowledge",
+  timePeriod: "Morning",
+  mainCategory: "Real Life Activities"
+},
+{
+  title_en: "Education", title_ar: "تعليم", title_fr: "Éducation", title_es: "Educación",
+  expression_en: "I want to study", expression_ar: "أريد الدراسة", expression_fr: "Je veux étudier", expression_es: "Quiero estudiar",
+  imgUrl: "/public/icons/Education.png",
+  category: "Education",
+  timePeriod: "Morning",
+  mainCategory: "Real Life Activities"
+},
+{
+  title_en: "Miscellaneous", title_ar: "متفرقات", title_fr: "Divers", title_es: "Misceláneo",
+  expression_en: "Other things", expression_ar: "أشياء أخرى", expression_fr: "Autres choses", expression_es: "Otras cosas",
+  imgUrl: "/public/icons/Misc.png",
+  category: "Miscellaneous",
+  timePeriod: "Noon",
+  mainCategory: "Real Life Activities"
+},
+{
+  title_en: "Movement", title_ar: "حركة", title_fr: "Mouvement", title_es: "Movimiento",
+  expression_en: "I want to move", expression_ar: "أريد التحرك", expression_fr: "Je veux bouger", expression_es: "Quiero moverme",
+  imgUrl: "/public/icons/Movement.png",
+  category: "Movement",
+  timePeriod: "Afternoon",
+  mainCategory: "Real Life Activities"
+},
+ {
+   title_en: "Economic Sector",
+  title_ar: "القطاع الاقتصادي",
+  title_fr: "Secteur économique",
+  title_es: "Sector económico",
+  expression_en: "I want to go to work",
+  expression_ar: "أريد الذهاب إلى العمل",
+  expression_fr: "Je veux aller au travail",
+  expression_es: "Quiero ir a trabajar",
+  imgUrl: "/public/icons/sector.png",
+ mainCategory: "Real Life Activities",
+  timePeriod: "Morning",
+  category: "work"
+},
+{
+  title_en: "Religion", title_ar: "دين", title_fr: "Religion", title_es: "Religión",
+  expression_en: "I want to pray", expression_ar: "أريد الصلاة", expression_fr: "Je veux prier", expression_es: "Quiero rezar",
+  imgUrl: "/public/icons/Religion.png",
+  category: "Religion",
+  timePeriod: "Evening",
+  mainCategory: "Real Life Activities"
+},
+{
+  title_en: "Work", title_ar: "عمل", title_fr: "Travail", title_es: "Trabajo",
+  expression_en: "I want to work", expression_ar: "أريد العمل", expression_fr: "Je veux travailler", expression_es: "Quiero trabajar",
+  imgUrl: "/public/icons/Work.png",
+  category: "Work",
+  timePeriod: "Morning",
+  mainCategory: "Real Life Activities"
+},
+/*{
+  title_en: "Object", title_ar: "شيء", title_fr: "Objet", title_es: "Objeto",
+  expression_en: "I need an object", expression_ar: "أحتاج شيء", expression_fr: "J'ai besoin d'un objet", expression_es: "Necesito un objeto",
+  imgUrl: "/public/icons/Object.png",
+  category: "Object",
+  timePeriod: "Noon",
+  mainCategory: "c"
+},*/
+{
+  title_en: "Plant",
+  title_ar: "نبات",
+  title_fr: "Plante",
+  title_es: "Planta",
+  expression_en: "I want to learn about plants",
+  expression_ar: "أريد التعلم عن النباتات",
+  expression_fr: "Je veux apprendre sur les plantes",
+  expression_es: "Quiero aprender sobre plantas",
+  imgUrl: "/public/icons/Plant.png",
+  category: "Plant",
+  timePeriod: "Morning",
+  mainCategory: "Real Life Activities"
+},
+{
+  title_en: "Education",
+  title_ar: "تعليم",
+  title_fr: "Éducation",
+  title_es: "Educación",
+  expression_en: "I want to learn",
+  expression_ar: "أريد التعلم",
+  expression_fr: "Je veux apprendre",
+  expression_es: "Quiero aprender",
+  imgUrl: "/public/icons/Education.png",
+  category: "Education",
+    timePeriod: "Morning",
+
+  mainCategory: "Real Life Activities"
+},
   // ====== REMINDER ME ======
   {
     title_en: "Medicine", title_ar: "دواء", title_fr: "Médicament", title_es: "Medicina",
@@ -1226,19 +435,350 @@ export const icons = [
     imgUrl: "/public/memories/neighborhood.png",
     category: "Neighbours", mainCategory: "Reminder Me"
   },
-
+  {
+  title_en: "Friends",
+  title_ar: "أصدقائي",
+  title_fr: "Mes amis",
+  title_es: "Mis amigos",
+  expression_en: "My friends",
+  expression_ar: "أصدقائي",
+  expression_fr: "Mes amis",
+  expression_es: "Mis amigos",
+  imgUrl: "/public/icons/friends.png",
+  category: "Friends",
+  mainCategory: "Reminder Me"
+},
 ]
 // ─────────────────────────────────────────────
 //  SUB-ICONS
 // ─────────────────────────────────────────────
 
+export const educationSubIcons = [
+  {
+    title_en: "Teaching activity",
+    title_ar: "نشاط تعليمي",
+    title_fr: "Activité pédagogique",
+    title_es: "Actividad educativa",
+    expression_en: "I want to do a learning activity",
+    expression_ar: "أريد القيام بنشاط تعليمي",
+    expression_fr: "Je veux faire une activité pédagogique",
+    expression_es: "Quiero hacer una actividad educativa",
+    imgUrl: "/public/education/activity.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Subject",
+    title_ar: "مادة دراسية",
+    title_fr: "Matière",
+    title_es: "Asignatura",
+    expression_en: "I want to study a subject",
+    expression_ar: "أريد دراسة مادة",
+    expression_fr: "Je veux étudier une matière",
+    expression_es: "Quiero estudiar una asignatura",
+    imgUrl: "/public/education/subject.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Institution",
+    title_ar: "مؤسسة تعليمية",
+    title_fr: "Institution",
+    title_es: "Institución",
+    expression_en: "I want to go to an educational institution",
+    expression_ar: "أريد الذهاب إلى مؤسسة تعليمية",
+    expression_fr: "Je veux aller à une institution éducative",
+    expression_es: "Quiero ir a una institución educativa",
+    imgUrl: "/public/education/institution.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Task",
+    title_ar: "مهمة تعليمية",
+    title_fr: "Tâche éducative",
+    title_es: "Tarea educativa",
+    expression_en: "I want to do a task",
+    expression_ar: "أريد القيام بمهمة",
+    expression_fr: "Je veux faire une tâche",
+    expression_es: "Quiero hacer una tarea",
+    imgUrl: "/public/education/task.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Material",
+    title_ar: "مواد تعليمية",
+    title_fr: "Matériel éducatif",
+    title_es: "Material educativo",
+    expression_en: "I need learning materials",
+    expression_ar: "أحتاج مواد تعليمية",
+    expression_fr: "J'ai besoin de matériel éducatif",
+    expression_es: "Necesito material educativo",
+    imgUrl: "/public/education/material.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Equipment",
+    title_ar: "معدات تعليمية",
+    title_fr: "Équipement éducatif",
+    title_es: "Equipo educativo",
+    expression_en: "I need equipment",
+    expression_ar: "أحتاج معدات",
+    expression_fr: "J'ai besoin d'équipement",
+    expression_es: "Necesito equipo",
+    imgUrl: "/public/education/equipment.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Space",
+    title_ar: "مكان تعليمي",
+    title_fr: "Espace éducatif",
+    title_es: "Espacio educativo",
+    expression_en: "I want to go to a learning space",
+    expression_ar: "أريد الذهاب إلى مكان تعليمي",
+    expression_fr: "Je veux aller dans un espace éducatif",
+    expression_es: "Quiero ir a un espacio educativo",
+    imgUrl: "/public/education/space.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Organization",
+    title_ar: "منظمة تعليمية",
+    title_fr: "Organisation éducative",
+    title_es: "Organización educativa",
+    expression_en: "This is an educational organization",
+    expression_ar: "هذه منظمة تعليمية",
+    expression_fr: "C'est une organisation éducative",
+    expression_es: "Esta es una organización educativa",
+    imgUrl: "/public/education/org.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Establishment",
+    title_ar: "مؤسسة تعليمية",
+    title_fr: "Établissement",
+    title_es: "Establecimiento",
+    expression_en: "This is an educational establishment",
+    expression_ar: "هذه مؤسسة تعليمية",
+    expression_fr: "C'est un établissement éducatif",
+    expression_es: "Este es un establecimiento educativo",
+    imgUrl: "/public/education/establishment.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Special Education",
+    title_ar: "تعليم خاص",
+    title_fr: "Éducation spéciale",
+    title_es: "Educación especial",
+    expression_en: "I need special education",
+    expression_ar: "أحتاج تعليم خاص",
+    expression_fr: "J'ai besoin d'une éducation spéciale",
+    expression_es: "Necesito educación especial",
+    imgUrl: "/public/education/special.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Staff",
+    title_ar: "طاقم تعليمي",
+    title_fr: "Personnel éducatif",
+    title_es: "Personal educativo",
+    expression_en: "I want to talk to staff",
+    expression_ar: "أريد التحدث مع الطاقم",
+    expression_fr: "Je veux parler au personnel",
+    expression_es: "Quiero hablar con el personal",
+    imgUrl: "/public/education/staff.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Documentation",
+    title_ar: "وثائق تعليمية",
+    title_fr: "Documentation",
+    title_es: "Documentación",
+    expression_en: "I need documents",
+    expression_ar: "أحتاج مستندات",
+    expression_fr: "J'ai besoin de documents",
+    expression_es: "Necesito documentos",
+    imgUrl: "/public/education/docs.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Students",
+    title_ar: "طلاب",
+    title_fr: "Étudiants",
+    title_es: "Estudiantes",
+    expression_en: "Students are here",
+    expression_ar: "الطلاب هنا",
+    expression_fr: "Les étudiants sont ici",
+    expression_es: "Los estudiantes están aquí",
+    imgUrl: "/public/education/students.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Methodology",
+    title_ar: "منهجية",
+    title_fr: "Méthodologie",
+    title_es: "Metodología",
+    expression_en: "I want to learn a method",
+    expression_ar: "أريد تعلم منهج",
+    expression_fr: "Je veux apprendre une méthode",
+    expression_es: "Quiero aprender un método",
+    imgUrl: "/public/education/method.png",
+    category: "Education"
+  },
+
+  {
+    title_en: "Core vocabulary",
+    title_ar: "مفردات أساسية",
+    title_fr: "Vocabulaire de base",
+    title_es: "Vocabulario básico",
+    expression_en: "I want to learn basic words",
+    expression_ar: "أريد تعلم كلمات أساسية",
+    expression_fr: "Je veux apprendre le vocabulaire de base",
+    expression_es: "Quiero aprender vocabulario básico",
+    imgUrl: "/public/education/vocab.png",
+    category: "Education"
+  },
+];
 export const animalSubIcons = [
-  { title_en: "Bird",   title_ar: "طائر",  title_fr: "Oiseau",  title_es: "Pájaro",  expression_en: "This is a bird",    expression_ar: "هذا طائر",  expression_fr: "C'est un oiseau",  expression_es: "Este es un pájaro",  imgUrl: "/public/Animals/Bird.png",      category: "Animals" },
+  /*{ title_en: "Bird",   title_ar: "طائر",  title_fr: "Oiseau",  title_es: "Pájaro",  expression_en: "This is a bird",    expression_ar: "هذا طائر",  expression_fr: "C'est un oiseau",  expression_es: "Este es un pájaro",  imgUrl: "/public/Animals/Bird.png",      category: "Animals" },
   { title_en: "Cat",    title_ar: "قطة",   title_fr: "Chat",    title_es: "Gato",    expression_en: "This is a cat",     expression_ar: "هذه قطة",   expression_fr: "C'est un chat",    expression_es: "Este es un gato",    imgUrl: "/public/Animals/Cat.png",       category: "Animals" },
   { title_en: "Dog",    title_ar: "كلب",   title_fr: "Chien",   title_es: "Perro",   expression_en: "This is a dog",     expression_ar: "هذا كلب",   expression_fr: "C'est un chien",   expression_es: "Este es un perro",   imgUrl: "/public/Animals/Dog.png",       category: "Animals" },
   { title_en: "Fish",   title_ar: "سمكة",  title_fr: "Poisson", title_es: "Pez",     expression_en: "This is a fish",    expression_ar: "هذه سمكة",  expression_fr: "C'est un poisson", expression_es: "Este es un pez",     imgUrl: "/public/Animals/Fish.png",      category: "Animals" },
-  { title_en: "Insect", title_ar: "حشرة",  title_fr: "Insecte", title_es: "Insecto", expression_en: "This is an insect", expression_ar: "هذه حشرة",  expression_fr: "C'est un insecte", expression_es: "Este es un insecto", imgUrl: "/public/Animals/7shraat.png",   category: "Animals" }
+  { title_en: "Insect", title_ar: "حشرة",  title_fr: "Insecte", title_es: "Insecto", expression_en: "This is an insect", expression_ar: "هذه حشرة",  expression_fr: "C'est un insecte", expression_es: "Este es un insecto", imgUrl: "/public/Animals/7shraat.png",   category: "Animals" },
+  */
+
+ {
+    title_en: "Anatomy",
+    title_ar: "تشريح",
+    title_fr: "Anatomie",
+    title_es: "Anatomía",
+    expression_en: "This is animal anatomy",
+    expression_ar: "هذا تشريح الحيوانات",
+    expression_fr: "C'est l'anatomie des animaux",
+    expression_es: "Esta es la anatomía de los animales",
+    imgUrl: "/public/Animals/anatomy.png",
+    category: "Animals"
+  },
+  {
+    title_en: "Nutrition",
+    title_ar: "تغذية",
+    title_fr: "Nutrition",
+    title_es: "Nutrición",
+    expression_en: "This is animal nutrition",
+    expression_ar: "هذه تغذية الحيوانات",
+    expression_fr: "C'est la nutrition animale",
+    expression_es: "Esta es la nutrición animal",
+    imgUrl: "/public/Animals/nutrition.png",
+    category: "Animals"
+  },
+  {
+    title_en: "Types",
+    title_ar: "أنواع الحيوانات",
+    title_fr: "Types d'animaux",
+    title_es: "Tipos de animales",
+    expression_en: "These are animal types",
+    expression_ar: "هذه أنواع الحيوانات",
+    expression_fr: "Ce sont des types d'animaux",
+    expression_es: "Estos son tipos de animales",
+    imgUrl: "/public/Animals/types.png",
+    category: "Animals"
+  },
+  {
+    title_en: "Reproduction",
+    title_ar: "التكاثر",
+    title_fr: "Reproduction",
+    title_es: "Reproducción",
+    expression_en: "This is animal reproduction",
+    expression_ar: "هذا تكاثر الحيوانات",
+    expression_fr: "C'est la reproduction animale",
+    expression_es: "Esta es la reproducción animal",
+    imgUrl: "/public/Animals/reproduction.png",
+    category: "Animals"
+  },
+  {
+    title_en: "Physiology",
+    title_ar: "فسيولوجيا",
+    title_fr: "Physiologie",
+    title_es: "Fisiología",
+    expression_en: "This is animal physiology",
+    expression_ar: "هذه فسيولوجيا الحيوانات",
+    expression_fr: "C'est la physiologie animale",
+    expression_es: "Esta es la fisiología animal",
+    imgUrl: "/public/Animals/physiology.png",
+    category: "Animals"
+  },
+  {
+    title_en: "Environment",
+    title_ar: "البيئة",
+    title_fr: "Environnement",
+    title_es: "Medio ambiente",
+    expression_en: "This is the animal environment",
+    expression_ar: "هذه بيئة الحيوانات",
+    expression_fr: "C'est l'environnement des animaux",
+    expression_es: "Este es el entorno de los animales",
+    imgUrl: "/public/Animals/environment.png",
+    category: "Animals"
+  },
+  {
+    title_en: "Behavior",
+    title_ar: "سلوك",
+    title_fr: "Comportement",
+    title_es: "Comportamiento",
+    expression_en: "This is animal behavior",
+    expression_ar: "هذا سلوك الحيوانات",
+    expression_fr: "C'est le comportement animal",
+    expression_es: "Este es el comportamiento animal",
+    imgUrl: "/public/Animals/behavior.png",
+    category: "Animals"
+  },
+  {
+    title_en: "Housing",
+    title_ar: "سكن الحيوانات",
+    title_fr: "Habitat",
+    title_es: "Hábitat",
+    expression_en: "This is animal housing",
+    expression_ar: "هذا سكن الحيوانات",
+    expression_fr: "C'est l'habitat des animaux",
+    expression_es: "Este es el hábitat de los animales",
+    imgUrl: "/public/Animals/housing.png",
+    category: "Animals"
+  },
+  {
+    title_en: "Therapy",
+    title_ar: "العلاج بالحيوانات",
+    title_fr: "Thérapie animale",
+    title_es: "Terapia con animales",
+    expression_en: "This is animal-assisted therapy",
+    expression_ar: "هذا العلاج بالحيوانات",
+    expression_fr: "C'est la thérapie assistée par les animaux",
+    expression_es: "Esta es la terapia asistida con animales",
+    imgUrl: "/public/Animals/therapy.png",
+    category: "Animals"
+  },
+  {
+    title_en: "Pets & Wild",
+    title_ar: "أليفة وبرية",
+    title_fr: "Animaux domestiques et sauvages",
+    title_es: "Mascotas y animales salvajes",
+    expression_en: "These are pets and wild animals",
+    expression_ar: "هذه حيوانات أليفة وبرية",
+    expression_fr: "Ce sont des animaux domestiques et sauvages",
+    expression_es: "Estos son animales domésticos y salvajes",
+    imgUrl: "/public/Animals/pets.png",
+    category: "Animals"
+  }
 ];
+
 
 /*export const clothesSubIcons = [
   { title_en: "Shirt",   title_ar: "قميص",   title_fr: "Chemise",     title_es: "Camisa",      expression_en: "This is a shirt",   expression_ar: "هذا قميص",   expression_fr: "C'est une chemise",      expression_es: "Esta es una camisa",   imgUrl: "/public/Clothes/2amis.png",  category: "Clothes" },
@@ -1252,7 +792,155 @@ export const animalSubIcons = [
   { title_en: "Socks",   title_ar: "جوارب",  title_fr: "Chaussettes", title_es: "Calcetines",  expression_en: "These are socks",   expression_ar: "هذه جوارب",  expression_fr: "Ce sont des chaussettes", expression_es: "Estos son calcetines", imgUrl: "/public/Clothes/Shrab.png",  category: "Clothes" },
   { title_en: "Skirt",   title_ar: "تنورة",  title_fr: "Jupe",        title_es: "Falda",       expression_en: "This is a skirt",   expression_ar: "هذه تنورة",  expression_fr: "C'est une jupe",         expression_es: "Esta es una falda",    imgUrl: "/public/Clothes/Skirt.png",  category: "Clothes" }
 ];*/
+export const leisureSubIcons = [
+  {
+    title_en: "Sports",
+    title_ar: "رياضة",
+    title_fr: "Sport",
+    title_es: "Deporte",
+    expression_en: "I want to do sports",
+    expression_ar: "أريد ممارسة الرياضة",
+    expression_fr: "Je veux faire du sport",
+    expression_es: "Quiero hacer deporte",
+    imgUrl: "/public/leisure/sport.png",
+    category: "Leisure"
+  },
+  {
+    title_en: "Games",
+    title_ar: "ألعاب",
+    title_fr: "Jeux",
+    title_es: "Juegos",
+    expression_en: "I want to play games",
+    expression_ar: "أريد اللعب",
+    expression_fr: "Je veux jouer",
+    expression_es: "Quiero jugar",
+    imgUrl: "/public/leisure/games.png",
+    category: "Leisure"
+  },
+  {
+    title_en: "Video Games",
+    title_ar: "ألعاب فيديو",
+    title_fr: "Jeux vidéo",
+    title_es: "Videojuegos",
+    expression_en: "I want video games",
+    expression_ar: "أريد ألعاب فيديو",
+    expression_fr: "Je veux des jeux vidéo",
+    expression_es: "Quiero videojuegos",
+    imgUrl: "/public/leisure/videogame.png",
+    category: "Leisure"
+  },
+  {
+    title_en: "Outdoor Activities",
+    title_ar: "أنشطة خارجية",
+    title_fr: "Activités extérieures",
+    title_es: "Actividades al aire libre",
+    expression_en: "I want outdoor activities",
+    expression_ar: "أريد أنشطة خارجية",
+    expression_fr: "Je veux des activités extérieures",
+    expression_es: "Quiero actividades al aire libre",
+    imgUrl: "/public/leisure/outdoor.png",
+    category: "Leisure"
+  },
+  {
+    title_en: "Beach",
+    title_ar: "شاطئ",
+    title_fr: "Plage",
+    title_es: "Playa",
+    expression_en: "I want to go to the beach",
+    expression_ar: "أريد الذهاب إلى الشاطئ",
+    expression_fr: "Je veux aller à la plage",
+    expression_es: "Quiero ir a la playa",
+    imgUrl: "/public/leisure/beach.png",
+    category: "Leisure"
+  },
+  {
+    title_en: "Hobby",
+    title_ar: "هواية",
+    title_fr: "Passe-temps",
+    title_es: "Afición",
+    expression_en: "I want to do my hobby",
+    expression_ar: "أريد ممارسة هوايتي",
+    expression_fr: "Je veux faire mon passe-temps",
+    expression_es: "Quiero hacer mi afición",
+    imgUrl: "/public/leisure/hobby.png",
+    category: "Leisure"
+  },
+  {
+    title_en: "Entertainment",
+    title_ar: "ترفيه",
+    title_fr: "Divertissement",
+    title_es: "Entretenimiento",
+    expression_en: "I want entertainment",
+    expression_ar: "أريد الترفيه",
+    expression_fr: "Je veux du divertissement",
+    expression_es: "Quiero entretenimiento",
+    imgUrl: "/public/leisure/entertainment.png",
+    category: "Leisure"
+  },
+  {
+    title_en: "Show",
+    title_ar: "عرض",
+    title_fr: "Spectacle",
+    title_es: "Espectáculo",
+    expression_en: "I want to watch a show",
+    expression_ar: "أريد مشاهدة عرض",
+    expression_fr: "Je veux voir un spectacle",
+    expression_es: "Quiero ver un espectáculo",
+    imgUrl: "/public/leisure/show.png",
+    category: "Leisure"
+  }
+];
 
+export const bathroomSubIcons = [
+  {
+    title_en: "Shower", title_ar: "استحمام", title_fr: "Douche", title_es: "Ducha",
+    expression_en: "I want to take a shower", expression_ar: "أريد الاستحمام", expression_fr: "Je veux prendre une douche", expression_es: "Quiero ducharme",
+    imgUrl: "/public/icons/Shower.png",
+    category: "Bathroom"
+  },
+  {
+    title_en: "Toilet", title_ar: "المرحاض", title_fr: "Toilettes", title_es: "Inodoro",
+    expression_en: "I need to use the toilet", expression_ar: "أريد استخدام المرحاض", expression_fr: "Je dois utiliser les toilettes", expression_es: "Necesito usar el baño",
+    imgUrl: "/public/icons/Toilet.png",
+    category: "Bathroom"
+  },
+  {
+    title_en: "Brush Teeth", title_ar: "تنظيف الأسنان", title_fr: "Se brosser les dents", title_es: "Cepillarse los dientes",
+    expression_en: "I want to brush my teeth", expression_ar: "أريد تنظيف أسناني", expression_fr: "Je veux me brosser les dents", expression_es: "Quiero cepillarme los dientes",
+    imgUrl: "/public/icons/BrushTeeth.png",
+    category: "Bathroom"
+  },
+  {
+    title_en: "Wash Hands", title_ar: "غسل اليدين", title_fr: "Se laver les mains", title_es: "Lavarse las manos",
+    expression_en: "I want to wash my hands", expression_ar: "أريد غسل يدي", expression_fr: "Je veux me laver les mains", expression_es: "Quiero lavarme las manos",
+    imgUrl: "/public/icons/WashHands.png",
+    category: "Bathroom"
+  },
+  {
+    title_en: "Wash Face", title_ar: "غسل الوجه", title_fr: "Se laver le visage", title_es: "Lavarse la cara",
+    expression_en: "I want to wash my face", expression_ar: "أريد غسل وجهي", expression_fr: "Je veux me laver le visage", expression_es: "Quiero lavarme la cara",
+    imgUrl: "/public/icons/WashFace.png",
+    category: "Bathroom"
+  },
+  {
+    title_en: "Shave", title_ar: "حلاقة", title_fr: "Se raser", title_es: "Afeitarse",
+    expression_en: "I want to shave", expression_ar: "أريد الحلاقة", expression_fr: "Je veux me raser", expression_es: "Quiero afeitarme",
+    imgUrl: "/public/icons/Shave.png",
+    category: "Bathroom"
+  },
+  {
+    title_en: "Comb Hair", title_ar: "تمشيط الشعر", title_fr: "Se coiffer", title_es: "Peinarse",
+    expression_en: "I want to comb my hair", expression_ar: "أريد تمشيط شعري", expression_fr: "Je veux me coiffer", expression_es: "Quiero peinarme",
+    imgUrl: "/public/icons/CombHair.png",
+    category: "Bathroom"
+  },
+  {
+    title_en: "Use Towel", title_ar: "استخدام المنشفة", title_fr: "Utiliser une serviette", title_es: "Usar toalla",
+    expression_en: "I need a towel", expression_ar: "أحتاج منشفة", expression_fr: "J'ai besoin d'une serviette", expression_es: "Necesito una toalla",
+    imgUrl: "/public/icons/Towel.png",
+    category: "Bathroom"
+  }
+];
 export const getDressedSubIcons = [
   { title_en: "Shirt",   title_ar: "قميص",   title_fr: "Chemise",     title_es: "Camisa",     expression_en: "I want a shirt",   expression_ar: "أريد قميصاً",   expression_fr: "Je veux une chemise",      expression_es: "Quiero una camisa",   imgUrl: "/public/Clothes/2amis.png",  category: "Get Dressed" },
   { title_en: "Suit",    title_ar: "بدلة",   title_fr: "Costume",     title_es: "Traje",      expression_en: "I want a suit",    expression_ar: "أريد بدلة",     expression_fr: "Je veux un costume",       expression_es: "Quiero un traje",     imgUrl: "/public/Clothes/Badla.png",  category: "Get Dressed" },
@@ -1267,19 +955,18 @@ export const getDressedSubIcons = [
 ];
 
 export const familySubIcons = [
-  { title_en: "Mother",      title_ar: "أم",           title_fr: "Mère",       title_es: "Madre",   expression_en: "This is my mother",      expression_ar: "هذه أمي",          expression_fr: "C'est ma mère",        expression_es: "Esta es mi madre",     imgUrl: "/public/Family/3.png",  category: "Family" },
-  { title_en: "Father",      title_ar: "أب",           title_fr: "Père",       title_es: "Padre",   expression_en: "This is my father",      expression_ar: "هذا أبي",          expression_fr: "C'est mon père",       expression_es: "Este es mi padre",     imgUrl: "/public/Family/4.png",  category: "Family" },
-  { title_en: "Brother",     title_ar: "أخ",           title_fr: "Frère",      title_es: "Hermano", expression_en: "This is my brother",     expression_ar: "هذا أخي",          expression_fr: "C'est mon frère",      expression_es: "Este es mi hermano",   imgUrl: "/public/Family/7.png",  category: "Family" },
-  { title_en: "Sister",      title_ar: "أخت",          title_fr: "Sœur",       title_es: "Hermana", expression_en: "This is my sister",      expression_ar: "هذه أختي",         expression_fr: "C'est ma sœur",        expression_es: "Esta es mi hermana",   imgUrl: "/public/Family/1.png",  category: "Family" },
-  { title_en: "Grandfather", title_ar: "جد",           title_fr: "Grand-père", title_es: "Abuelo",  expression_en: "This is my grandfather", expression_ar: "هذا جدي",          expression_fr: "C'est mon grand-père", expression_es: "Este es mi abuelo",    imgUrl: "/public/Family/2.png",  category: "Family" },
-  { title_en: "Grandmother", title_ar: "جدة",          title_fr: "Grand-mère", title_es: "Abuela",  expression_en: "This is my grandmother", expression_ar: "هذه جدتي",         expression_fr: "C'est ma grand-mère",  expression_es: "Esta es mi abuela",    imgUrl: "/public/Family/10.png", category: "Family" },
-  { title_en: "Uncle",       title_ar: "عم",           title_fr: "Oncle",      title_es: "Tío",     expression_en: "This is my uncle",       expression_ar: "هذا عمي",          expression_fr: "C'est mon oncle",      expression_es: "Este es mi tío",       imgUrl: "/public/Family/6.png",  category: "Family" },
-  { title_en: "Aunt",        title_ar: "عمة",          title_fr: "Tante",      title_es: "Tía",     expression_en: "This is my aunt",        expression_ar: "هذه عمتي",         expression_fr: "C'est ma tante",       expression_es: "Esta es mi tía",       imgUrl: "/public/Family/5.png",  category: "Family" },
-  { title_en: "Cousin",      title_ar: "ابن/بنت العم", title_fr: "Cousin(e)",  title_es: "Primo/a", expression_en: "This is my cousin",      expression_ar: "هذا ابن عمي",      expression_fr: "C'est mon cousin",     expression_es: "Este es mi primo",     imgUrl: "/public/Family/9.png",  category: "Family" },
-  { title_en: "Baby",        title_ar: "طفل",          title_fr: "Bébé",       title_es: "Bebé",    expression_en: "This is a baby",         expression_ar: "هذا طفل",          expression_fr: "C'est un bébé",        expression_es: "Este es un bebé",      imgUrl: "/public/Family/8.png",  category: "Family" },
-  { title_en: "Uncle (M)",   title_ar: "خالي",         title_fr: "Mon oncle",  title_es: "Mi tío",  expression_en: "This is my uncle",       expression_ar: "هذا خالي",         expression_fr: "C'est mon oncle",      expression_es: "Este es mi tío",       imgUrl: "/public/Family/9.png",  category: "Family" },
-  { title_en: "Aunt (M)",    title_ar: "خالتي",        title_fr: "Ma tante",   title_es: "Mi tía",  expression_en: "This is my aunt",        expression_ar: "هذه خالتي",        expression_fr: "C'est ma tante",       expression_es: "Esta es mi tía",       imgUrl: "/public/Family/10.png", category: "Family" }
-];
+  { title_en: "Mother",      title_ar: "أم",           title_fr: "Mère",       title_es: "Madre",   expression_en: "This is my mother",      expression_ar: "هذه أمي",          expression_fr: "C'est ma mère",        expression_es: "Esta es mi madre",     imgUrl: "/public/Family/Mother.png",  category: "Family" },
+  { title_en: "Father",      title_ar: "أب",           title_fr: "Père",       title_es: "Padre",   expression_en: "This is my father",      expression_ar: "هذا أبي",          expression_fr: "C'est mon père",       expression_es: "Este es mi padre",     imgUrl: "/public/Family/father.png",  category: "Family" },
+  { title_en: "Brother",     title_ar: "أخ",           title_fr: "Frère",      title_es: "Hermano", expression_en: "This is my brother",     expression_ar: "هذا أخي",          expression_fr: "C'est mon frère",      expression_es: "Este es mi hermano",   imgUrl: "/public/Family/brother.png",  category: "Family" },
+  { title_en: "Sister",      title_ar: "أخت",          title_fr: "Sœur",       title_es: "Hermana", expression_en: "This is my sister",      expression_ar: "هذه أختي",         expression_fr: "C'est ma sœur",        expression_es: "Esta es mi hermana",   imgUrl: "/public/Family/sister.png",  category: "Family" },
+  { title_en: "Grandfather", title_ar: "جد",           title_fr: "Grand-père", title_es: "Abuelo",  expression_en: "This is my grandfather", expression_ar: "هذا جدي",          expression_fr: "C'est mon grand-père", expression_es: "Este es mi abuelo",    imgUrl: "/public/Family/grandfather.png",  category: "Family" },
+  { title_en: "Grandmother", title_ar: "جدة",          title_fr: "Grand-mère", title_es: "Abuela",  expression_en: "This is my grandmother", expression_ar: "هذه جدتي",         expression_fr: "C'est ma grand-mère",  expression_es: "Esta es mi abuela",    imgUrl: "/public/Family/grandmother.png", category: "Family" },
+  { title_en: "Uncle",       title_ar: "عم",           title_fr: "Oncle",      title_es: "Tío",     expression_en: "This is my uncle",       expression_ar: "هذا عمي",          expression_fr: "C'est mon oncle",      expression_es: "Este es mi tío",       imgUrl: "/public/Family/uncle.png",  category: "Family" },
+  { title_en: "Aunt",        title_ar: "عمة",          title_fr: "Tante",      title_es: "Tía",     expression_en: "This is my aunt",        expression_ar: "هذه عمتي",         expression_fr: "C'est ma tante",       expression_es: "Esta es mi tía",       imgUrl: "/public/Family/aunt.png",  category: "Family" },
+  { title_en: "Cousin",      title_ar: "ابن/بنت العم", title_fr: "Cousin(e)",  title_es: "Primo/a", expression_en: "This is my cousin",      expression_ar: "هذا ابن عمي",      expression_fr: "C'est mon cousin",     expression_es: "Este es mi primo",     imgUrl: "/public/Family/cousin.png",  category: "Family" },
+  { title_en: "Baby",        title_ar: "طفل",          title_fr: "Bébé",       title_es: "Bebé",    expression_en: "This is a baby",         expression_ar: "هذا طفل",          expression_fr: "C'est un bébé",        expression_es: "Este es un bebé",      imgUrl: "/public/Family/baby.png",  category: "Family" },
+  { title_en: "Uncle (M)",   title_ar: "خالي",         title_fr: "Mon oncle",  title_es: "Mi tío",  expression_en: "This is my uncle",       expression_ar: "هذا خالي",         expression_fr: "C'est mon oncle",      expression_es: "Este es mi tío",       imgUrl: "/public/Family/unclee.png",  category: "Family" },
+  { title_en: "Aunt (M)",    title_ar: "خالتي",        title_fr: "Ma tante",   title_es: "Mi tía",  expression_en: "This is my aunt",        expression_ar: "هذه خالتي",        expression_fr: "C'est ma tante",       expression_es: "Esta es mi tía",       imgUrl: "/public/Family/aunte.png",  category: "Family" }];
 
 export const feelingsSubIcons = [
   { title_en: "Happy",      title_ar: "سعيد",   title_fr: "Heureux",   title_es: "Feliz",       expression_en: "I am happy",      expression_ar: "أنا سعيد",    expression_fr: "Je suis heureux",   expression_es: "Estoy feliz",       imgUrl: "/public/Feelings/1.png",  category: "Feelings" },
@@ -1681,4 +1368,178 @@ export const neighboursSubIcons = [
   { title_en: "Play with Sara",    title_ar: "لعب مع جارتنا سارة",     title_fr: "Jouer avec Sara",           title_es: "Jugar con Sara",             expression_en: "I want to play with Sara",        expression_ar: "أريد اللعب مع جارتنا سارة",        expression_fr: "Je veux jouer avec Sara",           expression_es: "Quiero jugar con Sara",            imgUrl: "/public/Neighbours/sara_play.png",         category: "Neighbours" },
   { title_en: "Help from Amr",     title_ar: "طلب مساعدة من جاري عمرو", title_fr: "Aide d'Amr",              title_es: "Ayuda de Amr",               expression_en: "I need help from my neighbour Amr", expression_ar: "أحتاج مساعدة من جاري عمرو",      expression_fr: "J'ai besoin de l'aide d'Amr",      expression_es: "Necesito ayuda de Amr",            imgUrl: "/public/Neighbours/amr_help.png",          category: "Neighbours" }
 ];
+export const friendsSubIcons = [
+  {
+    title_en: "Ahmed",
+    title_ar: "أحمد",
+    title_fr: "Ahmed",
+    title_es: "Ahmed",
+    expression_en: "Ahmed, my best friend from school",
+    expression_ar: " أحمد، أعز أصدقائي من المدرسة",
+    expression_fr: "Ahmed, mon meilleur ami d'école",
+    expression_es: "Ahmed, mi mejor amigo de la escuela",
+    imgUrl: "/public/Family/ahmed.png",
+    category: "Friends"
+  },
+  {
+    title_en: "Mohamed",
+    title_ar: "محمد",
+    title_fr: "Mohamed",
+    title_es: "Mohamed",
+    expression_en: "Mohamed, a close friend I haven't seen in a while",
+    expression_ar: " محمد، صديق قريب من زمان لا اراه",
+    expression_fr: "Mohamed, un ami proche que je n'ai pas vu depuis longtemps",
+    expression_es: "Mohamed, un amigo cercano que no veo hace tiempo",
+    imgUrl: "/public/Family/mohamed.png",
+    category: "Friends"
+  },
+  {
+    title_en: "Sara",
+    title_ar: "سارة",
+    title_fr: "Sara",
+    title_es: "Sara",
+    expression_en: "Sara, my childhood friend",
+    expression_ar: "سارة, صديقة الطفولة",
+    expression_fr: "Sara, mon amie d'enfance",
+    expression_es: "Sara, mi amiga de la infancia",
+    imgUrl: "/public/Family/sara.png",
+    category: "Friends"
+  },
+  {
+    title_en: "Mona",
+    title_ar: "منى",
+    title_fr: "Mona",
+    title_es: "Mona",
+    expression_en: "Mona, a kind friend who always helps me",
+    expression_ar: " Mona, صديقة طيبة دايمًا بتساعدني",
+    expression_fr: "Mona, une amie gentille qui m'aide toujours",
+    expression_es: "Mona, una amiga amable que siempre me ayuda",
+    imgUrl: "/public/Family/mona.png",
+    category: "Friends"
+  },
+  {
+    title_en: "Omar",
+    title_ar: "عمر",
+    title_fr: "Omar",
+    title_es: "Omar",
+    expression_en: "Omar, my old friend from neighborhood",
+    expression_ar: " Omar, my old friend from neighborhood",
+    expression_fr: "Omar, mon ancien ami du quartier",
+    expression_es: "Omar, mi antiguo amigo del barrio",
+    imgUrl: "/public/Family/omar.png",
+    category: "Friends"
+  },
+  {
+    title_en: "Youssef",
+    title_ar: "يوسف",
+    title_fr: "Youssef",
+    title_es: "Youssef",
+    expression_en: "Youssef, my best friend from childhood",
+    expression_ar: " يوسف، أعز أصدقائي من الطفولة",
+    expression_fr: "Youssef, mon meilleur ami d'enfance",
+    expression_es: "Youssef, mi mejor amigo de la infancia",
+    imgUrl: "/public/Family/youssef.png",
+    category: "Friends"
+  },
+  {
+    title_en: "Laila",
+    title_ar: "ليلى",
+    title_fr: "Laila",
+    title_es: "Laila",
+    expression_en: "Laila, a very close friend",
+    expression_ar: " ليلى، صديقة قريبة جدًا",
+    expression_fr: "Laila, une amie très proche",
+    expression_es: "Laila, una amiga muy cercana",
+    imgUrl: "/public/Family/laila.png",
+    category: "Friends"
+  },
+  {
+    title_en: "Hassan",
+    title_ar: "حسن",
+    title_fr: "Hassan",
+    title_es: "Hassan",
+    expression_en: "Hassan, a loyal friend I trust",
+    expression_ar: " حسن، صديق وفي باثق فيه",
+    expression_fr: "Hassan, un ami loyal en qui j'ai confiance",
+    expression_es: "Hassan, un amigo leal en quien confío",
+    imgUrl: "/public/Family/hassan.png",
+    category: "Friends"
+  },
+  {
+    title_en: "Nour",
+    title_ar: "نور",
+    title_fr: "Nour",
+    title_es: "Nour",
+    expression_en: " Nour, a cheerful friend who makes me happy",
+    expression_ar: " نور، صديق بيخليني سعيد",
+    expression_fr: " Nour, un ami joyeux qui me rend heureux",
+    expression_es: "Nour, un amigo alegre que me hace feliz",
+    imgUrl: "/public/Family/nour.png",
+    category: "Friends"
+  },
+  {
+    title_en: "Karim",
+    title_ar: "كريم",
+    title_fr: "Karim",
+    title_es: "Karim",
+    expression_en: "Karim, a friend I grew up with",
+    expression_ar: " كريم، صديق كبرت معاه",
+    expression_fr: "Karim, un ami avec qui j'ai grandi",
+    expression_es: "Karim, un amigo con el que crecí",
+    imgUrl: "/public/Family/karim.png",
+    category: "Friends"
+  }
+];
+export const economicSubIcons = [
+  {
+    title_en: "Primary Sector",
+    title_ar: "القطاع الأولي",
+    title_fr: "Secteur primaire",
+    title_es: "Sector primario",
+    expression_en: "I want to work in primary sector",
+    expression_ar: "أريد العمل في القطاع الأولي",
+    expression_fr: "Je veux travailler dans le secteur primaire",
+    expression_es: "Quiero trabajar en el sector primario",
+    imgUrl: "/public/economic/primary.png",
+    category: "work",
+  },
 
+  {
+    title_en: "Secondary Sector",
+    title_ar: "القطاع الثانوي",
+    title_fr: "Secteur secondaire",
+    title_es: "Sector secundario",
+    expression_en: "I want to work in secondary sector",
+    expression_ar: "أريد العمل في القطاع الثانوي",
+    expression_fr: "Je veux travailler dans le secteur secondaire",
+    expression_es: "Quiero trabajar en el sector secundario",
+    imgUrl: "/public/economic/secondary.png",
+    category: "work",
+  },
+
+  {
+    title_en: "Tertiary Sector",
+    title_ar: "القطاع الثالثي",
+    title_fr: "Secteur tertiaire",
+    title_es: "Sector terciario",
+    expression_en: "I want to work in tertiary sector",
+    expression_ar: "أريد العمل في القطاع الثالثي",
+    expression_fr: "Je veux travailler dans le secteur tertiaire",
+    expression_es: "Quiero trabajar en el sector terciario",
+    imgUrl: "/public/economic/tertiary.png",
+    category: "work",
+  },
+
+  {
+    title_en: "Profession",
+    title_ar: "مهنة",
+    title_fr: "Profession",
+    title_es: "Profesión",
+    expression_en: "I want a job",
+    expression_ar: "أريد وظيفة",
+    expression_fr: "Je veux un emploi",
+    expression_es: "Quiero un trabajo",
+    imgUrl: "/public/economic/job.png",
+    category: "work",
+  }
+];

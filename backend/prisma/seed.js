@@ -34,6 +34,11 @@ import {
   medicineSubIcons,
   doctorSubIcons,
   afraidSubIcons,
+  bathroomSubIcons,
+  educationSubIcons,
+  leisureSubIcons,
+  economicSubIcons,
+  friendsSubIcons
 } from "./data.js";
 import { subSubIconsMap } from "./subSubIconData.js";
 
@@ -70,6 +75,11 @@ const subIconsMap = {
   Medicine: medicineSubIcons,
   Doctor: doctorSubIcons,
   Afraid: afraidSubIcons,
+  Education: educationSubIcons,
+  Leisure: leisureSubIcons,
+  work: economicSubIcons,
+  Bathroom: bathroomSubIcons,
+  Friends: friendsSubIcons
 };
 
 const getSubSubKey = (subIcon) => `${subIcon.category}::${subIcon.title_en}`;
