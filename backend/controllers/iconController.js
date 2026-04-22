@@ -43,9 +43,23 @@ const runWithSubSubIconsFallback = async (queryBuilder, fallbackBuilder = queryB
   }
 };
 
+const getUploadedFile = (req, fieldName) => {
+  if (req.file?.fieldname === fieldName) {
+    return req.file;
+  }
+
+  const fieldFiles = req.files?.[fieldName];
+  if (Array.isArray(fieldFiles) && fieldFiles.length > 0) {
+    return fieldFiles[0];
+  }
+
+  return null;
+};
+
 const resolveImagePath = (req) => {
-  if (req.file) {
-    return `/public/uploads/${req.file.filename}`;
+  const imageFile = getUploadedFile(req, "image");
+  if (imageFile) {
+    return `/public/uploads/${imageFile.filename}`;
   }
 
   const imageUrl = req.body.imageUrl || req.body.imgUrl || null;

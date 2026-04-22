@@ -531,7 +531,26 @@ const handleSpeak = async () => {
           body: fd,
         },
       );
-      const created = await res.json();
+      const rawResponse = await res.text();
+      let payload = null;
+
+      if (rawResponse) {
+        try {
+          payload = JSON.parse(rawResponse);
+        } catch {
+          payload = rawResponse;
+        }
+      }
+
+      if (!res.ok) {
+        const serverMessage =
+          typeof payload === "string"
+            ? payload
+            : payload?.error || payload?.message;
+        throw new Error(serverMessage || "Failed to add SubIcon");
+      }
+
+      const created = payload;
       setSubIcons((prev) => [...prev, created]);
       setOrderedIcons((prev) => [...prev, created]);
       blurActiveElementOnWeb();
@@ -555,7 +574,7 @@ const handleSpeak = async () => {
       setAudioFile(null);
     } catch (err) {
       console.error(err);
-      alert("Failed to add SubIcon");
+      alert(err?.message || "Failed to add SubIcon");
     } finally {
       setIsSubmitting(false);
     }

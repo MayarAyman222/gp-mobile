@@ -32,6 +32,10 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+const mediaUpload = upload.fields([
+  { name: "image", maxCount: 1 },
+  { name: "audio", maxCount: 1 },
+]);
 
 router.get("/", getAllIcons);
 router.get("/:id", getIconById);
@@ -40,8 +44,8 @@ router.put("/:id", updateIcon);
 router.delete("/:id", deleteIcon);
 
 router.get("/:iconId/subicons/:subIconId", getSubIconById);
-router.post("/:iconId/subicons", upload.single("image"), createSubIcon);
-router.put("/subicons/:id", upload.single("image"), updateSubIcon);
+router.post("/:iconId/subicons", mediaUpload, createSubIcon);
+router.put("/subicons/:id", mediaUpload, updateSubIcon);
 router.delete("/subicons/:id", deleteSubIcon);
 
 router.get(
@@ -50,10 +54,10 @@ router.get(
 );
 router.post(
   "/:iconId/subicons/:subIconId/subsubicons",
-  upload.single("image"),
+  mediaUpload,
   createSubSubIcon,
 );
-router.put("/subsubicons/:id", upload.single("image"), updateSubSubIcon);
+router.put("/subsubicons/:id", mediaUpload, updateSubSubIcon);
 router.delete("/subsubicons/:id", deleteSubSubIcon);
 
 export default router;
