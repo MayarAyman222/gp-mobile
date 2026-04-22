@@ -239,6 +239,16 @@ const uiTranslations = {
 ======================= */
 const EXTRA_CARDS = [
   {
+    id: "chatbot",
+    name: "Chatbot",
+    title_en: "Chatbot",
+    title_ar: "شات بوت",
+    title_fr: "Chatbot",
+    title_es: "Chatbot",
+    imgUrl: "/public/icons/Conversation.png",
+    isChatbotCard: true,
+  },
+  {
     id: "expressyourfeelingsbydrawing",
     name: "expressyourfeelingsbydrawing",
     title_en: "Express By Drawing",
@@ -342,6 +352,8 @@ const Category = () => {
 
     if (cat.isFavouriteCard) {
       navigation.navigate("Favourites");
+    } else if (cat.isChatbotCard || key === "chatbot") {
+      navigation.navigate("Chat");
     } else if (cat.isAll) {
       navigation.navigate("Home");
     } else if (key === "reallife" || key.includes("reallife")) {

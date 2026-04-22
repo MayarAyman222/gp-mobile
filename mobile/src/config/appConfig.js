@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 
 const DEFAULT_API_BASE = "http://168.231.101.20:5550";
-const DEFAULT_LOCAL_API_BASE = DEFAULT_API_BASE;
+const DEFAULT_LOCAL_API_BASE = "http://localhost:5550";
 
 const extra =
   Constants?.expoConfig?.extra ||

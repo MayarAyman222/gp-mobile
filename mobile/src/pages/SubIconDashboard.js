@@ -625,7 +625,7 @@ const handleSpeak = async () => {
           ) : (
             <FontAwesome5
               name={item.iconName || "image"}
-              size={72}
+              size={200}
               color={currentTheme.text}
               style={{ marginVertical: 16 }}
             />
