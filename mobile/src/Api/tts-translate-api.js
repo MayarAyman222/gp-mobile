@@ -1,12 +1,20 @@
 import { APP_CONFIG } from "../config/appConfig";
 
-const BASE_URL = APP_CONFIG.apiUrl;
-// Fallback aligned to production host to avoid localhost usage.
-const FALLBACK_BASE_URL = "http://168.231.101.20:5550/api";
-const LOCAL_BASE_URL = APP_CONFIG.apiUrl;
+const PRIMARY_BASE_URL = APP_CONFIG.apiUrl;
+const LOCAL_BASE_URL = APP_CONFIG.localApiUrl;
+const PROD_BASE_URL = APP_CONFIG.prodApiUrl;
+const preferLocalFirst = ["development", "local"].includes(APP_CONFIG.appEnv);
+
+const buildApiCandidates = () => {
+  const orderedBases = preferLocalFirst
+    ? [LOCAL_BASE_URL, PRIMARY_BASE_URL, PROD_BASE_URL]
+    : [PRIMARY_BASE_URL, LOCAL_BASE_URL, PROD_BASE_URL];
+
+  return [...new Set(orderedBases.filter(Boolean))];
+};
 
 export const translateText = async (text, targetLang) => {
-  const res = await fetch(`${BASE_URL}/translate`, {
+  const res = await fetch(`${PRIMARY_BASE_URL}/translate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text, targetLang }),
@@ -28,17 +36,18 @@ export const speakText = async (text, language) => {
     return json;
   };
 
-  try {
-    return await callApi(BASE_URL);
-  } catch (err) {
-    console.warn("TTS primary failed, trying fallback:", err?.message);
+  let lastError = null;
+
+  for (const base of buildApiCandidates()) {
     try {
-      return await callApi(FALLBACK_BASE_URL);
-    } catch (err2) {
-      console.error("TTS fallback failed:", err2?.message);
-      return { ok: false, message: err2?.message || "TTS failed" };
+      return await callApi(base);
+    } catch (err) {
+      lastError = err;
+      console.warn(`TTS failed via ${base}:`, err?.message);
     }
   }
+
+  return { ok: false, message: lastError?.message || "TTS failed" };
 };
 
 export const recognizeDrawing = async (drawing, language) => {
@@ -53,15 +62,16 @@ export const recognizeDrawing = async (drawing, language) => {
     return json;
   };
 
-  try {
-    return await callApi(LOCAL_BASE_URL);
-  } catch (err) {
-    console.warn("OCR local failed, trying production fallback:", err?.message);
+  let lastError = null;
+
+  for (const base of buildApiCandidates()) {
     try {
-      return await callApi(BASE_URL);
-    } catch (err2) {
-      console.warn("OCR production primary failed, trying final fallback:", err2?.message);
-      return await callApi(FALLBACK_BASE_URL);
+      return await callApi(base);
+    } catch (err) {
+      lastError = err;
+      console.warn(`OCR failed via ${base}:`, err?.message);
     }
   }
+
+  throw lastError || new Error("OCR failed");
 };

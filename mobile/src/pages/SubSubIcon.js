@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Animated,
   FlatList,
+  ScrollView,
   TouchableOpacity,
   TextInput,
   Dimensions,
@@ -21,6 +22,7 @@ import { speakText } from "../Api/tts-translate-api";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
+const CARD_IMAGE_HEIGHT = 150;
 
 const timeOptionsByLang = {
   en: ["Today", "Yesterday", "Tomorrow"],
@@ -142,6 +144,9 @@ export default function SubSubIconPage() {
 
     return `${timeOption} ${parentExpression} ${connector} ${selectedExpressions.join(` ${connector} `)}`.trim();
   };
+  const selectedSubSubIcons = selectedIds
+    .map((id) => subSubIcons.find((item) => item.id === id))
+    .filter(Boolean);
 
   const handleSpeak = async () => {
     const sentence = generateSentence();
@@ -209,19 +214,20 @@ export default function SubSubIconPage() {
           {imageUri ? (
             <Image source={{ uri: imageUri }} style={styles.image} resizeMode="cover" />
           ) : (
-            <FontAwesome5
-              name="image"
-              size={72}
-              color={currentTheme.text}
-              style={styles.iconFallback}
-            />
+            <View style={styles.imageFrame}>
+              <FontAwesome5
+                name="image"
+                size={72}
+                color={currentTheme.text}
+              />
+            </View>
           )}
 
           <View style={styles.cardFooter}>
-            <Text style={[styles.cardTitle, { color: currentTheme.text }]}>
+            <Text style={[styles.cardTitle, { color: "#fff" }]}>
               {item?.[`title_${lang}`] || item?.title_en}
             </Text>
-            <Text style={[styles.cardExpr, { color: currentTheme.text }]}>
+            <Text style={[styles.cardExpr, { color: "#fff" }]}>
               {item?.[`expression_${lang}`] || item?.expression_en}
             </Text>
           </View>
@@ -296,6 +302,41 @@ export default function SubSubIconPage() {
       {selectedIds.length > 0 ? (
         <View style={[styles.sentenceBox, { backgroundColor: currentTheme.card }]}>
           <Text style={{ color: currentTheme.text }}>{generateSentence()}</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.previewRow}
+          >
+            {selectedSubSubIcons.map((item) => {
+              const imageUri = normalizeMediaUrl(
+                item?.imgUrl || item?.imageUrl,
+                APP_CONFIG.contentApiBaseUrl,
+              );
+              return (
+                <View
+                  key={item.id}
+                  style={[
+                    styles.previewItem,
+                    { backgroundColor: currentTheme.background },
+                  ]}
+                >
+                  {imageUri ? (
+                    <Image
+                      source={{ uri: imageUri }}
+                      style={styles.previewImage}
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    <FontAwesome5
+                      name="image"
+                      size={34}
+                      color={currentTheme.text}
+                    />
+                  )}
+                </View>
+              );
+            })}
+          </ScrollView>
         </View>
       ) : null}
 
@@ -384,7 +425,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: CARD_WIDTH,
-    minHeight: 220,
+    height: 220,
     borderRadius: 12,
     overflow: "hidden",
     marginBottom: 12,
@@ -403,17 +444,22 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   image: {
-    width: CARD_WIDTH,
-    height: 150,
-    borderRadius: 12,
+    width: "100%",
+    height: CARD_IMAGE_HEIGHT,
   },
-  iconFallback: {
-    marginTop: 24,
-    marginBottom: 16,
+  imageFrame: {
+    width: "100%",
+    height: CARD_IMAGE_HEIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#f4f6f8",
   },
   cardFooter: {
+    position: "absolute",
+    bottom: 0,
     width: "100%",
     padding: 8,
+    backgroundColor: "rgba(0,0,0,0.45)",
   },
   cardTitle: {
     fontWeight: "700",
@@ -421,5 +467,21 @@ const styles = StyleSheet.create({
   },
   cardExpr: {
     fontSize: 12,
+  },
+  previewRow: {
+    gap: 8,
+    paddingTop: 10,
+  },
+  previewItem: {
+    width: 64,
+    height: 64,
+    borderRadius: 8,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  previewImage: {
+    width: "100%",
+    height: "100%",
   },
 });

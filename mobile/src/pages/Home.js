@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Image } from "react-native";
 import { APP_CONFIG, normalizeMediaUrl } from "../config/appConfig";
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -23,6 +23,7 @@ import { AppContext } from "../context/AppContext";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
+const CARD_IMAGE_HEIGHT = 150;
 
 const timeOptionsByLang = {
   en: ["Today", "Yesterday", "Tomorrow"],
@@ -115,6 +116,9 @@ const Home = () => {
     return title.toLowerCase().includes(searchTerm.toLowerCase()) ||
            expr.toLowerCase().includes(searchTerm.toLowerCase());
   });
+  const selectedIcons = selectedIds
+    .map(id => icons.find(i => i.id === id))
+    .filter(Boolean);
 
   const handleIconPress = (icon) => {
     if (icon.subIcons && icon.subIcons.length > 0) {
@@ -154,6 +158,10 @@ const Home = () => {
   const renderIcon = ({ item }) => {
     const selected = selectedIds.includes(item.id);
     const isDark = theme === "dark";
+    const imageUri = normalizeMediaUrl(
+      item?.imgUrl || item?.imageUrl,
+      APP_CONFIG.contentApiBaseUrl,
+    );
     return (
       <View style={[styles.card, { backgroundColor: selected ? (isDark?"#3a5a40":"#d4edda") : (isDark?"#222":"#fff") }]}>
         <TouchableOpacity
@@ -164,30 +172,31 @@ const Home = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{ flex:1, justifyContent:"center", alignItems:"center" }}
+          style={styles.cardBody}
           onPress={() => handleIconPress(item)}
         >
-         {item.imgUrl && normalizeMediaUrl(item.imgUrl, APP_CONFIG.contentApiBaseUrl) ? (
-  <Image
-    source={{ uri: normalizeMediaUrl(item.imgUrl, APP_CONFIG.contentApiBaseUrl) }}
-    style={{ width: 95, height: 95, marginTop: 30 }}
-    resizeMode="contain"
-  />
-) : item.iconName ? (
-  <FontAwesome5
-    name={item.iconName}
-    size={95}
-    color={isDark ? "#fff" : "#000"}
-    style={{ textAlign: "center", marginTop: 30 }}
-  />
-) : (
-  <View style={{ width: 95, height: 95, marginTop: 30, backgroundColor: "#888", borderRadius: 12 }} />
-)}
+          <View style={styles.imageFrame}>
+            {imageUri ? (
+              <Image
+                source={{ uri: imageUri }}
+                style={styles.cardImage}
+                resizeMode="cover"
+              />
+            ) : item.iconName ? (
+              <FontAwesome5
+                name={item.iconName}
+                size={82}
+                color={isDark ? "#fff" : "#000"}
+              />
+            ) : (
+              <View style={styles.imageFallback} />
+            )}
+          </View>
 
           <View style={styles.cardFooter}>
             <Text style={[styles.cardTitle, { color: "#fff" }]}>{item[`title_${lang}`]}</Text>
             <Text style={[styles.cardExpr, { color: isDark?"#ddd":"#fff" }]}>{item[`expression_${lang}`]}</Text>
-            <Text style={[styles.cardCategory, { color:isDark?"#aaa":"#333", fontSize:10 }]}>{item.category}</Text>
+            <Text style={[styles.cardCategory, { color:"#dbeafe", fontSize:10 }]}>{item.category}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -253,6 +262,41 @@ const Home = () => {
       {selectedIds.length > 0 && (
         <View style={[styles.sentenceBox, { backgroundColor: isDark?"#333":"#eee" }]}>
           <Text style={{ color:isDark?"#fff":"#000" }}>{generateSentence()}</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.previewRow}
+          >
+            {selectedIcons.map((item) => {
+              const imageUri = normalizeMediaUrl(
+                item?.imgUrl || item?.imageUrl,
+                APP_CONFIG.contentApiBaseUrl,
+              );
+              return (
+                <View
+                  key={item.id}
+                  style={[
+                    styles.previewItem,
+                    { backgroundColor: isDark ? "#222" : "#fff" },
+                  ]}
+                >
+                  {imageUri ? (
+                    <Image
+                      source={{ uri: imageUri }}
+                      style={styles.previewImage}
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    <FontAwesome5
+                      name={item.iconName || "image"}
+                      size={34}
+                      color={isDark ? "#fff" : "#111"}
+                    />
+                  )}
+                </View>
+              );
+            })}
+          </ScrollView>
         </View>
       )}
 
@@ -334,10 +378,17 @@ const styles = StyleSheet.create({
   btnText:{ color:"#fff", fontWeight:"700" },
   sentenceBox:{ padding:10, borderRadius:8, marginVertical:10 },
   card:{ width:CARD_WIDTH, height:220, borderRadius:12, overflow:"hidden" },
+  cardBody:{ flex:1, alignItems:"center" },
+  imageFrame:{ width:"100%", height:CARD_IMAGE_HEIGHT, alignItems:"center", justifyContent:"center", backgroundColor:"#f4f6f8" },
+  cardImage:{ width:"100%", height:"100%" },
+  imageFallback:{ width:"100%", height:"100%", backgroundColor:"#888" },
   cardFooter:{ position:"absolute", bottom:0, width:"100%", backgroundColor:"rgba(0,0,0,0.6)", padding:6 },
   cardTitle:{ color:"#fff", fontWeight:"700" },
   cardExpr:{ color:"#fff", fontSize:12 },
   cardCategory:{ fontWeight:"600", fontSize:10 },
+  previewRow:{ gap:8, paddingTop:10 },
+  previewItem:{ width:64, height:64, borderRadius:8, overflow:"hidden", alignItems:"center", justifyContent:"center" },
+  previewImage:{ width:"100%", height:"100%" },
   controlsRow:{ flexDirection:"row", alignItems:"center", gap:5, paddingVertical:5 },
   modalBox:{ margin:20, padding:20, borderRadius:10 },
   input:{ padding:10, borderRadius:8, marginBottom:5 }

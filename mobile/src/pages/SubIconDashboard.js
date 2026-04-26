@@ -28,6 +28,7 @@ import { getSubIconById } from "../Api/iconApi";
 import { FontAwesome5 } from "@expo/vector-icons";
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
+const CARD_IMAGE_HEIGHT = 150;
 
 const timeOptionsByLang = {
   en: ["Today", "Yesterday", "Tomorrow"],
@@ -114,7 +115,7 @@ export default function SubIconDashboard() {
   const { language: lang, theme } = useContext(AppContext);
   const currentTheme = themes[theme];
 
-  const [mainIcon, setMainIcon] = useState(parentIcon || null);
+  const [mainIcon] = useState(parentIcon || null);
   const [subIcons, setSubIcons] = useState(parentIcon.subIcons || []);
   const [orderedIcons, setOrderedIcons] = useState(parentIcon.subIcons || []);
   const [selectedIds, setSelectedIds] = useState([]);
@@ -128,7 +129,6 @@ export default function SubIconDashboard() {
   const [audioPreview, setAudioPreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [audioFile, setAudioFile] = useState(null);
-  const recordingRef = useRef(null);
   const [imageMethod, setImageMethod] = useState("upload"); // upload | url | camera
   const [audioMethod, setAudioMethod] = useState("upload"); // upload | url | record
 
@@ -294,6 +294,9 @@ export default function SubIconDashboard() {
     const mainExpr = mainIcon?.[`expression_${lang}`] || "";
     return `${timeOption} ${mainExpr} ${connector} ${expressions.join(` ${connector} `)}`;
   };
+  const selectedSubIcons = selectedIds
+    .map((id) => orderedIcons.find((icon) => icon.id === id))
+    .filter(Boolean);
 
   /*const handleSpeak = async () => {
     const sentence = generateSentence();
@@ -450,20 +453,6 @@ const handleSpeak = async () => {
     }
   };
 
-  const stopRecording = async () => {
-    if (!recordingRef.current) return;
-    try {
-      await recordingRef.current.stopAndUnloadAsync();
-      const uri = recordingRef.current.getURI();
-      setNewSubIcon((p) => ({ ...p, audioUrl: uri }));
-      setAudioPreview(uri);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      recordingRef.current = null;
-    }
-  };
-
   const handleAddSubIcon = async () => {
     const allFilled =
       ["en", "ar", "fr", "es"].every(
@@ -613,7 +602,7 @@ const handleSpeak = async () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={styles.cardBody}
           onPress={() => openSubIcon(item)}
         >
           {imageUri ? (
@@ -623,22 +612,23 @@ const handleSpeak = async () => {
               resizeMode="cover"
             />
           ) : (
-            <FontAwesome5
-              name={item.iconName || "image"}
-              size={200}
-              color={currentTheme.text}
-              style={{ marginVertical: 16 }}
-            />
+            <View style={styles.imageFrame}>
+              <FontAwesome5
+                name={item.iconName || "image"}
+                size={82}
+                color={currentTheme.text}
+              />
+            </View>
           )}
           <View style={styles.cardFooter}>
-            <Text style={[styles.cardTitle, { color: currentTheme.text }]}>
+            <Text style={[styles.cardTitle, { color: "#fff" }]}>
               {item[`title_${lang}`] || item.title_en}
             </Text>
-            <Text style={[styles.cardExpr, { color: currentTheme.text }]}>
+            <Text style={[styles.cardExpr, { color: "#fff" }]}>
               {item[`expression_${lang}`] || item.expression_en}
             </Text>
             {item?.subSubIcons?.length ? (
-              <Text style={[styles.cardExpr, { color: currentTheme.link || "#0d6efd" }]}>
+              <Text style={[styles.cardExpr, { color: "#dbeafe" }]}>
                 {lang === "ar" ? "افتح تفاصيل أكثر" : "Open more options"}
               </Text>
             ) : null}
@@ -711,6 +701,41 @@ const handleSpeak = async () => {
           ]}
         >
           <Text style={{ color: currentTheme.text }}>{generateSentence()}</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.previewRow}
+          >
+            {selectedSubIcons.map((item) => {
+              const imageUri = normalizeMediaUrl(
+                item?.imgUrl || item?.imageUrl,
+                APP_CONFIG.contentApiBaseUrl,
+              );
+              return (
+                <View
+                  key={item.id}
+                  style={[
+                    styles.previewItem,
+                    { backgroundColor: currentTheme.background },
+                  ]}
+                >
+                  {imageUri ? (
+                    <Image
+                      source={{ uri: imageUri }}
+                      style={styles.previewImage}
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    <FontAwesome5
+                      name={item.iconName || "image"}
+                      size={34}
+                      color={currentTheme.text}
+                    />
+                  )}
+                </View>
+              );
+            })}
+          </ScrollView>
         </View>
       )}
 
@@ -1000,8 +1025,22 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
-  image: { width: CARD_WIDTH, height: 160, borderRadius: 12 },
-  cardFooter: { position: "absolute", bottom: 0, width: "100%", padding: 6 },
+  cardBody: { flex: 1, alignItems: "center" },
+  imageFrame: {
+    width: "100%",
+    height: CARD_IMAGE_HEIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#f4f6f8",
+  },
+  image: { width: "100%", height: CARD_IMAGE_HEIGHT },
+  cardFooter: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    padding: 6,
+    backgroundColor: "rgba(0,0,0,0.45)",
+  },
   cardTitle: { fontWeight: "700" },
   cardExpr: { fontSize: 12 },
   check: { position: "absolute", top: 6, right: 6, zIndex: 10 },
@@ -1020,6 +1059,16 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
   },
+  previewRow: { gap: 8, paddingTop: 10 },
+  previewItem: {
+    width: 64,
+    height: 64,
+    borderRadius: 8,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  previewImage: { width: "100%", height: "100%" },
   modalBox: {
     margin: 20,
     padding: 20,

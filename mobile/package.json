@@ -2,8 +2,8 @@
   "name": "mobile",
   "version": "1.0.0",
   "scripts": {
-    "start": "cross-env EXPO_PUBLIC_APP_ENV=production expo start",
-    "startt": "cross-env EXPO_PUBLIC_APP_ENV=production expo start",
+    "start": "cross-env EXPO_PUBLIC_APP_ENV=development expo start",
+    "startt": "cross-env EXPO_PUBLIC_APP_ENV=development expo start",
     "start:dev": "cross-env EXPO_PUBLIC_APP_ENV=development expo start",
     "start:prod": "cross-env EXPO_PUBLIC_APP_ENV=production expo start",
     "build:apk": "eas build -p android --profile production-apk",
