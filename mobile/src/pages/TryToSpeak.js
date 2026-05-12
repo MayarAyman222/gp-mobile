@@ -7,18 +7,14 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Audio } from "expo-av";
 import { APP_CONFIG } from "../config/appConfig";
 import { AppContext } from "../context/AppContext";
 import { themes } from "../theme/theme";
-import {
-  ExpoSpeechRecognitionModule,
-  useSpeechRecognitionEvent,
-} from "expo-speech-recognition";
-
-const NO_SPEECH_GRACE_MS = 900;
 
 // Normalization and scoring functions
 const normalizeText = (text) => {
@@ -121,8 +117,9 @@ const TryToSpeak = () => {
   const [error, setError] = useState("");
   const [loadingAttempts, setLoadingAttempts] = useState(false);
   const [activeTab, setActiveTab] = useState("result");
+  const [transcribing, setTranscribing] = useState(false);
 
-  const speechInstanceRef = useRef(null);
+  const recordingRef = useRef(null);
   const gotResultRef = useRef(false);
 
   // Load past attempts
@@ -154,40 +151,11 @@ const TryToSpeak = () => {
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (endTimerRef.current) {
-        clearTimeout(endTimerRef.current);
-      }
-      try {
-        ExpoSpeechRecognitionModule.abort();
-      } catch (e) {
-        // ignore
+      if (recordingRef.current) {
+        recordingRef.current.stopAndUnloadAsync().catch(() => {});
       }
     };
   }, []);
-
-  useSpeechRecognitionEvent("result", (event) => {
-    const transcriptText = event?.results?.[0]?.transcript || "";
-    if (!transcriptText) return;
-
-    handleTranscript(transcriptText);
-    if (event.isFinal) {
-      setListening(false);
-    }
-  });
-
-  useSpeechRecognitionEvent("error", (event) => {
-    setError(`Speech recognition error (${event.error}): ${event.message}`);
-    setListening(false);
-  });
-
-  useSpeechRecognitionEvent("start", () => {
-    setListening(true);
-    setError("");
-  });
-
-  useSpeechRecognitionEvent("end", () => {
-    setListening(false);
-  });
 
   const handleTranscript = (text) => {
     gotResultRef.current = true;
@@ -217,6 +185,43 @@ const TryToSpeak = () => {
     });
   };
 
+  const transcribeRecording = async (uri) => {
+    const formData = new FormData();
+    formData.append("language", language);
+
+    if (Platform.OS === "web") {
+      const audioBlob = await (await fetch(uri)).blob();
+      formData.append("audio", audioBlob, `speech-${Date.now()}.webm`);
+    } else {
+      formData.append("audio", {
+        uri,
+        name: `speech-${Date.now()}.m4a`,
+        type: "audio/m4a",
+      });
+    }
+
+    const response = await fetch(`${APP_CONFIG.apiUrl}/speech/transcribe`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const raw = await response.text();
+    let payload = {};
+    if (raw) {
+      try {
+        payload = JSON.parse(raw);
+      } catch {
+        payload = { message: raw };
+      }
+    }
+
+    if (!response.ok) {
+      throw new Error(payload.message || "Speech transcription failed.");
+    }
+
+    return String(payload.text || "").trim();
+  };
+
   // Start recording
   const startRecording = async () => {
     setError("");
@@ -232,39 +237,68 @@ const TryToSpeak = () => {
     setImprovement(null);
 
     try {
-      const permission =
-        await ExpoSpeechRecognitionModule.requestPermissionsAsync();
-      if (!permission.granted) {
+      const permission = await Audio.requestPermissionsAsync();
+      if (permission.status !== "granted") {
         setError("Microphone permission denied.");
         return;
       }
 
-      if (!ExpoSpeechRecognitionModule.isRecognitionAvailable()) {
-        setError("Speech recognition is not available on this device.");
-        return;
-      }
-
-      setListening(true);
-      ExpoSpeechRecognitionModule.start({
-        lang: language,
-        interimResults: false,
-        maxAlternatives: 1,
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
       });
+
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY,
+      );
+
+      recordingRef.current = recording;
+      setListening(true);
     } catch (err) {
       console.error("startRecording error", err);
-      setError("Speech recognition failed to start.");
+      setError("Recording failed to start.");
       setListening(false);
     }
   };
 
   const stopRecording = async () => {
-    try {
-      ExpoSpeechRecognitionModule.stop();
-    } catch (err) {
-      console.warn("stopRecording error", err);
+    const recording = recordingRef.current;
+    if (!recording) {
+      setListening(false);
+      return;
     }
 
-    setListening(false);
+    try {
+      setListening(false);
+      setTranscribing(true);
+      recordingRef.current = null;
+
+      await recording.stopAndUnloadAsync();
+      const uri = recording.getURI();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        playsInSilentModeIOS: true,
+      });
+
+      if (!uri) {
+        setError("No recording was saved.");
+        return;
+      }
+
+      const transcriptText = await transcribeRecording(uri);
+      if (!transcriptText) {
+        setError("No speech was detected. Try again.");
+        return;
+      }
+
+      handleTranscript(transcriptText);
+    } catch (err) {
+      console.warn("stopRecording error", err);
+      setError(err.message || "Speech transcription failed.");
+    } finally {
+      setTranscribing(false);
+      recordingRef.current = null;
+    }
   };
 
   return (
@@ -323,12 +357,17 @@ const TryToSpeak = () => {
           <TouchableOpacity
             style={[
               styles.btn,
-              { backgroundColor: "#dc3545", opacity: listening ? 0.7 : 1 },
+              {
+                backgroundColor: "#dc3545",
+                opacity: listening || transcribing ? 0.7 : 1,
+              },
             ]}
             onPress={startRecording}
-            disabled={listening}
+            disabled={listening || transcribing}
           >
-            <Text style={styles.btnText}>Start Recording</Text>
+            <Text style={styles.btnText}>
+              {transcribing ? "Processing..." : "Start Recording"}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -344,6 +383,9 @@ const TryToSpeak = () => {
 
         {error ? (
           <Text style={{ color: "#e55353", marginTop: 8 }}>{error}</Text>
+        ) : null}
+        {transcribing ? (
+          <ActivityIndicator style={{ marginTop: 8 }} color={currentTheme.text} />
         ) : null}
       </View>
 

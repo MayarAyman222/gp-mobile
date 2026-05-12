@@ -12,9 +12,11 @@ import {
   ScrollView,
   Image,
   ActivityIndicator,
+  Alert,
   Platform,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import Slider from "@react-native-community/slider";
 import { Audio } from "expo-av";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
@@ -24,7 +26,16 @@ import { AppContext } from "../context/AppContext";
 import { themes } from "../theme/theme";
 import { APP_CONFIG, normalizeMediaUrl } from "../config/appConfig";
 import { speakText } from "../Api/tts-translate-api";
-import { getSubIconById } from "../Api/iconApi";
+import {
+  addFavouriteItems,
+  FAVOURITE_TYPES,
+} from "../services/favouritesStorage";
+import {
+  createSubIcon,
+  deleteSubIcon,
+  getSubIconById,
+  updateSubIcon,
+} from "../Api/iconApi";
 import { FontAwesome5 } from "@expo/vector-icons";
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
@@ -58,6 +69,34 @@ const blurActiveElementOnWeb = () => {
   if (activeElement && typeof activeElement.blur === "function") {
     activeElement.blur();
   }
+};
+
+const createEmptySubIconForm = (category = "") => ({
+  title_en: "",
+  expression_en: "",
+  title_ar: "",
+  expression_ar: "",
+  title_fr: "",
+  expression_fr: "",
+  title_es: "",
+  expression_es: "",
+  category,
+  imgUrl: "",
+  audioUrl: "",
+});
+
+const confirmAction = (title, message, onConfirm) => {
+  if (Platform.OS === "web") {
+    if (typeof globalThis.confirm !== "function" || globalThis.confirm(message)) {
+      onConfirm();
+    }
+    return;
+  }
+
+  Alert.alert(title, message, [
+    { text: "Cancel", style: "cancel" },
+    { text: "Delete", style: "destructive", onPress: onConfirm },
+  ]);
 };
 
 function SelectableZoomCard({ selected, hasAnySelection, children }) {
@@ -112,7 +151,7 @@ export default function SubIconDashboard() {
   const route = useRoute();
   const navigation = useNavigation();
   const { parentIcon } = route.params;
-  const { language: lang, theme } = useContext(AppContext);
+  const { language: lang, theme, user } = useContext(AppContext);
   const currentTheme = themes[theme];
 
   const [mainIcon] = useState(parentIcon || null);
@@ -124,32 +163,41 @@ export default function SubIconDashboard() {
   const [connector, setConnector] = useState(connectorOptionsByLang[lang][0]);
   const [speaking, setSpeaking] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [editingSubIcon, setEditingSubIcon] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [speed, setSpeed] = useState(1);
   const [imagePreview, setImagePreview] = useState(null);
   const [audioPreview, setAudioPreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [audioFile, setAudioFile] = useState(null);
   const [imageMethod, setImageMethod] = useState("upload"); // upload | url | camera
   const [audioMethod, setAudioMethod] = useState("upload"); // upload | url | record
+  const soundRef = useRef(null);
 
-  const [newSubIcon, setNewSubIcon] = useState({
-    title_en: "",
-    expression_en: "",
-    title_ar: "",
-    expression_ar: "",
-    title_fr: "",
-    expression_fr: "",
-    title_es: "",
-    expression_es: "",
-    category: parentIcon.category || "",
-    imgUrl: "",
-    audioUrl: "",
-  });
+  const [newSubIcon, setNewSubIcon] = useState(
+    createEmptySubIconForm(parentIcon.category || ""),
+  );
 
   useEffect(() => {
     setTimeOption(timeOptionsByLang[lang][0]);
     setConnector(connectorOptionsByLang[lang][0]);
   }, [lang]);
+
+  useEffect(() => {
+    return () => {
+      if (soundRef.current) {
+        soundRef.current.unloadAsync().catch(() => {});
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!soundRef.current) return;
+
+    soundRef.current.setVolumeAsync(volume).catch(() => {});
+    soundRef.current.setRateAsync(speed, true).catch(() => {});
+  }, [speed, volume]);
 
   useEffect(() => {
     const enableReorder = reorderCategories.includes(parentIcon.category);
@@ -185,6 +233,50 @@ export default function SubIconDashboard() {
       e.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
+
+  const resetSubIconForm = () => {
+    setNewSubIcon(createEmptySubIconForm(parentIcon.category || ""));
+    setImagePreview(null);
+    setAudioPreview(null);
+    setImageFile(null);
+    setAudioFile(null);
+    setImageMethod("upload");
+    setAudioMethod("upload");
+  };
+
+  const openAddSubIconModal = () => {
+    setEditingSubIcon(null);
+    resetSubIconForm();
+    setShowModal(true);
+  };
+
+  const openEditSubIconModal = (item) => {
+    const imageValue = item?.imgUrl || item?.imageUrl || "";
+
+    setEditingSubIcon(item);
+    setNewSubIcon({
+      title_en: item?.title_en || "",
+      expression_en: item?.expression_en || "",
+      title_ar: item?.title_ar || "",
+      expression_ar: item?.expression_ar || "",
+      title_fr: item?.title_fr || "",
+      expression_fr: item?.expression_fr || "",
+      title_es: item?.title_es || "",
+      expression_es: item?.expression_es || "",
+      category: item?.category || parentIcon.category || "",
+      imgUrl: imageValue,
+      audioUrl: "",
+    });
+    setImagePreview(
+      imageValue ? normalizeMediaUrl(imageValue, APP_CONFIG.contentApiBaseUrl) : null,
+    );
+    setAudioPreview(null);
+    setImageFile(null);
+    setAudioFile(null);
+    setImageMethod(imageValue ? "url" : "upload");
+    setAudioMethod("upload");
+    setShowModal(true);
+  };
 
   const toggleSelect = (id) => {
     setSelectedIds((p) =>
@@ -257,7 +349,10 @@ export default function SubIconDashboard() {
         parentIcon: mainIcon,
       });
     } else {
-      navigation.navigate("SubIconDetail", { subIcon: resolvedItem });
+      navigation.navigate("SubIconDetail", {
+        subIcon: resolvedItem,
+        parentIcon: mainIcon,
+      });
     }
   };
 
@@ -350,6 +445,7 @@ const handleSpeak = async () => {
 
   const enableReorder = reorderCategories.includes(mainIcon.category);
   setSpeaking(true);
+  let startedSound = false;
 
   try {
     // مهم عشان الصوت يشتغل حتى لو الموبايل silent
@@ -365,15 +461,31 @@ const handleSpeak = async () => {
 
       console.log("Final audio URL:", audioUrl); // debug
 
-      const { sound } = await Audio.Sound.createAsync(
-        { uri: audioUrl },
-        { shouldPlay: true } // 👈 يشغل مباشرة
-      );
+      if (soundRef.current) {
+        await soundRef.current.unloadAsync();
+        soundRef.current = null;
+      }
+
+      const { sound } = await Audio.Sound.createAsync({ uri: audioUrl });
+      soundRef.current = sound;
+      await sound.setVolumeAsync(volume);
+      await sound.setRateAsync(speed, true);
+      await sound.playAsync();
+      startedSound = true;
+
+      addFavouriteItems({
+        userId: user?.id,
+        items: selectedSubIcons,
+        type: FAVOURITE_TYPES.SUB_ICON,
+        parentIcon: mainIcon,
+      }).catch((error) => console.log("Auto favourite sub icons error", error));
 
       // 👇 نستنى لحد ما يخلص
       sound.setOnPlaybackStatusUpdate((status) => {
         if (status.didJustFinish) {
           sound.unloadAsync();
+          soundRef.current = null;
+          setSpeaking(false);
         }
       });
 
@@ -392,7 +504,9 @@ const handleSpeak = async () => {
         : "Could not play audio. Check server connectivity."
     );
   } finally {
-    setSpeaking(false);
+    if (!startedSound) {
+      setSpeaking(false);
+    }
   }
 
   // reorder logic زي ما هو
@@ -453,7 +567,7 @@ const handleSpeak = async () => {
     }
   };
 
-  const handleAddSubIcon = async () => {
+  const handleSaveSubIcon = async () => {
     const allFilled =
       ["en", "ar", "fr", "es"].every(
         (l) =>
@@ -474,7 +588,7 @@ const handleSpeak = async () => {
     fd.append("expression_ar", newSubIcon.expression_ar);
     fd.append("expression_fr", newSubIcon.expression_fr);
     fd.append("expression_es", newSubIcon.expression_es);
-    fd.append("category", parentIcon.category || "");
+    fd.append("category", newSubIcon.category || parentIcon.category || "");
 
     if (imageFile) {
       fd.append("image", imageFile);
@@ -491,7 +605,9 @@ const handleSpeak = async () => {
         type: "image/jpeg",
       });
     } else if (newSubIcon.imgUrl) {
-      fd.append("imageUrl", newSubIcon.imgUrl);
+      fd.append("imgUrl", newSubIcon.imgUrl);
+    } else if (editingSubIcon) {
+      fd.append("imgUrl", "");
     }
 
     if (audioFile) {
@@ -513,60 +629,66 @@ const handleSpeak = async () => {
     }
 
     try {
-      const res = await fetch(
-        `${APP_CONFIG.contentApiUrl.replace(/\/$/, "")}/icons/${parentIcon.id}/subicons`,
-        {
-          method: "POST",
-          body: fd,
-        },
-      );
-      const rawResponse = await res.text();
-      let payload = null;
+      const savedSubIcon = editingSubIcon
+        ? await updateSubIcon(editingSubIcon.id, fd)
+        : await createSubIcon(parentIcon.id, fd);
 
-      if (rawResponse) {
-        try {
-          payload = JSON.parse(rawResponse);
-        } catch {
-          payload = rawResponse;
-        }
+      if (editingSubIcon) {
+        setSubIcons((prev) =>
+          prev.map((item) => (item.id === savedSubIcon.id ? savedSubIcon : item)),
+        );
+        setOrderedIcons((prev) =>
+          prev.map((item) => (item.id === savedSubIcon.id ? savedSubIcon : item)),
+        );
+      } else {
+        setSubIcons((prev) => [...prev, savedSubIcon]);
+        setOrderedIcons((prev) => [...prev, savedSubIcon]);
       }
 
-      if (!res.ok) {
-        const serverMessage =
-          typeof payload === "string"
-            ? payload
-            : payload?.error || payload?.message;
-        throw new Error(serverMessage || "Failed to add SubIcon");
-      }
-
-      const created = payload;
-      setSubIcons((prev) => [...prev, created]);
-      setOrderedIcons((prev) => [...prev, created]);
       blurActiveElementOnWeb();
       setShowModal(false);
-      setNewSubIcon({
-        title_en: "",
-        expression_en: "",
-        title_ar: "",
-        expression_ar: "",
-        title_fr: "",
-        expression_fr: "",
-        title_es: "",
-        expression_es: "",
-        category: parentIcon.category || "",
-        imgUrl: "",
-        audioUrl: "",
-      });
-      setImagePreview(null);
-      setAudioPreview(null);
-      setImageFile(null);
-      setAudioFile(null);
+      setEditingSubIcon(null);
+      resetSubIconForm();
     } catch (err) {
       console.error(err);
-      alert(err?.message || "Failed to add SubIcon");
+      const serverMessage =
+        err?.response?.data?.error ||
+        err?.response?.data?.message ||
+        err?.message;
+      alert(serverMessage || "Failed to save SubIcon");
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleDeleteSubIcon = (item) => {
+    const title = item?.[`title_${lang}`] || item?.title_en || "this subicon";
+
+    confirmAction(
+      "Delete SubIcon",
+      `Delete ${title}?`,
+      async () => {
+        try {
+          await deleteSubIcon(item.id);
+          setSubIcons((prev) => prev.filter((subIcon) => subIcon.id !== item.id));
+          setOrderedIcons((prev) => prev.filter((subIcon) => subIcon.id !== item.id));
+          setSelectedIds((prev) => prev.filter((id) => id !== item.id));
+
+          if (editingSubIcon?.id === item.id) {
+            setEditingSubIcon(null);
+            setShowModal(false);
+            resetSubIconForm();
+          }
+        } catch (err) {
+          console.error(err);
+          const serverMessage =
+            err?.response?.data?.error ||
+            err?.response?.data?.message ||
+            err?.message;
+          alert(serverMessage || "Failed to delete SubIcon");
+        }
+      },
+    );
   };
 
   if (!mainIcon) {
@@ -600,6 +722,23 @@ const handleSpeak = async () => {
         >
           <Text style={{ fontSize: 22 }}>{selected ? "✔" : "◯"}</Text>
         </TouchableOpacity>
+
+        <View style={styles.cardActions}>
+          <TouchableOpacity
+            style={[styles.iconButton, { backgroundColor: currentTheme.link }]}
+            onPress={() => openEditSubIconModal(item)}
+            accessibilityLabel="Edit subicon"
+          >
+            <FontAwesome5 name="edit" size={14} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.iconButton, styles.deleteIconButton]}
+            onPress={() => handleDeleteSubIcon(item)}
+            accessibilityLabel="Delete subicon"
+          >
+            <FontAwesome5 name="trash" size={14} color="#fff" />
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity
           style={styles.cardBody}
@@ -655,6 +794,38 @@ const handleSpeak = async () => {
           ]}
         />
 
+        <View style={[styles.sliderControl, { backgroundColor: currentTheme.card }]}>
+          <Text style={[styles.sliderLabel, { color: currentTheme.text }]}>
+            Volume {(volume * 100).toFixed(0)}%
+          </Text>
+          <Slider
+            style={styles.controlSlider}
+            minimumValue={0}
+            maximumValue={1}
+            step={0.01}
+            value={volume}
+            onValueChange={setVolume}
+            minimumTrackTintColor={currentTheme.link}
+            thumbTintColor={currentTheme.link}
+          />
+        </View>
+
+        <View style={[styles.sliderControl, { backgroundColor: currentTheme.card }]}>
+          <Text style={[styles.sliderLabel, { color: currentTheme.text }]}>
+            Speed {speed.toFixed(2)}x
+          </Text>
+          <Slider
+            style={styles.controlSlider}
+            minimumValue={0.5}
+            maximumValue={2}
+            step={0.05}
+            value={speed}
+            onValueChange={setSpeed}
+            minimumTrackTintColor={currentTheme.link}
+            thumbTintColor={currentTheme.link}
+          />
+        </View>
+
         <Picker
           selectedValue={connector}
           onValueChange={setConnector}
@@ -684,8 +855,8 @@ const handleSpeak = async () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.btn, { backgroundColor: currentTheme.success }]}
-          onPress={() => setShowModal(true)}
+          style={[styles.btn, { backgroundColor: currentTheme.success || "#198754" }]}
+          onPress={openAddSubIconModal}
         >
           <Text style={styles.btnText}>
             {lang === "ar" ? "أضف أيقونة فرعية" : "Add SubIcon"}
@@ -747,7 +918,7 @@ const handleSpeak = async () => {
   columnWrapperStyle={{ gap: 10 }}
   contentContainerStyle={{ paddingBottom: 50 }}
 />
-      {/* Add SubIcon Modal */}
+      {/* Add/Edit SubIcon Modal */}
       <Modal visible={showModal} animationType="slide" transparent>
         <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "center" }}>
           <ScrollView
@@ -755,7 +926,9 @@ const handleSpeak = async () => {
             contentContainerStyle={{ paddingVertical: 20, paddingHorizontal: 10 }}
           >
             <View style={[styles.modalBox, { backgroundColor: currentTheme.card }]}>
-              <Text style={[styles.modalTitle, { color: currentTheme.text }]}>Add SubIcon</Text>
+              <Text style={[styles.modalTitle, { color: currentTheme.text }]}>
+                {editingSubIcon ? "Edit SubIcon" : "Add SubIcon"}
+              </Text>
 
             {["en", "ar", "fr", "es"].map((l) => (
               <View key={l} style={{ marginBottom: 10 }}>
@@ -980,8 +1153,8 @@ const handleSpeak = async () => {
             ) : null}
 
             <TouchableOpacity
-              style={[styles.btn, { backgroundColor: currentTheme.success, marginTop: 12 }]}
-              onPress={handleAddSubIcon}
+              style={[styles.btn, { backgroundColor: currentTheme.success || "#198754", marginTop: 12 }]}
+              onPress={handleSaveSubIcon}
               disabled={isSubmitting}
             >
               <Text style={styles.btnText}>{isSubmitting ? "Saving..." : "Save"}</Text>
@@ -992,6 +1165,8 @@ const handleSpeak = async () => {
               onPress={() => {
                 blurActiveElementOnWeb();
                 setShowModal(false);
+                setEditingSubIcon(null);
+                resetSubIconForm();
               }}
             >
               <Text style={styles.btnText}>{lang === "ar" ? "إلغاء" : "Cancel"}</Text>
@@ -1010,6 +1185,22 @@ const styles = StyleSheet.create({
   input: { padding: 10, borderRadius: 8, width: 160, borderWidth: 1, borderColor: "#ccc" },
   picker: { width: 130, borderWidth: 1, borderColor: "#ccc" },
   pickerWide: { width: "100%", borderWidth: 1, borderColor: "#ccc", marginBottom: 8 },
+  sliderControl: {
+    width: 170,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  sliderLabel: {
+    fontSize: 12,
+    fontWeight: "700",
+  },
+  controlSlider: {
+    width: "100%",
+    height: 28,
+  },
   cardAnimatedWrapper: {
     paddingTop: 8,
     paddingBottom: 10,
@@ -1044,6 +1235,24 @@ const styles = StyleSheet.create({
   cardTitle: { fontWeight: "700" },
   cardExpr: { fontSize: 12 },
   check: { position: "absolute", top: 6, right: 6, zIndex: 10 },
+  cardActions: {
+    position: "absolute",
+    top: 8,
+    left: 8,
+    zIndex: 11,
+    flexDirection: "row",
+    gap: 6,
+  },
+  iconButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  deleteIconButton: {
+    backgroundColor: "#dc3545",
+  },
   btn: {
     paddingVertical: 10,
     paddingHorizontal: 12,

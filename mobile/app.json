@@ -58,8 +58,7 @@
             "enableJetifier": true
           }
         }
-      ],
-      "expo-speech-recognition"
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

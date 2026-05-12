@@ -1,10 +1,13 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Animated,
+  Alert,
   FlatList,
+  Modal,
+  Platform,
   ScrollView,
   TouchableOpacity,
   TextInput,
@@ -12,6 +15,7 @@ import {
   Image,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import Slider from "@react-native-community/slider";
 import { Audio } from "expo-av";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -19,6 +23,11 @@ import { AppContext } from "../context/AppContext";
 import { themes } from "../theme/theme";
 import { APP_CONFIG, normalizeMediaUrl } from "../config/appConfig";
 import { speakText } from "../Api/tts-translate-api";
+import {
+  addFavouriteItems,
+  FAVOURITE_TYPES,
+} from "../services/favouritesStorage";
+import { deleteSubSubIcon, updateSubSubIcon } from "../Api/iconApi";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
@@ -36,6 +45,33 @@ const connectorOptionsByLang = {
   ar: ["و", "أو", "ثم"],
   fr: ["et", "ou", "puis"],
   es: ["y", "o", "entonces"],
+};
+
+const createEmptySubSubIconForm = (category = "") => ({
+  title_en: "",
+  expression_en: "",
+  title_ar: "",
+  expression_ar: "",
+  title_fr: "",
+  expression_fr: "",
+  title_es: "",
+  expression_es: "",
+  category,
+  imgUrl: "",
+});
+
+const confirmAction = (title, message, onConfirm) => {
+  if (Platform.OS === "web") {
+    if (typeof globalThis.confirm !== "function" || globalThis.confirm(message)) {
+      onConfirm();
+    }
+    return;
+  }
+
+  Alert.alert(title, message, [
+    { text: "Cancel", style: "cancel" },
+    { text: "Delete", style: "destructive", onPress: onConfirm },
+  ]);
 };
 
 function SelectableZoomCard({ selected, hasAnySelection, children }) {
@@ -90,7 +126,7 @@ export default function SubSubIconPage() {
   const route = useRoute();
   const navigation = useNavigation();
   const { parentSubIcon, parentIcon } = route.params || {};
-  const { language: lang, theme } = useContext(AppContext);
+  const { language: lang, theme, user } = useContext(AppContext);
   const currentTheme = themes[theme] || themes.light;
 
   console.log("=== SubSubIcon Page ===");
@@ -102,16 +138,41 @@ export default function SubSubIconPage() {
   const [timeOption, setTimeOption] = useState(timeOptionsByLang[lang][0]);
   const [connector, setConnector] = useState(connectorOptionsByLang[lang][0]);
   const [speaking, setSpeaking] = useState(false);
-
-  const subSubIcons = useMemo(
-    () => parentSubIcon?.subSubIcons || [],
-    [parentSubIcon],
+  const [volume, setVolume] = useState(1);
+  const [speed, setSpeed] = useState(1);
+  const [subSubIcons, setSubSubIcons] = useState(parentSubIcon?.subSubIcons || []);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingSubSubIcon, setEditingSubSubIcon] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [editForm, setEditForm] = useState(
+    createEmptySubSubIconForm(parentSubIcon?.category || parentIcon?.category || ""),
   );
+  const soundRef = useRef(null);
 
   useEffect(() => {
     setTimeOption(timeOptionsByLang[lang][0]);
     setConnector(connectorOptionsByLang[lang][0]);
   }, [lang]);
+
+  useEffect(() => {
+    setSubSubIcons(parentSubIcon?.subSubIcons || []);
+    setSelectedIds([]);
+  }, [parentSubIcon]);
+
+  useEffect(() => {
+    return () => {
+      if (soundRef.current) {
+        soundRef.current.unloadAsync().catch(() => {});
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!soundRef.current) return;
+
+    soundRef.current.setVolumeAsync(volume).catch(() => {});
+    soundRef.current.setRateAsync(speed, true).catch(() => {});
+  }, [speed, volume]);
 
   const filteredSubSubIcons = subSubIcons.filter((item) => {
     const title = item?.[`title_${lang}`] || item?.title_en || "";
@@ -148,11 +209,113 @@ export default function SubSubIconPage() {
     .map((id) => subSubIcons.find((item) => item.id === id))
     .filter(Boolean);
 
+  const openEditSubSubIconModal = (item) => {
+    setEditingSubSubIcon(item);
+    setEditForm({
+      title_en: item?.title_en || "",
+      expression_en: item?.expression_en || "",
+      title_ar: item?.title_ar || "",
+      expression_ar: item?.expression_ar || "",
+      title_fr: item?.title_fr || "",
+      expression_fr: item?.expression_fr || "",
+      title_es: item?.title_es || "",
+      expression_es: item?.expression_es || "",
+      category: item?.category || parentSubIcon?.category || parentIcon?.category || "",
+      imgUrl: item?.imgUrl || item?.imageUrl || "",
+    });
+    setShowEditModal(true);
+  };
+
+  const closeEditSubSubIconModal = () => {
+    setShowEditModal(false);
+    setEditingSubSubIcon(null);
+    setEditForm(
+      createEmptySubSubIconForm(parentSubIcon?.category || parentIcon?.category || ""),
+    );
+  };
+
+  const handleSaveSubSubIcon = async () => {
+    if (!editingSubSubIcon) return;
+
+    const allFilled = ["en", "ar", "fr", "es"].every(
+      (locale) =>
+        editForm[`title_${locale}`].trim() &&
+        editForm[`expression_${locale}`].trim(),
+    );
+
+    if (!allFilled) {
+      alert(lang === "ar" ? "Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø­Ù‚ÙˆÙ„ Ù…Ø·Ù„ÙˆØ¨Ø©!" : "All fields are required!");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const savedSubSubIcon = await updateSubSubIcon(editingSubSubIcon.id, {
+        title_en: editForm.title_en,
+        title_ar: editForm.title_ar,
+        title_fr: editForm.title_fr,
+        title_es: editForm.title_es,
+        expression_en: editForm.expression_en,
+        expression_ar: editForm.expression_ar,
+        expression_fr: editForm.expression_fr,
+        expression_es: editForm.expression_es,
+        category: editForm.category || parentSubIcon?.category || "",
+        imgUrl: editForm.imgUrl || null,
+      });
+
+      setSubSubIcons((previous) =>
+        previous.map((item) =>
+          item.id === savedSubSubIcon.id ? savedSubSubIcon : item,
+        ),
+      );
+      closeEditSubSubIconModal();
+    } catch (error) {
+      console.log("SubSubIcon save error", error);
+      const serverMessage =
+        error?.response?.data?.error ||
+        error?.response?.data?.message ||
+        error?.message;
+      alert(serverMessage || "Failed to save SubSubIcon");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDeleteSubSubIcon = (item) => {
+    const title = item?.[`title_${lang}`] || item?.title_en || "this sub-sub-icon";
+
+    confirmAction(
+      "Delete SubSubIcon",
+      `Delete ${title}?`,
+      async () => {
+        try {
+          await deleteSubSubIcon(item.id);
+          setSubSubIcons((previous) =>
+            previous.filter((subSubIcon) => subSubIcon.id !== item.id),
+          );
+          setSelectedIds((previous) => previous.filter((id) => id !== item.id));
+
+          if (editingSubSubIcon?.id === item.id) {
+            closeEditSubSubIconModal();
+          }
+        } catch (error) {
+          console.log("SubSubIcon delete error", error);
+          const serverMessage =
+            error?.response?.data?.error ||
+            error?.response?.data?.message ||
+            error?.message;
+          alert(serverMessage || "Failed to delete SubSubIcon");
+        }
+      },
+    );
+  };
+
   const handleSpeak = async () => {
     const sentence = generateSentence();
     if (!sentence) return;
 
     setSpeaking(true);
+    let startedSound = false;
 
     try {
       await Audio.setAudioModeAsync({
@@ -162,20 +325,43 @@ export default function SubSubIconPage() {
       const result = await speakText(sentence, lang);
       if (!result?.url) return;
 
-      const { sound } = await Audio.Sound.createAsync(
-        { uri: normalizeMediaUrl(result.url) },
-        { shouldPlay: true },
+      if (soundRef.current) {
+        await soundRef.current.unloadAsync();
+        soundRef.current = null;
+      }
+
+      const { sound } = await Audio.Sound.createAsync({
+        uri: normalizeMediaUrl(result.url),
+      });
+      soundRef.current = sound;
+      await sound.setVolumeAsync(volume);
+      await sound.setRateAsync(speed, true);
+      await sound.playAsync();
+      startedSound = true;
+
+      addFavouriteItems({
+        userId: user?.id,
+        items: selectedSubSubIcons,
+        type: FAVOURITE_TYPES.SUB_SUB_ICON,
+        parentSubIcon,
+        parentIcon,
+      }).catch((error) =>
+        console.log("Auto favourite sub-sub-icons error", error),
       );
 
       sound.setOnPlaybackStatusUpdate((status) => {
         if (status.didJustFinish) {
           sound.unloadAsync();
+          soundRef.current = null;
+          setSpeaking(false);
         }
       });
     } catch (error) {
       console.log("SubSubIcon TTS error", error);
     } finally {
-      setSpeaking(false);
+      if (!startedSound) {
+        setSpeaking(false);
+      }
     }
   };
 
@@ -200,6 +386,23 @@ export default function SubSubIconPage() {
         <TouchableOpacity style={styles.check} onPress={() => toggleSelect(item.id)}>
           <Text style={styles.checkText}>{selected ? "✔" : "◯"}</Text>
         </TouchableOpacity>
+
+        <View style={styles.cardActions}>
+          <TouchableOpacity
+            style={[styles.iconButton, { backgroundColor: currentTheme.link }]}
+            onPress={() => openEditSubSubIconModal(item)}
+            accessibilityLabel="Edit sub-sub-icon"
+          >
+            <FontAwesome5 name="edit" size={14} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.iconButton, styles.deleteIconButton]}
+            onPress={() => handleDeleteSubSubIcon(item)}
+            accessibilityLabel="Delete sub-sub-icon"
+          >
+            <FontAwesome5 name="trash" size={14} color="#fff" />
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity
           style={styles.cardBody}
@@ -269,6 +472,38 @@ export default function SubSubIconPage() {
             },
           ]}
         />
+
+        <View style={[styles.sliderControl, { backgroundColor: currentTheme.card }]}>
+          <Text style={[styles.sliderLabel, { color: currentTheme.text }]}>
+            Volume {(volume * 100).toFixed(0)}%
+          </Text>
+          <Slider
+            style={styles.controlSlider}
+            minimumValue={0}
+            maximumValue={1}
+            step={0.01}
+            value={volume}
+            onValueChange={setVolume}
+            minimumTrackTintColor={currentTheme.link}
+            thumbTintColor={currentTheme.link}
+          />
+        </View>
+
+        <View style={[styles.sliderControl, { backgroundColor: currentTheme.card }]}>
+          <Text style={[styles.sliderLabel, { color: currentTheme.text }]}>
+            Speed {speed.toFixed(2)}x
+          </Text>
+          <Slider
+            style={styles.controlSlider}
+            minimumValue={0.5}
+            maximumValue={2}
+            step={0.05}
+            value={speed}
+            onValueChange={setSpeed}
+            minimumTrackTintColor={currentTheme.link}
+            thumbTintColor={currentTheme.link}
+          />
+        </View>
 
         <Picker
           selectedValue={connector}
@@ -358,6 +593,93 @@ export default function SubSubIconPage() {
           </Text>
         </View>
       )}
+
+      <Modal visible={showEditModal} animationType="slide" transparent>
+        <View style={styles.modalOverlay}>
+          <ScrollView
+            style={{ maxHeight: "90%" }}
+            contentContainerStyle={styles.modalScroll}
+          >
+            <View style={[styles.modalBox, { backgroundColor: currentTheme.card }]}>
+              <Text style={[styles.modalTitle, { color: currentTheme.text }]}>
+                Edit SubSubIcon
+              </Text>
+
+              {["en", "ar", "fr", "es"].map((locale) => (
+                <View key={locale} style={styles.fieldGroup}>
+                  <TextInput
+                    placeholder={`Title (${locale.toUpperCase()})`}
+                    placeholderTextColor={currentTheme.text}
+                    value={editForm[`title_${locale}`]}
+                    onChangeText={(value) =>
+                      setEditForm((previous) => ({
+                        ...previous,
+                        [`title_${locale}`]: value,
+                      }))
+                    }
+                    style={[
+                      styles.modalInput,
+                      {
+                        backgroundColor: currentTheme.background,
+                        color: currentTheme.text,
+                      },
+                    ]}
+                  />
+                  <TextInput
+                    placeholder={`Expression (${locale.toUpperCase()})`}
+                    placeholderTextColor={currentTheme.text}
+                    value={editForm[`expression_${locale}`]}
+                    onChangeText={(value) =>
+                      setEditForm((previous) => ({
+                        ...previous,
+                        [`expression_${locale}`]: value,
+                      }))
+                    }
+                    style={[
+                      styles.modalInput,
+                      {
+                        backgroundColor: currentTheme.background,
+                        color: currentTheme.text,
+                      },
+                    ]}
+                  />
+                </View>
+              ))}
+
+              <TextInput
+                placeholder="Image URL"
+                placeholderTextColor={currentTheme.text}
+                value={editForm.imgUrl || ""}
+                onChangeText={(value) =>
+                  setEditForm((previous) => ({ ...previous, imgUrl: value }))
+                }
+                style={[
+                  styles.modalInput,
+                  {
+                    backgroundColor: currentTheme.background,
+                    color: currentTheme.text,
+                  },
+                ]}
+              />
+
+              <TouchableOpacity
+                style={[styles.actionButton, { backgroundColor: "#198754" }]}
+                onPress={handleSaveSubSubIcon}
+                disabled={isSaving}
+              >
+                <Text style={styles.actionText}>{isSaving ? "Saving..." : "Save"}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.actionButton, { backgroundColor: "#6c757d" }]}
+                onPress={closeEditSubSubIconModal}
+              >
+                <Text style={styles.actionText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -399,6 +721,22 @@ const styles = StyleSheet.create({
   picker: {
     width: 130,
     borderRadius: 8,
+  },
+  sliderControl: {
+    width: 170,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  sliderLabel: {
+    fontSize: 12,
+    fontWeight: "700",
+  },
+  controlSlider: {
+    width: "100%",
+    height: 28,
   },
   actionButton: {
     paddingVertical: 10,
@@ -443,6 +781,24 @@ const styles = StyleSheet.create({
   checkText: {
     fontSize: 22,
   },
+  cardActions: {
+    position: "absolute",
+    top: 8,
+    left: 8,
+    zIndex: 11,
+    flexDirection: "row",
+    gap: 6,
+  },
+  iconButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  deleteIconButton: {
+    backgroundColor: "#dc3545",
+  },
   image: {
     width: "100%",
     height: CARD_IMAGE_HEIGHT,
@@ -483,5 +839,34 @@ const styles = StyleSheet.create({
   previewImage: {
     width: "100%",
     height: "100%",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+  },
+  modalScroll: {
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+  },
+  modalBox: {
+    margin: 20,
+    padding: 20,
+    borderRadius: 10,
+    gap: 10,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "800",
+    marginBottom: 4,
+  },
+  fieldGroup: {
+    gap: 6,
+  },
+  modalInput: {
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
   },
 });
