@@ -69,6 +69,7 @@ import translateRoutes from "./routes/translateRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import drawingRoutes from "./routes/drawingRoutes.js";
 import chatbotRoutes from "./routes/chatbotRoutes.js";
+import speechRoutes from "./routes/speechRoutes.js";
 
 // ===== APP SETUP =====
 const app = express();
@@ -150,6 +151,7 @@ app.use("/api/drawing", drawingRoutes);
 app.use("/api", translateRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/chatbot", chatbotRoutes);
+app.use("/api/speech", speechRoutes);
 
 // ===== HEALTH CHECK =====
 app.get("/", (req, res) => {

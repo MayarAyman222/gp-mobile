@@ -9,6 +9,11 @@ const groqApiKey = process.env.GROQ_API_KEY || "";
 const groqModel = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
 const groqApiUrl =
   process.env.GROQ_API_URL || "https://api.groq.com/openai/v1/chat/completions";
+const groqTranscriptionModel =
+  process.env.GROQ_TRANSCRIPTION_MODEL || "whisper-large-v3-turbo";
+const groqTranscriptionApiUrl =
+  process.env.GROQ_TRANSCRIPTION_API_URL ||
+  "https://api.groq.com/openai/v1/audio/transcriptions";
 const openRouterApiKey = process.env.OPENROUTER_API_KEY || "";
 const openRouterModel = process.env.OPENROUTER_MODEL || "openrouter/free";
 const openRouterApiUrl =
@@ -96,4 +101,7 @@ export const env = {
   chatbotModel: selectedProvider.model,
   chatbotHttpReferer: selectedProvider.httpReferer,
   chatbotAppTitle: selectedProvider.appTitle,
+  groqApiKey,
+  groqTranscriptionApiUrl,
+  groqTranscriptionModel,
 };
