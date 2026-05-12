@@ -14,6 +14,7 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSMicrophoneUsageDescription": "App needs microphone access for speech training.",
+        "NSSpeechRecognitionUsageDescription": "App needs speech recognition access for speech training.",
         "NSCameraUsageDescription": "Camera access to capture sub icon images.",
         "NSPhotoLibraryUsageDescription": "Photo library access to choose images and audio.",
         "NSAppleMusicUsageDescription": "Audio selection for custom sounds.",
@@ -48,6 +49,13 @@
           "dark": {
             "backgroundColor": "#000000"
           }
+        }
+      ],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Allow mobile to use the microphone for speech training.",
+          "speechRecognitionPermission": "Allow mobile to use speech recognition for speech training."
         }
       ],
       [

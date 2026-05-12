@@ -1,22 +1,42 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
-  View,
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  ActivityIndicator,
-  Platform,
+  View,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Audio } from "expo-av";
-import { APP_CONFIG } from "../config/appConfig";
+import { Picker } from "@react-native-picker/picker";
 import { AppContext } from "../context/AppContext";
 import { themes } from "../theme/theme";
 
-// Normalization and scoring functions
+// ─── Safe import of expo-speech-recognition ───────────────────────────────────
+// The native module requires a custom dev-build (expo run:android / run:ios).
+// We guard every access so the screen never hard-crashes in Expo Go or when
+// the build is missing the native layer.
+let ExpoSpeechRecognitionModule = null;
+let RecognizerIntentExtraLanguageModel = { LANGUAGE_MODEL_WEB_SEARCH: "web_search" };
+let useSpeechRecognitionEvent = (_event, _cb) => {};   // no-op hook shim
+
+try {
+  const mod = require("expo-speech-recognition");
+  ExpoSpeechRecognitionModule = mod.ExpoSpeechRecognitionModule;
+  if (mod.RecognizerIntentExtraLanguageModel)
+    RecognizerIntentExtraLanguageModel = mod.RecognizerIntentExtraLanguageModel;
+  if (mod.useSpeechRecognitionEvent)
+    useSpeechRecognitionEvent = mod.useSpeechRecognitionEvent;
+} catch {
+  // Module not linked – the UI will show a friendly error below.
+}
+
+const SPEECH_AVAILABLE = !!ExpoSpeechRecognitionModule;
+// ──────────────────────────────────────────────────────────────────────────────
+
+const NO_SPEECH_GRACE_MS = 900;
+
 const normalizeText = (text) => {
   if (!text) return "";
   return String(text)
@@ -64,30 +84,63 @@ const calcScore = (target, transcript) => {
   return Math.max(0, Math.min(100, Math.round(ratio * 100)));
 };
 
-// Mini chart component
+const getAttemptsKey = (word) => `speech_attempts_${normalizeText(word)}`;
+
+const getSpeechErrorMessage = (event) => {
+  switch (event?.error) {
+    case "not-allowed":
+      return "لازم تسمح باستخدام الميكروفون والتعرف على الكلام.";
+    case "language-not-supported":
+      return "اللغة المختارة غير مدعومة على هذا الجهاز.";
+    case "service-not-allowed":
+      return "التعرف على الكلام غير متاح على هذا الجهاز. جرّب تفعيل خدمة التعرف على الصوت من إعدادات الجهاز.";
+    case "network":
+      return "خدمة التعرف على الكلام احتاجت اتصال ولم تستطع الوصول. جرّب مرة أخرى.";
+    case "busy":
+      return "خدمة التعرف على الكلام مشغولة الآن. انتظر لحظة وجرب مرة أخرى.";
+    case "no-speech":
+    case "speech-timeout":
+      return "لم يتم التقاط صوت. حاول مرة أخرى.";
+    default:
+      return event?.message || "حدث خطأ أثناء التعرف على الكلام.";
+  }
+};
+
+// ─── Banner shown when native module is missing ───────────────────────────────
+const ModuleMissingBanner = ({ theme }) => (
+  <View style={[styles.missingBanner, { backgroundColor: "#fff3cd" }]}>
+    <Text style={[styles.missingTitle, { color: "#856404" }]}>
+      ⚠️ التعرف على الكلام غير متاح
+    </Text>
+    <Text style={{ color: "#856404", fontSize: 13, lineHeight: 20 }}>
+      الحل: شغّل الأمر التالي في مجلد المشروع ثم أعد بناء التطبيق:
+    </Text>
+    <View style={styles.codeBox}>
+      <Text style={styles.code}>npx expo install expo-speech-recognition</Text>
+      <Text style={styles.code}>npx expo run:android</Text>
+    </View>
+    <Text style={{ color: "#856404", fontSize: 12, marginTop: 6 }}>
+      ملاحظة: هذه الميزة لا تعمل في Expo Go — يلزم Custom Dev Build.
+    </Text>
+  </View>
+);
+// ──────────────────────────────────────────────────────────────────────────────
+
 const MiniChart = ({ data, color }) => {
-  if (!data.length)
+  if (!data.length) {
     return (
       <Text style={{ textAlign: "center", color }}>لا توجد محاولات بعد.</Text>
     );
+  }
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "flex-end",
-        gap: 6,
-        paddingVertical: 8,
-      }}
-    >
+    <View style={styles.chart}>
       {data.map((v, i) => (
         <View
-          key={i}
-          style={{
-            width: 10,
-            height: Math.max(8, (v / 100) * 120),
-            backgroundColor: color,
-            borderRadius: 4,
-          }}
+          key={`${i}-${v}`}
+          style={[
+            styles.chartBar,
+            { height: Math.max(8, (v / 100) * 120), backgroundColor: color },
+          ]}
         />
       ))}
     </View>
@@ -117,188 +170,213 @@ const TryToSpeak = () => {
   const [error, setError] = useState("");
   const [loadingAttempts, setLoadingAttempts] = useState(false);
   const [activeTab, setActiveTab] = useState("result");
-  const [transcribing, setTranscribing] = useState(false);
 
-  const recordingRef = useRef(null);
+  const activeTargetRef = useRef("");
+  const finalizedRef = useRef(false);
   const gotResultRef = useRef(false);
+  const noSpeechTimerRef = useRef(null);
+  const pendingTranscriptRef = useRef("");
 
-  // Load past attempts
-  const loadAttempts = async (word) => {
-    const trimmed = String(word || "").trim();
-    if (!trimmed) {
-      setAttempts([]);
-      return;
-    }
-    setLoadingAttempts(true);
-    try {
-      const key = `speech_attempts_${trimmed.toLowerCase()}`;
-      const saved = await AsyncStorage.getItem(key);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) setAttempts(parsed);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoadingAttempts(false);
+  const clearNoSpeechTimer = () => {
+    if (noSpeechTimerRef.current) {
+      clearTimeout(noSpeechTimerRef.current);
+      noSpeechTimerRef.current = null;
     }
   };
 
-  useEffect(() => {
-    loadAttempts(targetWord);
-  }, [targetWord]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (recordingRef.current) {
-        recordingRef.current.stopAndUnloadAsync().catch(() => {});
+  const scheduleNoSpeechError = (text = "لم يتم التقاط صوت. حاول مرة أخرى.") => {
+    clearNoSpeechTimer();
+    noSpeechTimerRef.current = setTimeout(() => {
+      if (!gotResultRef.current && !finalizedRef.current) {
+        setError(text);
       }
-    };
-  }, []);
+    }, NO_SPEECH_GRACE_MS);
+  };
 
-  const handleTranscript = (text) => {
+  const finishTranscript = (text) => {
+    const currentTarget = activeTargetRef.current || targetWord.trim();
+    const transcriptText = String(text || "").trim();
+    if (finalizedRef.current || !currentTarget || !transcriptText) return;
+
+    clearNoSpeechTimer();
+    finalizedRef.current = true;
     gotResultRef.current = true;
-    setTranscript(text);
-    const newScore = calcScore(targetWord, text);
-    setScore(newScore);
-    setMessage(newScore >= 70 ? "تم" : "Fail and try again");
+    pendingTranscriptRef.current = transcriptText;
 
-    const lastScore = attempts.length
-      ? attempts[attempts.length - 1].score
-      : null;
-    if (lastScore !== null && lastScore !== undefined) {
-      const delta = newScore - lastScore;
-      if (delta > 0) setImprovement(`تحسنت بنسبة ${delta}% عن آخر مرة`);
-      else if (delta < 0)
-        setImprovement(`قلت بنسبة ${Math.abs(delta)}% عن آخر مرة`);
-      else setImprovement("لم تتحسن عن آخر مرة");
-    } else {
-      setImprovement(null);
-    }
+    const newScore = calcScore(currentTarget, transcriptText);
+    setTranscript(transcriptText);
+    setScore(newScore);
+    setMessage(newScore >= 70 ? "تم ✅" : "Fail – try again ❌");
+    setActiveTab("result");
 
     setAttempts((prev) => {
+      const lastScore = prev.length ? prev[prev.length - 1].score : null;
+      if (lastScore !== null) {
+        const delta = newScore - lastScore;
+        if (delta > 0) setImprovement(`تحسنت بنسبة ${delta}% عن آخر مرة`);
+        else if (delta < 0) setImprovement(`قلت بنسبة ${Math.abs(delta)}% عن آخر مرة`);
+        else setImprovement("لم تتحسن عن آخر مرة");
+      } else {
+        setImprovement(null);
+      }
       const updated = [...prev, { score: newScore, ts: Date.now() }];
-      const key = `speech_attempts_${String(targetWord).trim().toLowerCase()}`;
-      AsyncStorage.setItem(key, JSON.stringify(updated)).catch(() => {});
+      AsyncStorage.setItem(getAttemptsKey(currentTarget), JSON.stringify(updated)).catch(() => {});
       return updated;
     });
   };
 
-  const transcribeRecording = async (uri) => {
-    const formData = new FormData();
-    formData.append("language", language);
-
-    if (Platform.OS === "web") {
-      const audioBlob = await (await fetch(uri)).blob();
-      formData.append("audio", audioBlob, `speech-${Date.now()}.webm`);
-    } else {
-      formData.append("audio", {
-        uri,
-        name: `speech-${Date.now()}.m4a`,
-        type: "audio/m4a",
-      });
+  // ── Load stored attempts whenever targetWord changes ───────────────────────
+  useEffect(() => {
+    let cancelled = false;
+    const trimmed = targetWord.trim();
+    if (!trimmed || !normalizeText(trimmed)) {
+      setAttempts([]);
+      setLoadingAttempts(false);
+      return undefined;
     }
-
-    const response = await fetch(`${APP_CONFIG.apiUrl}/speech/transcribe`, {
-      method: "POST",
-      body: formData,
-    });
-
-    const raw = await response.text();
-    let payload = {};
-    if (raw) {
+    const loadAttempts = async () => {
+      setLoadingAttempts(true);
       try {
-        payload = JSON.parse(raw);
+        const saved = await AsyncStorage.getItem(getAttemptsKey(trimmed));
+        const parsed = saved ? JSON.parse(saved) : [];
+        if (!cancelled) setAttempts(Array.isArray(parsed) ? parsed : []);
       } catch {
-        payload = { message: raw };
+        if (!cancelled) setAttempts([]);
+      } finally {
+        if (!cancelled) setLoadingAttempts(false);
       }
+    };
+    loadAttempts();
+    return () => { cancelled = true; };
+  }, [targetWord]);
+
+  // ── Cleanup on unmount ─────────────────────────────────────────────────────
+  useEffect(() => {
+    return () => {
+      if (noSpeechTimerRef.current) clearTimeout(noSpeechTimerRef.current);
+      if (SPEECH_AVAILABLE) {
+        try { ExpoSpeechRecognitionModule.abort(); } catch {}
+      }
+    };
+  }, []);
+
+  // ── Speech recognition event hooks ────────────────────────────────────────
+  // These are safe no-ops when the module is missing (shim above).
+  useSpeechRecognitionEvent("result", (event) => {
+    const transcriptText = event?.results?.[0]?.transcript?.trim() || "";
+    if (!transcriptText) return;
+    gotResultRef.current = true;
+    pendingTranscriptRef.current = transcriptText;
+    setTranscript(transcriptText);
+    if (event.isFinal) {
+      finishTranscript(transcriptText);
+      setListening(false);
     }
+  });
 
-    if (!response.ok) {
-      throw new Error(payload.message || "Speech transcription failed.");
+  useSpeechRecognitionEvent("error", (event) => {
+    if (event?.error === "aborted") { setListening(false); return; }
+    setListening(false);
+    const nextMessage = getSpeechErrorMessage(event);
+    if (event?.error === "no-speech" || event?.error === "speech-timeout") {
+      scheduleNoSpeechError(nextMessage);
+      return;
     }
+    clearNoSpeechTimer();
+    setError(nextMessage);
+  });
 
-    return String(payload.text || "").trim();
-  };
-
-  // Start recording
-  const startRecording = async () => {
+  useSpeechRecognitionEvent("start", () => {
+    clearNoSpeechTimer();
+    setListening(true);
     setError("");
+  });
 
-    if (!targetWord.trim()) {
-      setError("اكتب الكلمة أولاً.");
+  useSpeechRecognitionEvent("end", () => {
+    setListening(false);
+    if (!finalizedRef.current && pendingTranscriptRef.current) {
+      finishTranscript(pendingTranscriptRef.current);
+      return;
+    }
+    if (!gotResultRef.current && !finalizedRef.current) {
+      scheduleNoSpeechError();
+    }
+  });
+
+  useSpeechRecognitionEvent("nomatch", () => {
+    setListening(false);
+    scheduleNoSpeechError("لم يتم التعرف على الكلام بوضوح. حاول مرة أخرى.");
+  });
+  // ──────────────────────────────────────────────────────────────────────────
+
+  const startRecording = async () => {
+    // Guard: module not available
+    if (!SPEECH_AVAILABLE) {
+      setError("الوحدة الأصلية غير مثبتة. راجع التعليمات أعلاه.");
       return;
     }
 
+    const trimmedTarget = targetWord.trim();
+    setError("");
+
+    if (!trimmedTarget || !normalizeText(trimmedTarget)) {
+      setError("اكتب الكلمة أو الجملة أولاً.");
+      return;
+    }
+
+    clearNoSpeechTimer();
+    activeTargetRef.current = trimmedTarget;
+    finalizedRef.current = false;
+    gotResultRef.current = false;
+    pendingTranscriptRef.current = "";
     setTranscript("");
     setScore(null);
     setMessage("");
     setImprovement(null);
+    setActiveTab("result");
 
     try {
-      const permission = await Audio.requestPermissionsAsync();
-      if (permission.status !== "granted") {
-        setError("Microphone permission denied.");
+      const permission = await ExpoSpeechRecognitionModule.requestPermissionsAsync();
+      if (!permission.granted) {
+        setError("لم يتم السماح باستخدام الميكروفون.");
         return;
       }
 
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
-      });
+      if (!ExpoSpeechRecognitionModule.isRecognitionAvailable()) {
+        setError("التعرف على الكلام غير متاح على هذا الجهاز.");
+        return;
+      }
 
-      const { recording } = await Audio.Recording.createAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY,
-      );
-
-      recordingRef.current = recording;
       setListening(true);
+      ExpoSpeechRecognitionModule.start({
+        lang: language,
+        interimResults: false,
+        maxAlternatives: 1,
+        continuous: false,
+        contextualStrings: [trimmedTarget],
+        addsPunctuation: false,
+        androidIntentOptions: {
+          EXTRA_LANGUAGE_MODEL:
+            RecognizerIntentExtraLanguageModel.LANGUAGE_MODEL_WEB_SEARCH,
+          EXTRA_PROMPT: trimmedTarget,
+        },
+      });
     } catch (err) {
       console.error("startRecording error", err);
-      setError("Recording failed to start.");
+      setError("فشل تشغيل التعرف على الكلام.");
       setListening(false);
     }
   };
 
-  const stopRecording = async () => {
-    const recording = recordingRef.current;
-    if (!recording) {
-      setListening(false);
-      return;
-    }
-
+  const stopRecording = () => {
+    if (!SPEECH_AVAILABLE) return;
     try {
-      setListening(false);
-      setTranscribing(true);
-      recordingRef.current = null;
-
-      await recording.stopAndUnloadAsync();
-      const uri = recording.getURI();
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: false,
-        playsInSilentModeIOS: true,
-      });
-
-      if (!uri) {
-        setError("No recording was saved.");
-        return;
-      }
-
-      const transcriptText = await transcribeRecording(uri);
-      if (!transcriptText) {
-        setError("No speech was detected. Try again.");
-        return;
-      }
-
-      handleTranscript(transcriptText);
+      ExpoSpeechRecognitionModule.stop();
     } catch (err) {
       console.warn("stopRecording error", err);
-      setError(err.message || "Speech transcription failed.");
-    } finally {
-      setTranscribing(false);
-      recordingRef.current = null;
+      setError("فشل إيقاف التسجيل.");
     }
+    setListening(false);
   };
 
   return (
@@ -309,15 +387,19 @@ const TryToSpeak = () => {
         Try and Train to Speak
       </Text>
 
+      {/* Show banner if native module missing */}
+      {!SPEECH_AVAILABLE && <ModuleMissingBanner theme={currentTheme} />}
+
       <View style={[styles.card, { backgroundColor: currentTheme.card }]}>
         <View style={styles.row}>
-          <View style={{ flex: 1 }}>
+          <View style={styles.field}>
             <Text style={[styles.label, { color: currentTheme.text }]}>
               الكلمة أو الجملة
             </Text>
             <TextInput
               value={targetWord}
               onChangeText={setTargetWord}
+              editable={!listening}
               placeholder="اكتب الكلمة هنا"
               placeholderTextColor={currentTheme.textSecondary || "#888"}
               style={[
@@ -325,23 +407,28 @@ const TryToSpeak = () => {
                 {
                   color: currentTheme.text,
                   borderColor: currentTheme.textSecondary || "#ccc",
+                  opacity: listening ? 0.7 : 1,
                 },
               ]}
             />
           </View>
-          <View style={{ flex: 1 }}>
+          <View style={styles.field}>
             <Text style={[styles.label, { color: currentTheme.text }]}>
               اللغة
             </Text>
             <View
               style={[
                 styles.pickerBox,
-                { borderColor: currentTheme.textSecondary || "#ccc" },
+                {
+                  borderColor: currentTheme.textSecondary || "#ccc",
+                  opacity: listening ? 0.7 : 1,
+                },
               ]}
             >
               <Picker
                 selectedValue={language}
                 onValueChange={setLanguage}
+                enabled={!listening}
                 dropdownIconColor={currentTheme.text}
                 style={{ color: currentTheme.text }}
               >
@@ -353,20 +440,20 @@ const TryToSpeak = () => {
           </View>
         </View>
 
-        <View style={[styles.row, { marginTop: 12 }]}>
+        <View style={[styles.row, styles.buttonRow]}>
           <TouchableOpacity
             style={[
               styles.btn,
               {
                 backgroundColor: "#dc3545",
-                opacity: listening || transcribing ? 0.7 : 1,
+                opacity: listening || !SPEECH_AVAILABLE ? 0.6 : 1,
               },
             ]}
             onPress={startRecording}
-            disabled={listening || transcribing}
+            disabled={listening}
           >
             <Text style={styles.btnText}>
-              {transcribing ? "Processing..." : "Start Recording"}
+              {listening ? "Listening..." : "Start Recording"}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -381,11 +468,15 @@ const TryToSpeak = () => {
           </TouchableOpacity>
         </View>
 
+        {listening ? (
+          <View style={styles.listeningRow}>
+            <ActivityIndicator size="small" color={currentTheme.text} />
+            <Text style={{ color: currentTheme.text }}>استمع الآن...</Text>
+          </View>
+        ) : null}
+
         {error ? (
           <Text style={{ color: "#e55353", marginTop: 8 }}>{error}</Text>
-        ) : null}
-        {transcribing ? (
-          <ActivityIndicator style={{ marginTop: 8 }} color={currentTheme.text} />
         ) : null}
       </View>
 
@@ -432,10 +523,10 @@ const TryToSpeak = () => {
             النتيجة
           </Text>
           <Text style={[styles.body, { color: currentTheme.text }]}>
-            <Text style={{ fontWeight: "700" }}>النص:</Text> {transcript || "-"}
+            <Text style={styles.bold}>النص:</Text> {transcript || "-"}
           </Text>
           <Text style={[styles.body, { color: currentTheme.text }]}>
-            <Text style={{ fontWeight: "700" }}>النسبة:</Text>{" "}
+            <Text style={styles.bold}>النسبة:</Text>{" "}
             {score === null ? "-" : `${score}%`}
           </Text>
           {message ? (
@@ -456,19 +547,13 @@ const TryToSpeak = () => {
         </View>
       ) : (
         <View style={[styles.card, { backgroundColor: currentTheme.card }]}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.progressHeader}>
             <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
               التقدم
             </Text>
-            {loadingAttempts && (
+            {loadingAttempts ? (
               <ActivityIndicator size="small" color={currentTheme.text} />
-            )}
+            ) : null}
           </View>
           <MiniChart data={attempts.map((a) => a.score)} color="#dc3545" />
         </View>
@@ -489,6 +574,7 @@ const styles = StyleSheet.create({
   },
   card: { borderRadius: 12, padding: 12, marginBottom: 12, elevation: 3 },
   row: { flexDirection: "row", gap: 12 },
+  field: { flex: 1 },
   label: { fontWeight: "700", marginBottom: 4 },
   input: {
     borderWidth: 1,
@@ -497,6 +583,7 @@ const styles = StyleSheet.create({
     height: 44,
   },
   pickerBox: { borderWidth: 1, borderRadius: 10, overflow: "hidden" },
+  buttonRow: { marginTop: 12 },
   btn: {
     flex: 1,
     height: 44,
@@ -505,8 +592,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   btnText: { color: "#fff", fontWeight: "700" },
+  listeningRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginTop: 8,
+  },
   sectionTitle: { fontSize: 18, fontWeight: "700", marginBottom: 6 },
   body: { marginBottom: 4 },
+  bold: { fontWeight: "700" },
   alert: { padding: 10, borderRadius: 8, marginTop: 6 },
   tabRow: {
     flexDirection: "row",
@@ -521,5 +615,44 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRightWidth: 1,
+  },
+  progressHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  chart: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    gap: 6,
+    paddingVertical: 8,
+  },
+  chartBar: {
+    width: 10,
+    borderRadius: 4,
+  },
+  // ── New styles for missing-module banner ─────────────────────────────────
+  missingBanner: {
+    borderRadius: 10,
+    padding: 14,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#ffc107",
+  },
+  missingTitle: {
+    fontWeight: "800",
+    fontSize: 15,
+    marginBottom: 6,
+  },
+  codeBox: {
+    backgroundColor: "#1e1e1e",
+    borderRadius: 8,
+    padding: 10,
+    marginTop: 6,
+  },
+  code: {
+    color: "#4ec9b0",
+    fontFamily: "monospace",
+    fontSize: 12,
   },
 });
