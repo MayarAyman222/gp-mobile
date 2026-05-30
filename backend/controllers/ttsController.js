@@ -104,7 +104,9 @@ export const speakText = async (req, res) => {
     fs.writeFileSync(outFilename, combinedBuffer);
 
     const baseUrl = env.publicBaseUrl || `${req.protocol}://${req.get("host")}`;
-    const fileUrl = `${baseUrl}/audio/${path.basename(outFilename)}`;
+    //const fileUrl = `${baseUrl}/audio/${path.basename(outFilename)}`;
+    const cleanBaseUrl = baseUrl.replace(/\/+$/, "");
+const fileUrl = `${cleanBaseUrl}/audio/${path.basename(outFilename)}`;
     console.log(`Generated TTS audio: ${fileUrl} (${audioParts.length} chunk(s))`);
 
     return res.json({
