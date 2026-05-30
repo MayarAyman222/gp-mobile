@@ -128,8 +128,11 @@ app.use(bodyParser.json({ limit: "1mb" }));
 app.set("trust proxy", true);
 
 // ===== STATIC FOLDERS =====
-const AUDIO_DIR = path.join(process.cwd(), "generated_audio");
+/*const AUDIO_DIR = path.join(process.cwd(), "generated_audio");
 if (!fs.existsSync(AUDIO_DIR)) fs.mkdirSync(AUDIO_DIR);
+app.use("/audio", express.static(AUDIO_DIR));*/
+const AUDIO_DIR = path.join(__dirname, "generated_audio");
+if (!fs.existsSync(AUDIO_DIR)) fs.mkdirSync(AUDIO_DIR, { recursive: true });
 app.use("/audio", express.static(AUDIO_DIR));
 app.use("/public", express.static(PUBLIC_DIR));
 
