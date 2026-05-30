@@ -39,7 +39,7 @@ import {
 import { FontAwesome5 } from "@expo/vector-icons";
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
-const CARD_IMAGE_HEIGHT = 150;
+const CARD_IMAGE_HEIGHT = 350;
 
 const timeOptionsByLang = {
   en: ["Today", "Yesterday", "Tomorrow"],
@@ -1210,7 +1210,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: CARD_WIDTH,
-    height: 220,
+    height: 300,
     borderRadius: 12,
     overflow: "hidden",
     marginBottom: 12,

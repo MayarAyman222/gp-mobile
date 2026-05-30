@@ -3,11 +3,11 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   Image,
-  TouchableOpacity,
+  Pressable,
   Dimensions,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AppContext } from "../context/AppContext";
@@ -51,10 +51,13 @@ const TimePeriod = () => {
     const load = async () => {
       try {
         setLoading(true);
+
         const res = await fetch(
-          `${APP_CONFIG.contentApiUrl}/maincategories/${mainCategoryId}/timeperiods`,
+          `${APP_CONFIG.contentApiUrl}/maincategories/${mainCategoryId}/timeperiods`
         );
+
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
         const data = await res.json();
         setPeriods(data);
       } catch (err) {
@@ -75,14 +78,20 @@ const TimePeriod = () => {
     });
   };
 
-  const renderItem = ({ item }) => {
+  const renderCard = (item) => {
     const label = labelFor(item, language);
     const image = normalizeMediaUrl(item.imgUrl, APP_CONFIG.contentApiBaseUrl);
 
     return (
-      <TouchableOpacity
-        activeOpacity={0.85}
-        style={[styles.card, { width: CARD_WIDTH, backgroundColor: currentTheme.card }]}
+      <Pressable
+        key={String(item.id)}
+        style={[
+          styles.card,
+          {
+            width: CARD_WIDTH,
+            backgroundColor: currentTheme.card,
+          },
+        ]}
         onPress={() => handlePress(item)}
       >
         {image ? (
@@ -91,48 +100,82 @@ const TimePeriod = () => {
           <View
             style={[
               styles.imagePlaceholder,
-              { backgroundColor: (currentTheme.link || currentTheme.text) + "33" },
+              {
+                backgroundColor:
+                  (currentTheme.link || currentTheme.text) + "33",
+              },
             ]}
           />
         )}
-        <Text style={[styles.cardText, { color: currentTheme.text }]}>{label}</Text>
-      </TouchableOpacity>
+
+        <Text style={[styles.cardText, { color: currentTheme.text }]}>
+          {label}
+        </Text>
+      </Pressable>
     );
   };
 
   if (loading) {
     return (
-      <View style={[styles.centered, { backgroundColor: currentTheme.background }]}>
-        <ActivityIndicator size="large" color={currentTheme.link || currentTheme.text} />
+      <View
+        style={[
+          styles.centered,
+          { backgroundColor: currentTheme.background },
+        ]}
+      >
+        <ActivityIndicator
+          size="large"
+          color={currentTheme.link || currentTheme.text}
+        />
       </View>
     );
   }
 
   if (error) {
     return (
-      <View style={[styles.centered, { backgroundColor: currentTheme.background }]}>
-        <Text style={[styles.errorText, { color: currentTheme.text }]}>⚠️ {error}</Text>
+      <View
+        style={[
+          styles.centered,
+          { backgroundColor: currentTheme.background },
+        ]}
+      >
+        <Text style={[styles.errorText, { color: currentTheme.text }]}>
+          ⚠️ {error}
+        </Text>
       </View>
     );
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: currentTheme.background }]}>
-      <Text style={[styles.title, { color: currentTheme.text }]}>{mainCategoryTitle}</Text>
-      <Text style={[styles.subtitle, { color: currentTheme.textSecondary || currentTheme.text }]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: currentTheme.background },
+      ]}
+    >
+      <Text style={[styles.title, { color: currentTheme.text }]}>
+        {mainCategoryTitle}
+      </Text>
+
+      <Text
+        style={[
+          styles.subtitle,
+          { color: currentTheme.textSecondary || currentTheme.text },
+        ]}
+      >
         {uiTranslations[language]?.heading ?? uiTranslations.en.heading}
       </Text>
 
-      <FlatList
-        data={periods}
-        renderItem={renderItem}
-        keyExtractor={(item) => String(item.id)}
+      <ScrollView
         horizontal
-        showsHorizontalScrollIndicator={false}
-        snapToInterval={CARD_WIDTH + 20}
-        decelerationRate="fast"
-        contentContainerStyle={{ paddingHorizontal: 20 }}
-      />
+        showsHorizontalScrollIndicator={true}
+        scrollEnabled={true}
+        nestedScrollEnabled={true}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={styles.listContent}
+      >
+        {periods.map((item) => renderCard(item))}
+      </ScrollView>
     </View>
   );
 };
@@ -161,10 +204,16 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     opacity: 0.7,
   },
+  listContent: {
+    paddingHorizontal: 20,
+    paddingRight: CARD_WIDTH,
+    paddingBottom: 20,
+  },
   card: {
     marginHorizontal: 10,
     borderRadius: 20,
     overflow: "hidden",
+    minHeight: 380,
     elevation: 6,
     shadowColor: "#000",
     shadowOpacity: 0.2,
@@ -173,11 +222,12 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 190,
+    height: 300,
+    resizeMode: "cover",
   },
   imagePlaceholder: {
-    width: "100%",
-    height: 190,
+    width: "1000",
+    height: 500,
   },
   cardText: {
     fontSize: 18,

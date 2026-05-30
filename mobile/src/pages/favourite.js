@@ -24,14 +24,14 @@ const { width } = Dimensions.get("window");
 const CARD_WIDTH = width > 900 ? width / 4 - 20 : width / 2 - 16;
 
 const timeOptionsByLang = {
-  en: ["Today", "Yesterday", "Tomorrow"],
+  en: ["Today", "Yesterday", "Tomorrow", "First", "Second", "Third"],
   ar: ["اليوم", "أمس", "غدًا"],
   fr: ["Aujourd'hui", "Hier", "Demain"],
   es: ["Hoy", "Ayer", "Mañana"],
 };
 
 const connectorOptionsByLang = {
-  en: ["and", "or", "then"],
+  en: ["and", "or", "then",""],
   ar: ["و", "أو", "ثم"],
   fr: ["et", "ou", "puis"],
   es: ["y", "o", "entonces"],

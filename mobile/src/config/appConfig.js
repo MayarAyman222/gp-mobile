@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 
-const API_BASE_URL = "http://168.231.101.20:5550";
+const API_BASE_URL = "http://72.61.178.69:5550";
 
 const extra =
   Constants?.expoConfig?.extra ||
@@ -38,7 +38,8 @@ export const normalizeMediaUrl = (
       .replace(/https?:\/\/localhost(?::\d+)?/i, baseOrigin)
       .replace(/https?:\/\/127\.0\.0\.1(?::\d+)?/i, baseOrigin)
       .replace(/https?:\/\/10\.0\.2\.2(?::\d+)?/i, baseOrigin)
-      .replace(/https?:\/\/192\.168\.\d+\.\d+(?::\d+)?/i, baseOrigin);
+      .replace(/https?:\/\/192\.168\.\d+\.\d+(?::\d+)?/i, baseOrigin)
+      .replace(/https?:\/\/168\.231\.101\.20(?::\d+)?/i, baseOrigin);
   }
 
   if (url.startsWith("/")) return `${baseOrigin}${url}`;

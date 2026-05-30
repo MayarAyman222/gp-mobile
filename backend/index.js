@@ -249,6 +249,6 @@ app.post("/api/emergency-numbers", async (req, res) => {
 
 // ===== START SERVER =====
 app.listen(PORT, "0.0.0.0", () => {
-  const hostUrl = process.env.PUBLIC_BASE_URL || `http://168.231.101.20:${PORT}`;
+  const hostUrl = process.env.PUBLIC_BASE_URL || "http://72.61.178.69:5550";
   console.log(`Server running on ${hostUrl}`);
 });

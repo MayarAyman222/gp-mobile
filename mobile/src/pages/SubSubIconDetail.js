@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 330,
+    height: 480,
     borderRadius: 12,
     marginRight: 40,
   },

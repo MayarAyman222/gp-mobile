@@ -11,8 +11,8 @@
       },
       "env": {
         "EXPO_PUBLIC_APP_ENV": "production",
-        "EXPO_PUBLIC_DEV_API_BASE_URL": "http://168.231.101.20:5550",
-        "EXPO_PUBLIC_PROD_API_BASE_URL": "http://168.231.101.20:5550"
+        "EXPO_PUBLIC_DEV_API_BASE_URL": "http://72.61.178.69:5550",
+        "EXPO_PUBLIC_PROD_API_BASE_URL": "http://72.61.178.69:5550"
       }
     },
     "preview": {
@@ -25,8 +25,8 @@
       },
       "env": {
         "EXPO_PUBLIC_APP_ENV": "production",
-        "EXPO_PUBLIC_PROD_API_BASE_URL": "http://168.231.101.20:5550",
-        "EXPO_PUBLIC_DEV_API_BASE_URL": "http://168.231.101.20:5550"
+        "EXPO_PUBLIC_PROD_API_BASE_URL": "http://72.61.178.69:5550",
+        "EXPO_PUBLIC_DEV_API_BASE_URL": "http://72.61.178.69:5550"
       }
     },
     "production-apk": {
@@ -37,8 +37,8 @@
       },
       "env": {
         "EXPO_PUBLIC_APP_ENV": "production",
-        "EXPO_PUBLIC_PROD_API_BASE_URL": "http://168.231.101.20:5550",
-        "EXPO_PUBLIC_DEV_API_BASE_URL": "http://168.231.101.20:5550"
+        "EXPO_PUBLIC_PROD_API_BASE_URL": "http://72.61.178.69:5550",
+        "EXPO_PUBLIC_DEV_API_BASE_URL": "http://72.61.178.69:5550"
       }
     },
     "production": {
@@ -50,8 +50,8 @@
       },
       "env": {
         "EXPO_PUBLIC_APP_ENV": "production",
-        "EXPO_PUBLIC_PROD_API_BASE_URL": "http://168.231.101.20:5550",
-        "EXPO_PUBLIC_DEV_API_BASE_URL": "http://168.231.101.20:5550"
+        "EXPO_PUBLIC_PROD_API_BASE_URL": "http://72.61.178.69:5550",
+        "EXPO_PUBLIC_DEV_API_BASE_URL": "http://72.61.178.69:5550"
       }
     },
     "ios-simulator": {
@@ -61,8 +61,8 @@
       },
       "env": {
         "EXPO_PUBLIC_APP_ENV": "production",
-        "EXPO_PUBLIC_DEV_API_BASE_URL": "http://168.231.101.20:5550",
-        "EXPO_PUBLIC_PROD_API_BASE_URL": "http://168.231.101.20:5550"
+        "EXPO_PUBLIC_DEV_API_BASE_URL": "http://72.61.178.69:5550",
+        "EXPO_PUBLIC_PROD_API_BASE_URL": "http://72.61.178.69:5550"
       }
     }
   }
